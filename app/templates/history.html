@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Upload History</h1>
+
+{% if uploads %}
+<table class="min-w-full bg-white rounded-xl shadow text-sm">
+    <thead>
+        <tr class="bg-gray-100">
+            <th class="px-3 py-2 border">ID</th>
+            <th class="px-3 py-2 border">File</th>
+            <th class="px-3 py-2 border">Model</th>
+            <th class="px-3 py-2 border">Created</th>
+            <th class="px-3 py-2 border">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in uploads %}
+        <tr class="odd:bg-white even:bg-gray-50">
+            <td class="px-3 py-2 border text-xs">{{ u.id }}</td>
+            <td class="px-3 py-2 border">{{ u.filename }}</td>
+            <td class="px-3 py-2 border text-xs">{{ u.model_used }}</td>
+            <td class="px-3 py-2 border text-xs">{{ u.created_at }}</td>
+            <td class="px-3 py-2 border text-xs">
+                <a href="/view/{{ u.id }}" class="text-blue-600 hover:underline mr-2">View</a>
+                <a href="/download/{{ u.id }}" class="text-green-600 hover:underline">Download</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-gray-500">No uploads yet.</p>
+{% endif %}
+{% endblock %}

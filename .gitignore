@@ -1,0 +1,27 @@
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual Env
+env/
+venv/
+.venv/
+
+# Environment Variables
+.env
+
+# Database
+*.db
+*.sqlite
+database.db
+
+# Documents and Data
+input_files/
+uploads/
+processed/
+notes.txt
+
+# Editor
+.vscode/
+.idea/

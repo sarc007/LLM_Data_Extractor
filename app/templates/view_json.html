@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex justify-between items-center mb-4">
+    <div>
+        <h1 class="text-2xl font-bold">View JSON & Tables</h1>
+        <p class="text-xs text-gray-500">
+            File: {{ upload.filename }} · Model: {{ upload.model_used }} · ID: {{ upload.id }}
+        </p>
+    </div>
+    <div class="space-x-2">
+        <a href="/download/{{ upload.id }}"
+            class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+            Download JSON
+        </a>
+        <a href="/" class="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm">
+            Back
+        </a>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div>
+        <h2 class="font-semibold mb-2">JSON</h2>
+        <pre class="bg-black text-green-300 text-xs p-3 rounded h-[32rem] overflow-auto">
+{{ json_data | tojson(indent=2) }}
+        </pre>
+    </div>
+
+    <div>
+        <h2 class="font-semibold mb-2">Tables</h2>
+        {% if json_data.tables %}
+        <div class="space-y-4 text-xs">
+            {% for t in json_data.tables %}
+            <div class="border rounded overflow-hidden">
+                <div class="bg-gray-100 px-2 py-1 flex justify-between items-center">
+                    <span class="font-semibold">{{ t.table_name or "Table" }}</span>
+                    <span class="text-gray-500">Source: {{ t.sheet_or_page }}</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-xs">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                {% for col in t.columns %}
+                                <th class="px-2 py-1 border">{{ col }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in t.rows %}
+                            <tr class="odd:bg-white even:bg-gray-50">
+                                {% for cell in row %}
+                                <td class="px-2 py-1 border">{{ cell }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-sm">No tables in this JSON.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

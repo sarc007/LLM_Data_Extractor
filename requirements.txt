@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+python-dotenv
+python-multipart
+sqlalchemy
+jinja2
+itsdangerous
+pdfplumber
+pandas
+openpyxl
+requests
+openai

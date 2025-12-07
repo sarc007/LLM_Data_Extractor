@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ title or "Document Extractor" }}</title>
+    <meta charset="utf-8">
+    <script src="https://unpkg.com/htmx.org"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-white shadow mb-6">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="font-bold text-xl text-blue-700">
+                LLM Doc Extractor
+            </div>
+            <div class="space-x-4">
+                <a href="/" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="/history" class="text-gray-700 hover:text-blue-600">History</a>
+                {% if auth_enabled %}
+                <a href="/logout" class="text-gray-700 hover:text-red-600">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-screen-2xl mx-auto p-4">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+    <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow">
+        <h1 class="text-2xl font-bold mb-4">Upload Document</h1>
+        {% if auth_enabled %}
+        <p class="text-sm text-gray-500 mb-4">Authentication enabled.</p>
+        {% endif %}
+
+        <form hx-post="/process" hx-target="#result-container" hx-indicator="#loading" enctype="multipart/form-data"
+            class="space-y-4">
+            <div>
+                <label class="block font-semibold mb-1">PDF or Excel file</label>
+                <input type="file" name="file" required
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2">
+            </div>
+
+            <button
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                Process with LLM
+            </button>
+
+            <div id="loading" class="htmx-indicator flex justify-center items-center py-4">
+                <svg class="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+                <span class="ml-2 text-blue-600 font-medium">Processing document...</span>
+            </div>
+        </form>
+
+        <div id="result-container" class="mt-6">
+            <!-- result_fragment.html will load here -->
+        </div>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-lg font-semibold mb-3">Recent Files</h2>
+        {% if uploads %}
+        <ul class="space-y-2 text-sm">
+            {% for u in uploads %}
+            <li
+                class="flex justify-between items-start border-b border-gray-100 pb-2 last:border-0 hover:bg-gray-50 p-2 rounded transition-colors">
+                <div class="flex-1 min-w-0 pr-2">
+                    <div class="font-medium truncate" title="{{ u.filename }}">{{ u.filename }}</div>
+                    <div class="text-gray-500 text-xs">{{ u.created_at }}</div>
+                    <div class="text-gray-400 text-xs">Model: {{ u.model_used }}</div>
+                </div>
+                <div class="flex space-x-3 shrink-0">
+                    <a href="/view/{{ u.id }}"
+                        class="text-blue-600 hover:text-blue-800 hover:underline text-xs font-medium">View</a>
+                    <a href="/download/{{ u.id }}"
+                        class="text-green-600 hover:text-green-800 hover:underline text-xs font-medium">Download</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500 text-sm italic text-center py-4">No uploads yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

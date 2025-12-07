@@ -1,0 +1,196 @@
+<div class="space-y-4">
+    <div class="flex justify-between items-center">
+        <div>
+            <h2 class="text-xl font-semibold">Result</h2>
+            <p class="text-xs text-gray-500">
+                File: {{ upload.filename }} · Model: {{ upload.model_used }} · ID: {{ upload.id }}
+            </p>
+        </div>
+        <div class="space-x-2">
+            <a href="/download/{{ upload.id }}"
+                class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                Download JSON
+            </a>
+            <a href="/view/{{ upload.id }}" class="bg-gray-700 hover:bg-gray-800 text-white px-3 py-1 rounded text-sm">
+                Full View
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div>
+            <h3 class="font-semibold mb-2">Pretty JSON</h3>
+            <pre class="bg-black text-green-300 text-xs p-3 rounded h-96 overflow-auto">
+{{ json_data | tojson(indent=2) }}
+            </pre>
+        </div>
+
+        <div>
+            <!-- Classification Info -->
+            {% if json_data.classification or (json_data.metadata and json_data.metadata.classification) %}
+            {% set cls = json_data.classification or json_data.metadata.classification %}
+            <div class="mb-4 bg-blue-50 p-3 rounded border border-blue-200">
+                <h3 class="font-semibold text-blue-800 mb-1">Classification Analysis</h3>
+                <div class="flex items-center space-x-2 text-sm">
+                    <span class="font-medium">Type:</span>
+                    <span class="capitalize bg-blue-100 px-2 py-0.5 rounded text-blue-800">{{ cls.document_type |
+                        replace('_', ' ') }}</span>
+                </div>
+                <div class="flex items-center space-x-2 text-sm mt-1">
+                    <span class="font-medium">Confidence:</span>
+                    <span class="{{ 'text-green-600' if cls.confidence_score > 0.8 else 'text-yellow-600' }} font-bold">
+                        {{ "%.0f"|format(cls.confidence_score * 100) }}%
+                    </span>
+                </div>
+                <div class="text-xs text-gray-500 mt-2 italic">
+                    "{{ cls.reasoning }}"
+                </div>
+            </div>
+            {% endif %}
+
+            <h3 class="font-semibold mb-2">Extracted Data</h3>
+
+            <!-- Generic Tables -->
+            {% if json_data.tables %}
+            <div class="space-y-4 text-xs">
+                {% for t in json_data.tables %}
+                <div class="border rounded overflow-hidden">
+                    <div class="bg-gray-100 px-2 py-1 flex justify-between items-center">
+                        <span class="font-semibold">{{ t.table_name or "Table" }}</span>
+                        <span class="text-gray-500">Source: {{ t.sheet_or_page }}</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-xs">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    {% for col in t.columns %}
+                                    <th class="px-2 py-1 border whitespace-nowrap">{{ col }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in t.rows %}
+                                <tr class="odd:bg-white even:bg-gray-50">
+                                    {% for cell in row %}
+                                    <td class="px-2 py-1 border whitespace-nowrap">{{ cell }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Profit & Loss (Companies) -->
+            {% elif json_data.companies %}
+            <div class="space-y-6 text-xs">
+                {% for company in json_data.companies %}
+                <div class="border rounded-lg overflow-hidden shadow-sm">
+                    <div class="bg-gray-50 px-3 py-2 border-b">
+                        <div class="font-bold text-lg">{{ company.company_name }}</div>
+                        <div class="text-gray-500">ID: {{ company.company_id }}</div>
+                    </div>
+
+                    <!-- P&L -->
+                    {% if company.profit_loss and company.profit_loss.annual %}
+                    <div class="p-2">
+                        <h4 class="font-semibold text-gray-700 mb-2">Annual P&L</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-xs">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="px-2 py-1 border">Date</th>
+                                        <th class="px-2 py-1 border">Sales (Cr)</th>
+                                        <th class="px-2 py-1 border">Net Profit (Cr)</th>
+                                        <th class="px-2 py-1 border">OPM %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for period in company.profit_loss.annual %}
+                                    <tr class="odd:bg-white even:bg-gray-50">
+                                        <td class="px-2 py-1 border">{{ period.date }}</td>
+                                        <td class="px-2 py-1 border font-medium">{{ period.sales_cr }}</td>
+                                        <td class="px-2 py-1 border text-green-600 font-medium">{{ period.net_profit_cr
+                                            }}</td>
+                                        <td class="px-2 py-1 border">{{ period.opm_percent }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Balance Sheet -->
+                    {% if company.balance_sheet and company.balance_sheet.annual %}
+                    <div class="p-2 border-t mt-2">
+                        <h4 class="font-semibold text-gray-700 mb-2">Balance Sheet</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-xs">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="px-2 py-1 border">Date</th>
+                                        <th class="px-2 py-1 border">Total Assets (Cr)</th>
+                                        <th class="px-2 py-1 border">Reserves (Cr)</th>
+                                        <th class="px-2 py-1 border">Borrowings (Cr)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for period in company.balance_sheet.annual %}
+                                    <tr class="odd:bg-white even:bg-gray-50">
+                                        <td class="px-2 py-1 border">{{ period.date }}</td>
+                                        <td class="px-2 py-1 border font-medium">{{ period.total_assets_cr }}</td>
+                                        <td class="px-2 py-1 border">{{ period.reserves_cr }}</td>
+                                        <td class="px-2 py-1 border text-red-500">{{ period.borrowings_cr }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Cash Flow -->
+                    {% if company.cash_flow and company.cash_flow.annual %}
+                    <div class="p-2 border-t mt-2">
+                        <h4 class="font-semibold text-gray-700 mb-2">Cash Flow</h4>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full text-xs">
+                                <thead>
+                                    <tr class="bg-gray-100">
+                                        <th class="px-2 py-1 border">Date</th>
+                                        <th class="px-2 py-1 border">Operating (Cr)</th>
+                                        <th class="px-2 py-1 border">Investing (Cr)</th>
+                                        <th class="px-2 py-1 border">Financing (Cr)</th>
+                                        <th class="px-2 py-1 border">Net (Cr)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for period in company.cash_flow.annual %}
+                                    <tr class="odd:bg-white even:bg-gray-50">
+                                        <td class="px-2 py-1 border">{{ period.date }}</td>
+                                        <td class="px-2 py-1 border font-medium text-green-600">{{
+                                            period.cash_from_operating_activity_cr }}</td>
+                                        <td class="px-2 py-1 border text-red-500">{{
+                                            period.cash_from_investing_activity_cr }}</td>
+                                        <td class="px-2 py-1 border text-blue-500">{{
+                                            period.cash_from_financing_activity_cr }}</td>
+                                        <td class="px-2 py-1 border font-bold">{{ period.net_cash_flow_cr }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-gray-500 text-sm">No structured tables found in JSON.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
