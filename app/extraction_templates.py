@@ -80,7 +80,31 @@ PROFIT_LOSS_TEMPLATE = {
                             "opm_percent": 0.0
                         }
                     ]
-                }
+                },
+                "monthly": [
+                    {
+                        "date": "YYYY-MM-DD",
+                        "month": "2024-01",
+                        "sales_cr": 0.0,
+                        "net_profit_cr": 0.0,
+                        "operating_profit_cr": 0.0
+                    }
+                ],
+                "weekly": [
+                    {
+                        "week": "Week 1",
+                        "year": 2024,
+                        "sales_cr": 0.0,
+                        "net_profit_cr": 0.0
+                    }
+                ],
+                "daily": [
+                    {
+                        "date": "YYYY-MM-DD",
+                        "sales_cr": 0.0,
+                        "net_profit_cr": 0.0
+                    }
+                ]
             },
             "balance_sheet": {
                 "annual": [
@@ -102,7 +126,21 @@ PROFIT_LOSS_TEMPLATE = {
                         "cash_and_bank_cr": 0.0,
                         "face_value_per_share": 0.0
                     }
-                ]
+                ],
+                "quarters": {
+                    "quarterly": [
+                        {
+                            "date": "YYYY-MM-DD",
+                            "year": 2024,
+                            "quarter": "Q1",
+                            "equity_share_capital_cr": 0.0,
+                            "reserves_cr": 0.0,
+                            "borrowings_cr": 0.0,
+                            "total_liabilities_cr": 0.0,
+                            "total_assets_cr": 0.0
+                        }
+                    ]
+                }
             },
             "cash_flow": {
                 "annual": [
@@ -114,7 +152,37 @@ PROFIT_LOSS_TEMPLATE = {
                         "cash_from_financing_activity_cr": 0.0,
                         "net_cash_flow_cr": 0.0
                     }
-                ]
+                ],
+                "quarters": {
+                    "quarterly": [
+                        {
+                            "date": "YYYY-MM-DD",
+                            "year": 2024,
+                            "quarter": "Q1",
+                            "cash_from_operating_activity_cr": 0.0,
+                            "cash_from_investing_activity_cr": 0.0,
+                            "cash_from_financing_activity_cr": 0.0,
+                            "net_cash_flow_cr": 0.0
+                        }
+                    ]
+                }
+            },
+            "share_price_history": {
+                "annual": [
+                    {
+                        "date": "YYYY-MM-DD",
+                        "price": 0.0
+                    }
+                ],
+                "quarters": {
+                    "quarterly": [
+                        {
+                            "date": "YYYY-MM-DD",
+                            "quarter": "Q1",
+                            "price": 0.0
+                        }
+                    ]
+                }
             }
         }
     ]
