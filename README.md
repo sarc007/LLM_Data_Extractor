@@ -49,15 +49,20 @@ A local-first document extraction tool that uses LLMs (Ollama or OpenAI) to clas
 
 ## Usage
 
-1.  **Start the Server**
+0. **Start the Ollama Local Server**
+    ```bash
+    ollama serve
+    ```
+
+2.  **Start the FastAPI Server**
     ```bash
     uvicorn app.main:app --reload
     ```
 
-2.  **Open in Browser**
+3.  **Open in Browser**
     Navigate to `http://localhost:8000`.
 
-3.  **Upload & Process**
+4.  **Upload & Process**
     - Upload a PDF or Excel file.
     - Click "Process with LLM".
     - View the classified type and extracted tables side-by-side.
