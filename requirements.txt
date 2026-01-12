@@ -10,3 +10,5 @@ pandas
 openpyxl
 requests
 openai
+tabulate
+reportlab

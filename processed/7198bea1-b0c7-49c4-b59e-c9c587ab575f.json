@@ -1,0 +1,48 @@
+{
+  "error": "HTTPConnectionPool(host='localhost', port=11434): Read timed out. (read timeout=600)",
+  "metadata": {
+    "classification": {
+      "document_type": "profit_and_loss",
+      "confidence_score": 0.9,
+      "reasoning": "The document appears to be a profit and loss statement based on the presence of typical P&L categories such as 'Sales', 'Expenses', 'Operating Profit', and 'Net profit'. The format is also consistent with a spreadsheet, which further supports this classification."
+    },
+    "periods": {
+      "period_type": "daily",
+      "years": [
+        "2016",
+        "2017",
+        "2018",
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025"
+      ],
+      "quarters": [],
+      "months": [],
+      "weeks": [],
+      "days": [
+        "2016-03-31",
+        "2017-03-31",
+        "2018-03-31",
+        "2019-03-31",
+        "2020-03-31",
+        "2021-03-31",
+        "2022-03-31",
+        "2023-03-31",
+        "2023-06-30",
+        "2023-09-30",
+        "2023-12-31",
+        "2024-03-31",
+        "2024-06-30",
+        "2024-09-30",
+        "2024-12-31",
+        "2025-03-31",
+        "2025-06-30"
+      ],
+      "confidence_score": 0.9
+    }
+  }
+}

@@ -1,0 +1,1102 @@
+{
+  "timestamp": "2026-01-12T10:27:35.424987",
+  "model": "qwen3-coder:480b-cloud",
+  "files_processed": [
+    {
+      "file": "Apollo Tyres_Peer 2.xlsx",
+      "type": "excel",
+      "records": 450,
+      "status": "success"
+    },
+    {
+      "file": "CEAT_Peer 3.xlsx",
+      "type": "excel",
+      "records": 450,
+      "status": "success"
+    },
+    {
+      "file": "Goodyear India_Peer 4.xlsx",
+      "type": "excel",
+      "records": 436,
+      "status": "success"
+    },
+    {
+      "file": "JK Tyre & Indust_Target.xlsx",
+      "type": "excel",
+      "records": 450,
+      "status": "success"
+    },
+    {
+      "file": "MRF_Peer 1.xlsx",
+      "type": "excel",
+      "records": 450,
+      "status": "success"
+    },
+    {
+      "file": "JK tyres sales.pdf",
+      "type": "pdf",
+      "records": 0,
+      "status": "success",
+      "analysis": {
+        "data_type": {
+          "primary_type": "Profit and Loss Statement",
+          "confidence": 0.95,
+          "reasoning": "The data includes key components of a P&L such as Sales, Expenses, Operating Profit, Other Income, Depreciation, Interest, Profit before tax, Tax, and Net Profit across multiple periods."
+        },
+        "number_of_periods": 10,
+        "period_type": "annual",
+        "periods_found": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19",
+          "Mar-20",
+          "Mar-21",
+          "Mar-22",
+          "Mar-23",
+          "Mar-24",
+          "Mar-25"
+        ],
+        "sample_queries": [
+          "Get me past 3 years sales data",
+          "Compare sales growth between Mar-22 and Mar-24",
+          "What was the net profit trend over the last 5 years",
+          "Show me the operating profit margin for all years",
+          "Which year had the highest EPS",
+          "Compare expenses vs revenue for Mar-23",
+          "What is the average sales growth rate",
+          "Show profit before tax for the last 3 years"
+        ]
+      }
+    }
+  ],
+  "data_verifications": [
+    {
+      "file": "Apollo Tyres_Peer 2.xlsx",
+      "extracted_records": 450,
+      "tests": [
+        {
+          "metric": "Sales",
+          "period": "Mar-24",
+          "extracted": 25377.72,
+          "original": 25377.72,
+          "passed": true
+        },
+        {
+          "metric": "Sales",
+          "period": "Mar-23",
+          "extracted": 24568.13,
+          "original": 24568.13,
+          "passed": true
+        },
+        {
+          "metric": "Operating Profit",
+          "period": "Mar-24",
+          "extracted": 837.38,
+          "original": 837.38,
+          "passed": true
+        }
+      ],
+      "all_passed": true
+    },
+    {
+      "file": "CEAT_Peer 3.xlsx",
+      "extracted_records": 450,
+      "tests": [
+        {
+          "metric": "Sales",
+          "period": "Mar-24",
+          "extracted": 11943.48,
+          "original": 11943.48,
+          "passed": true
+        },
+        {
+          "metric": "Sales",
+          "period": "Mar-23",
+          "extracted": 11314.88,
+          "original": 11314.88,
+          "passed": true
+        },
+        {
+          "metric": "Operating Profit",
+          "period": "Mar-24",
+          "extracted": 387.73,
+          "original": 387.73,
+          "passed": true
+        }
+      ],
+      "all_passed": true
+    },
+    {
+      "file": "Goodyear India_Peer 4.xlsx",
+      "extracted_records": 436,
+      "tests": [
+        {
+          "metric": "Sales",
+          "period": "Mar-24",
+          "extracted": 2551.71,
+          "original": 2551.71,
+          "passed": true
+        },
+        {
+          "metric": "Sales",
+          "period": "Mar-23",
+          "extracted": 2927.51,
+          "original": 2927.51,
+          "passed": true
+        },
+        {
+          "metric": "Operating Profit",
+          "period": "Mar-24",
+          "extracted": 17.34,
+          "original": 17.34,
+          "passed": true
+        }
+      ],
+      "all_passed": true
+    },
+    {
+      "file": "JK Tyre & Indust_Target.xlsx",
+      "extracted_records": 450,
+      "tests": [
+        {
+          "metric": "Sales",
+          "period": "Mar-24",
+          "extracted": 15001.78,
+          "original": 15001.78,
+          "passed": true
+        },
+        {
+          "metric": "Sales",
+          "period": "Mar-23",
+          "extracted": 14644.94,
+          "original": 14644.94,
+          "passed": true
+        },
+        {
+          "metric": "Operating Profit",
+          "period": "Mar-24",
+          "extracted": 363.09,
+          "original": 363.09,
+          "passed": true
+        }
+      ],
+      "all_passed": true
+    },
+    {
+      "file": "MRF_Peer 1.xlsx",
+      "extracted_records": 450,
+      "tests": [
+        {
+          "metric": "Sales",
+          "period": "Mar-24",
+          "extracted": 25168.73,
+          "original": 25168.73,
+          "passed": true
+        },
+        {
+          "metric": "Sales",
+          "period": "Mar-23",
+          "extracted": 23008.33,
+          "original": 23008.33,
+          "passed": true
+        },
+        {
+          "metric": "Operating Profit",
+          "period": "Mar-24",
+          "extracted": 1078.63,
+          "original": 1078.63,
+          "passed": true
+        }
+      ],
+      "all_passed": true
+    }
+  ],
+  "query_tests": [
+    {
+      "query": "Get Sales for all companies for March 2024",
+      "sql": "SELECT company, value\nFROM financial_data\nWHERE metric = 'Sales' \n  AND period = 'March 2024'",
+      "data": [
+        {
+          "company": "Apollo Tyres",
+          "value": 25377.72
+        },
+        {
+          "company": "Apollo Tyres",
+          "value": 6423.59
+        },
+        {
+          "company": "CEAT",
+          "value": 11943.48
+        },
+        {
+          "company": "CEAT",
+          "value": 3529.41
+        },
+        {
+          "company": "Goodyear India",
+          "value": 2551.71
+        },
+        {
+          "company": "Goodyear India",
+          "value": 602.7
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "value": 15001.78
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "value": 3758.6
+        },
+        {
+          "company": "MRF",
+          "value": 25168.73
+        },
+        {
+          "company": "MRF",
+          "value": 7074.82
+        }
+      ],
+      "success": true,
+      "error": null
+    },
+    {
+      "query": "What was the Net Profit for JK Tyre in fiscal year 2024?",
+      "sql": "SELECT value\nFROM financial_data\nWHERE company LIKE '%JK Tyre%'\n  AND metric = 'Net Profit'\n  AND fiscal_year = 2024;",
+      "data": [],
+      "success": true,
+      "error": null
+    },
+    {
+      "query": "Show Sales for the last 3 fiscal years for all companies",
+      "sql": "SELECT company, metric, period, fiscal_year, value\nFROM financial_data\nWHERE metric = 'Sales' \n  AND fiscal_year >= 2023\nORDER BY company, fiscal_year;",
+      "data": [
+        {
+          "company": "Apollo Tyres",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 24568.13
+        },
+        {
+          "company": "Apollo Tyres",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 6927.95
+        },
+        {
+          "company": "Apollo Tyres",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 25377.72
+        },
+        {
+          "company": "Apollo Tyres",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 6423.59
+        },
+        {
+          "company": "Apollo Tyres",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 26123.42
+        },
+        {
+          "company": "Apollo Tyres",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 6560.76
+        },
+        {
+          "company": "CEAT",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 11314.88
+        },
+        {
+          "company": "CEAT",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 3420.62
+        },
+        {
+          "company": "CEAT",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 11943.48
+        },
+        {
+          "company": "CEAT",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 3529.41
+        },
+        {
+          "company": "CEAT",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 13217.87
+        },
+        {
+          "company": "CEAT",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 3772.65
+        },
+        {
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 2927.51
+        },
+        {
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 631.72
+        },
+        {
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 2551.71
+        },
+        {
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 602.7
+        },
+        {
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 2608.05
+        },
+        {
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 656.22
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 14644.94
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 3673.68
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 15001.78
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 3758.6
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 14692.92
+        },
+        {
+          "company": "JK Tyre & Indust",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 3868.94
+        },
+        {
+          "company": "MRF",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 23008.33
+        },
+        {
+          "company": "MRF",
+          "metric": "Sales",
+          "period": "March 2023",
+          "fiscal_year": 2023,
+          "value": 7000.82
+        },
+        {
+          "company": "MRF",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 25168.73
+        },
+        {
+          "company": "MRF",
+          "metric": "Sales",
+          "period": "March 2024",
+          "fiscal_year": 2024,
+          "value": 7074.82
+        },
+        {
+          "company": "MRF",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 28152.5
+        },
+        {
+          "company": "MRF",
+          "metric": "Sales",
+          "period": "March 2025",
+          "fiscal_year": 2025,
+          "value": 7675.69
+        }
+      ],
+      "success": true,
+      "error": null
+    },
+    {
+      "query": "Compare Sales between Apollo Tyres and CEAT for March 2024",
+      "sql": "SELECT company, value\nFROM financial_data\nWHERE metric = 'Sales' \n  AND period = 'March 2024'\n  AND (company LIKE '%Apollo Tyres%' OR company LIKE '%CEAT%')",
+      "data": [
+        {
+          "company": "Apollo Tyres",
+          "value": 25377.72
+        },
+        {
+          "company": "Apollo Tyres",
+          "value": 6423.59
+        },
+        {
+          "company": "CEAT",
+          "value": 11943.48
+        },
+        {
+          "company": "CEAT",
+          "value": 3529.41
+        }
+      ],
+      "success": true,
+      "error": null
+    },
+    {
+      "query": "Which company had the highest Sales in March 2025?",
+      "sql": "SELECT company\nFROM financial_data\nWHERE metric = 'Sales' \n  AND period = 'March 2025'\nORDER BY value DESC\nLIMIT 1;",
+      "data": [
+        {
+          "company": "MRF"
+        }
+      ],
+      "success": true,
+      "error": null
+    },
+    {
+      "query": "Get Operating Profit for MRF from 2020 to 2025",
+      "sql": "SELECT * \nFROM financial_data \nWHERE company LIKE '%MRF%' \n  AND metric = 'Operating Profit' \n  AND fiscal_year BETWEEN 2020 AND 2025;",
+      "data": [
+        {
+          "id": 2021,
+          "company": "MRF",
+          "metric": "Operating Profit",
+          "period": "March 2020",
+          "period_raw": "Mar-20",
+          "fiscal_year": 2020,
+          "value": 912.03,
+          "value_text": null,
+          "source_file": "MRF_Peer 1.xlsx"
+        },
+        {
+          "id": 2022,
+          "company": "MRF",
+          "metric": "Operating Profit",
+          "period": "March 2021",
+          "period_raw": "Mar-21",
+          "fiscal_year": 2021,
+          "value": 1159.62,
+          "value_text": null,
+          "source_file": "MRF_Peer 1.xlsx"
+        },
+        {
+          "id": 2023,
+          "company": "MRF",
+          "metric": "Operating Profit",
+          "period": "March 2022",
+          "period_raw": "Mar-22",
+          "fiscal_year": 2022,
+          "value": 1011.48,
+          "value_text": null,
+          "source_file": "MRF_Peer 1.xlsx"
+        },
+        {
+          "id": 2024,
+          "company": "MRF",
+          "metric": "Operating Profit",
+          "period": "March 2023",
+          "period_raw": "Mar-23",
+          "fiscal_year": 2023,
+          "value": 834.74,
+          "value_text": null,
+          "source_file": "MRF_Peer 1.xlsx"
+        },
+        {
+          "id": 2025,
+          "company": "MRF",
+          "metric": "Operating Profit",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 1078.63,
+          "value_text": null,
+          "source_file": "MRF_Peer 1.xlsx"
+        },
+        {
+          "id": 2026,
+          "company": "MRF",
+          "metric": "Operating Profit",
+          "period": "March 2025",
+          "period_raw": "Mar-25",
+          "fiscal_year": 2025,
+          "value": 1071.24,
+          "value_text": null,
+          "source_file": "MRF_Peer 1.xlsx"
+        }
+      ],
+      "success": true,
+      "error": null
+    },
+    {
+      "query": "Show all metrics for Goodyear India in March 2024",
+      "sql": "SELECT * \nFROM financial_data \nWHERE company LIKE '%Goodyear India%' \n  AND period = 'March 2024';",
+      "data": [
+        {
+          "id": 909,
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 2551.71,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 919,
+          "company": "Goodyear India",
+          "metric": "Raw Material Cost",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 1856.19,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 929,
+          "company": "Goodyear India",
+          "metric": "Change in Inventory",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 15.98,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 939,
+          "company": "Goodyear India",
+          "metric": "Power and Fuel",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 78.35,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 949,
+          "company": "Goodyear India",
+          "metric": "Other Mfr. Exp",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 31.4,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 959,
+          "company": "Goodyear India",
+          "metric": "Employee Cost",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 182.8,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 969,
+          "company": "Goodyear India",
+          "metric": "Selling and admin",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 218.87,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 979,
+          "company": "Goodyear India",
+          "metric": "Other Expenses",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 29.49,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 989,
+          "company": "Goodyear India",
+          "metric": "Other Income",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 16.97,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 999,
+          "company": "Goodyear India",
+          "metric": "Depreciation",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 55.29,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1009,
+          "company": "Goodyear India",
+          "metric": "Interest",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 4.24,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1019,
+          "company": "Goodyear India",
+          "metric": "Profit before tax",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 128.03,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1029,
+          "company": "Goodyear India",
+          "metric": "Tax",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 33.18,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1039,
+          "company": "Goodyear India",
+          "metric": "Net profit",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 94.85,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1049,
+          "company": "Goodyear India",
+          "metric": "Dividend Amount",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 94.59,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1059,
+          "company": "Goodyear India",
+          "metric": "Sales",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 602.7,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1069,
+          "company": "Goodyear India",
+          "metric": "Expenses",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 585.36,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1079,
+          "company": "Goodyear India",
+          "metric": "Other Income",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 4.03,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1089,
+          "company": "Goodyear India",
+          "metric": "Depreciation",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 13.24,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1099,
+          "company": "Goodyear India",
+          "metric": "Interest",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 1.32,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1109,
+          "company": "Goodyear India",
+          "metric": "Profit before tax",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 6.81,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1119,
+          "company": "Goodyear India",
+          "metric": "Tax",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 1.94,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1129,
+          "company": "Goodyear India",
+          "metric": "Net profit",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 4.87,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1139,
+          "company": "Goodyear India",
+          "metric": "Operating Profit",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 17.34,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1149,
+          "company": "Goodyear India",
+          "metric": "Equity Share Capital",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 23.07,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1159,
+          "company": "Goodyear India",
+          "metric": "Reserves",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 558.38,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1165,
+          "company": "Goodyear India",
+          "metric": "Borrowings",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 6.89,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1175,
+          "company": "Goodyear India",
+          "metric": "Other Liabilities",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 591.05,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1185,
+          "company": "Goodyear India",
+          "metric": "Total",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 1179.39,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1195,
+          "company": "Goodyear India",
+          "metric": "Net Block",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 364.46,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1205,
+          "company": "Goodyear India",
+          "metric": "Capital Work in Progress",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 43.7,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1215,
+          "company": "Goodyear India",
+          "metric": "Other Assets",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 771.23,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1225,
+          "company": "Goodyear India",
+          "metric": "Total",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 1179.39,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1235,
+          "company": "Goodyear India",
+          "metric": "Receivables",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 268.03,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1245,
+          "company": "Goodyear India",
+          "metric": "Inventory",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 304.49,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1255,
+          "company": "Goodyear India",
+          "metric": "Cash & Bank",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 123.66,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1265,
+          "company": "Goodyear India",
+          "metric": "No. of Equity Shares",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 23066507.0,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1275,
+          "company": "Goodyear India",
+          "metric": "Face value",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 10.0,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1285,
+          "company": "Goodyear India",
+          "metric": "Cash from Operating Activity",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 134.87,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1295,
+          "company": "Goodyear India",
+          "metric": "Cash from Investing Activity",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": -33.8,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1305,
+          "company": "Goodyear India",
+          "metric": "Cash from Financing Activity",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": -129.84,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1315,
+          "company": "Goodyear India",
+          "metric": "Net Cash Flow",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": -28.77,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1325,
+          "company": "Goodyear India",
+          "metric": "PRICE:",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 1102.1,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        },
+        {
+          "id": 1335,
+          "company": "Goodyear India",
+          "metric": "Adjusted Equity Shares in Cr",
+          "period": "March 2024",
+          "period_raw": "Mar-24",
+          "fiscal_year": 2024,
+          "value": 2.31,
+          "value_text": null,
+          "source_file": "Goodyear India_Peer 4.xlsx"
+        }
+      ],
+      "success": true,
+      "error": null
+    }
+  ],
+  "summary": {
+    "total_files": 6,
+    "excel_files": 5,
+    "pdf_files": 1,
+    "total_records": 2236,
+    "data_accuracy": "PASSED",
+    "queries_tested": 7,
+    "queries_passed": 7,
+    "queries_failed": 0,
+    "success_rate": "100.0%"
+  }
+}

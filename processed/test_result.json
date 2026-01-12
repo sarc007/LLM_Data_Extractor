@@ -1,0 +1,281 @@
+{
+  "extracted_data": {
+    "company_name": "JK TYRE & INDUSTRIES LTD",
+    "source": "SCREENER.IN",
+    "financial_data": {
+      "Sales": {
+        "Mar-16": 6898.23,
+        "Mar-17": 7689.37,
+        "Mar-18": 8272.1,
+        "Mar-19": 10367.76,
+        "Mar-20": 8722.7,
+        "Mar-21": 9102.2,
+        "Mar-22": 11982.96,
+        "Mar-23": 14644.94,
+        "Mar-24": 15001.78,
+        "Mar-25": 14692.92,
+        "Trailing": 14922.78,
+        "Best_Case": 15726.16,
+        "Worst_Case": 14926.38
+      },
+      "Expenses": {
+        "Mar-16": 5781.62,
+        "Mar-17": 6556.96,
+        "Mar-18": 7535.03,
+        "Mar-19": 9255.85,
+        "Mar-20": 7737.1,
+        "Mar-21": 7795.86,
+        "Mar-22": 10909.6,
+        "Mar-23": 13347.13,
+        "Mar-24": 12910.94,
+        "Mar-25": 13094.37,
+        "Trailing": 13422.08,
+        "Best_Case": 13957.33,
+        "Worst_Case": 13425.31
+      },
+      "Operating_Profit": {
+        "Mar-16": 1116.61,
+        "Mar-17": 1132.41,
+        "Mar-18": 737.07,
+        "Mar-19": 1111.91,
+        "Mar-20": 985.6,
+        "Mar-21": 1306.34,
+        "Mar-22": 1073.36,
+        "Mar-23": 1297.81,
+        "Mar-24": 2090.84,
+        "Mar-25": 1598.55,
+        "Trailing": 1500.7,
+        "Best_Case": 1768.84,
+        "Worst_Case": 1501.06
+      },
+      "Other_Income": {
+        "Mar-16": 11.46,
+        "Mar-17": 134.51,
+        "Mar-18": 134.7,
+        "Mar-19": -4.7,
+        "Mar-20": -75.55,
+        "Mar-21": 80.55,
+        "Mar-22": 40.1,
+        "Mar-23": -25.0,
+        "Mar-24": 3.76,
+        "Mar-25": 47.66,
+        "Trailing": 66.62,
+        "Best_Case": null,
+        "Worst_Case": null
+      },
+      "Depreciation": {
+        "Mar-16": 216.13,
+        "Mar-17": 291.32,
+        "Mar-18": 299.46,
+        "Mar-19": 315.67,
+        "Mar-20": 377.83,
+        "Mar-21": 386.69,
+        "Mar-22": 385.36,
+        "Mar-23": 407.06,
+        "Mar-24": 436.75,
+        "Mar-25": 456.49,
+        "Trailing": 457.52,
+        "Best_Case": 457.52,
+        "Worst_Case": 457.52
+      },
+      "Interest": {
+        "Mar-16": 252.43,
+        "Mar-17": 440.36,
+        "Mar-18": 465.5,
+        "Mar-19": 521.08,
+        "Mar-20": 548.99,
+        "Mar-21": 465.85,
+        "Mar-22": 419.09,
+        "Mar-23": 454.5,
+        "Mar-24": 446.93,
+        "Mar-25": 476.29,
+        "Trailing": 478.61,
+        "Best_Case": 478.61,
+        "Worst_Case": 478.61
+      },
+      "Profit_before_tax": {
+        "Mar-16": 659.51,
+        "Mar-17": 535.24,
+        "Mar-18": 106.81,
+        "Mar-19": 270.46,
+        "Mar-20": -16.77,
+        "Mar-21": 534.35,
+        "Mar-22": 309.01,
+        "Mar-23": 411.25,
+        "Mar-24": 1210.92,
+        "Mar-25": 713.43,
+        "Trailing": 631.19,
+        "Best_Case": 832.71,
+        "Worst_Case": 564.93
+      },
+      "Tax": {
+        "Mar-16": 202.72,
+        "Mar-17": 155.42,
+        "Mar-18": 43.89,
+        "Mar-19": 94.17,
+        "Mar-20": -165.78,
+        "Mar-21": 200.91,
+        "Mar-22": 108.71,
+        "Mar-23": 146.51,
+        "Mar-24": 399.44,
+        "Mar-25": 197.64,
+        "Trailing": 172.31,
+        "Best_Case": 0.27,
+        "Worst_Case": 0.27
+      },
+      "Net_profit": {
+        "Mar-16": 467.31,
+        "Mar-17": 375.4,
+        "Mar-18": 66.04,
+        "Mar-19": 176.34,
+        "Mar-20": 150.76,
+        "Mar-21": 319.34,
+        "Mar-22": 210.02,
+        "Mar-23": 262.48,
+        "Mar-24": 786.23,
+        "Mar-25": 495.04,
+        "Trailing": 448.95,
+        "Best_Case": 605.38,
+        "Worst_Case": 410.71
+      },
+      "EPS": {
+        "Mar-16": 20.6,
+        "Mar-17": 16.55,
+        "Mar-18": 2.91,
+        "Mar-19": 7.16,
+        "Mar-20": 6.12,
+        "Mar-21": 12.97,
+        "Mar-22": 8.53,
+        "Mar-23": 10.66,
+        "Mar-24": 30.16,
+        "Mar-25": 18.07,
+        "Trailing": 16.38,
+        "Best_Case": 22.09,
+        "Worst_Case": 14.99
+      },
+      "Price_to_earning": {
+        "Mar-16": 4.09,
+        "Mar-17": 7.97,
+        "Mar-18": 55.96,
+        "Mar-19": 12.82,
+        "Mar-20": 6.63,
+        "Mar-21": 8.4,
+        "Mar-22": 13.76,
+        "Mar-23": 14.54,
+        "Mar-24": 14.33,
+        "Mar-25": 15.36,
+        "Trailing": 23.82,
+        "Best_Case": 23.82,
+        "Worst_Case": 13.71
+      },
+      "Price": {
+        "Mar-16": 84.2,
+        "Mar-17": 131.95,
+        "Mar-18": 162.95,
+        "Mar-19": 91.85,
+        "Mar-20": 40.6,
+        "Mar-21": 109.0,
+        "Mar-22": 117.35,
+        "Mar-23": 155.0,
+        "Mar-24": 432.05,
+        "Mar-25": 277.45,
+        "Trailing": 390.25,
+        "Best_Case": 526.23,
+        "Worst_Case": 205.44
+      }
+    },
+    "ratios": {
+      "Dividend_Payout": {
+        "Mar-16": "12.13%",
+        "Mar-17": "15.10%",
+        "Mar-18": "51.51%",
+        "Mar-19": "20.95%",
+        "Mar-20": "11.44%",
+        "Mar-21": "15.42%",
+        "Mar-22": "17.59%",
+        "Mar-23": "18.76%",
+        "Mar-24": "14.92%",
+        "Mar-25": "16.60%"
+      },
+      "OPM": {
+        "Mar-16": "16.19%",
+        "Mar-17": "14.73%",
+        "Mar-18": "8.91%",
+        "Mar-19": "10.72%",
+        "Mar-20": "11.30%",
+        "Mar-21": "14.35%",
+        "Mar-22": "8.96%",
+        "Mar-23": "8.86%",
+        "Mar-24": "13.94%",
+        "Mar-25": "10.88%",
+        "Trailing": "10.06%"
+      }
+    },
+    "trends": {
+      "Sales_Growth": {
+        "10_YEARS": "8.76%",
+        "7_YEARS": "8.55%",
+        "5_YEARS": "10.99%",
+        "3_YEARS": "7.03%",
+        "RECENT": "1.56%",
+        "BEST": "7.03%",
+        "WORST": "1.56%"
+      },
+      "OPM_Trend": {
+        "10_YEARS": "11.60%",
+        "7_YEARS": "11.20%",
+        "5_YEARS": "11.26%",
+        "3_YEARS": "11.25%",
+        "RECENT": "10.06%",
+        "BEST": "11.25%",
+        "WORST": "10.06%"
+      },
+      "Price_to_Earning_Trend": {
+        "10_YEARS": 16.15,
+        "7_YEARS": 13.71,
+        "5_YEARS": 15.03,
+        "3_YEARS": 17.01,
+        "RECENT": 23.82,
+        "BEST": 23.82,
+        "WORST": 13.71
+      }
+    }
+  },
+  "analysis": {
+    "data_type": {
+      "primary_type": "Profit and Loss Statement",
+      "confidence": 0.95,
+      "reasoning": "The data includes key P&L components such as Sales, Expenses, Operating Profit, Other Income, Depreciation, Interest, Profit before tax, Tax, and Net Profit across multiple periods."
+    },
+    "number_of_periods": 10,
+    "period_type": "annual",
+    "periods_found": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19",
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ],
+    "sample_queries": [
+      "Get me past 3 years sales data",
+      "Compare sales growth between Mar-22 and Mar-24",
+      "What was the net profit trend over the last 5 years",
+      "Show me the operating profit margin for all years",
+      "Which year had the highest EPS",
+      "Compare expenses vs revenue for Mar-23",
+      "What is the average sales growth rate",
+      "Show profit before tax for the last 3 years"
+    ]
+  },
+  "metadata": {
+    "source_file": "JK tyres sales.pdf",
+    "model": "qwen3-coder:480b-cloud",
+    "iterations": 5,
+    "processed_at": "2026-01-09T12:21:07.081367"
+  }
+}
