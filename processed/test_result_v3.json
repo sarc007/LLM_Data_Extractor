@@ -1,0 +1,875 @@
+{
+  "extracted_data": {
+    "company_name": "JK TYRE & INDUSTRIES LTD",
+    "source": "SCREENER.IN",
+    "financial_data": {
+      "Sales": [
+        {
+          "period": "Mar-16",
+          "value": 6898.23
+        },
+        {
+          "period": "Mar-17",
+          "value": 7689.37
+        },
+        {
+          "period": "Mar-18",
+          "value": 8272.1
+        },
+        {
+          "period": "Mar-19",
+          "value": 10367.76
+        },
+        {
+          "period": "Mar-20",
+          "value": 8722.7
+        },
+        {
+          "period": "Mar-21",
+          "value": 9102.2
+        },
+        {
+          "period": "Mar-22",
+          "value": 11982.96
+        },
+        {
+          "period": "Mar-23",
+          "value": 14644.94
+        },
+        {
+          "period": "Mar-24",
+          "value": 15001.78
+        },
+        {
+          "period": "Mar-25",
+          "value": 14692.92
+        },
+        {
+          "period": "Trailing",
+          "value": 14922.78
+        },
+        {
+          "period": "Best Case",
+          "value": 15726.16
+        },
+        {
+          "period": "Worst Case",
+          "value": 14926.38
+        }
+      ],
+      "Expenses": [
+        {
+          "period": "Mar-16",
+          "value": 5781.62
+        },
+        {
+          "period": "Mar-17",
+          "value": 6556.96
+        },
+        {
+          "period": "Mar-18",
+          "value": 7535.03
+        },
+        {
+          "period": "Mar-19",
+          "value": 9255.85
+        },
+        {
+          "period": "Mar-20",
+          "value": 7737.1
+        },
+        {
+          "period": "Mar-21",
+          "value": 7795.86
+        },
+        {
+          "period": "Mar-22",
+          "value": 10909.6
+        },
+        {
+          "period": "Mar-23",
+          "value": 13347.13
+        },
+        {
+          "period": "Mar-24",
+          "value": 12910.94
+        },
+        {
+          "period": "Mar-25",
+          "value": 13094.37
+        },
+        {
+          "period": "Trailing",
+          "value": 13422.08
+        },
+        {
+          "period": "Best Case",
+          "value": 13957.33
+        },
+        {
+          "period": "Worst Case",
+          "value": 13425.31
+        }
+      ],
+      "Operating Profit": [
+        {
+          "period": "Mar-16",
+          "value": 1116.61
+        },
+        {
+          "period": "Mar-17",
+          "value": 1132.41
+        },
+        {
+          "period": "Mar-18",
+          "value": 737.07
+        },
+        {
+          "period": "Mar-19",
+          "value": 1111.91
+        },
+        {
+          "period": "Mar-20",
+          "value": 985.6
+        },
+        {
+          "period": "Mar-21",
+          "value": 1306.34
+        },
+        {
+          "period": "Mar-22",
+          "value": 1073.36
+        },
+        {
+          "period": "Mar-23",
+          "value": 1297.81
+        },
+        {
+          "period": "Mar-24",
+          "value": 2090.84
+        },
+        {
+          "period": "Mar-25",
+          "value": 1598.55
+        },
+        {
+          "period": "Trailing",
+          "value": 1500.7
+        },
+        {
+          "period": "Best Case",
+          "value": 1768.84
+        },
+        {
+          "period": "Worst Case",
+          "value": 1501.06
+        }
+      ],
+      "Other Income": [
+        {
+          "period": "Mar-16",
+          "value": 11.46
+        },
+        {
+          "period": "Mar-17",
+          "value": 134.51
+        },
+        {
+          "period": "Mar-18",
+          "value": 134.7
+        },
+        {
+          "period": "Mar-19",
+          "value": -4.7
+        },
+        {
+          "period": "Mar-20",
+          "value": -75.55
+        },
+        {
+          "period": "Mar-21",
+          "value": 80.55
+        },
+        {
+          "period": "Mar-22",
+          "value": 40.1
+        },
+        {
+          "period": "Mar-23",
+          "value": -25.0
+        },
+        {
+          "period": "Mar-24",
+          "value": 3.76
+        },
+        {
+          "period": "Mar-25",
+          "value": 47.66
+        },
+        {
+          "period": "Trailing",
+          "value": 66.62
+        },
+        {
+          "period": "Best Case",
+          "value": null
+        },
+        {
+          "period": "Worst Case",
+          "value": null
+        }
+      ],
+      "Depreciation": [
+        {
+          "period": "Mar-16",
+          "value": 216.13
+        },
+        {
+          "period": "Mar-17",
+          "value": 291.32
+        },
+        {
+          "period": "Mar-18",
+          "value": 299.46
+        },
+        {
+          "period": "Mar-19",
+          "value": 315.67
+        },
+        {
+          "period": "Mar-20",
+          "value": 377.83
+        },
+        {
+          "period": "Mar-21",
+          "value": 386.69
+        },
+        {
+          "period": "Mar-22",
+          "value": 385.36
+        },
+        {
+          "period": "Mar-23",
+          "value": 407.06
+        },
+        {
+          "period": "Mar-24",
+          "value": 436.75
+        },
+        {
+          "period": "Mar-25",
+          "value": 456.49
+        },
+        {
+          "period": "Trailing",
+          "value": 457.52
+        },
+        {
+          "period": "Best Case",
+          "value": 457.52
+        },
+        {
+          "period": "Worst Case",
+          "value": 457.52
+        }
+      ],
+      "Interest": [
+        {
+          "period": "Mar-16",
+          "value": 252.43
+        },
+        {
+          "period": "Mar-17",
+          "value": 440.36
+        },
+        {
+          "period": "Mar-18",
+          "value": 465.5
+        },
+        {
+          "period": "Mar-19",
+          "value": 521.08
+        },
+        {
+          "period": "Mar-20",
+          "value": 548.99
+        },
+        {
+          "period": "Mar-21",
+          "value": 465.85
+        },
+        {
+          "period": "Mar-22",
+          "value": 419.09
+        },
+        {
+          "period": "Mar-23",
+          "value": 454.5
+        },
+        {
+          "period": "Mar-24",
+          "value": 446.93
+        },
+        {
+          "period": "Mar-25",
+          "value": 476.29
+        },
+        {
+          "period": "Trailing",
+          "value": 478.61
+        },
+        {
+          "period": "Best Case",
+          "value": 478.61
+        },
+        {
+          "period": "Worst Case",
+          "value": 478.61
+        }
+      ],
+      "Profit before tax": [
+        {
+          "period": "Mar-16",
+          "value": 659.51
+        },
+        {
+          "period": "Mar-17",
+          "value": 535.24
+        },
+        {
+          "period": "Mar-18",
+          "value": 106.81
+        },
+        {
+          "period": "Mar-19",
+          "value": 270.46
+        },
+        {
+          "period": "Mar-20",
+          "value": -16.77
+        },
+        {
+          "period": "Mar-21",
+          "value": 534.35
+        },
+        {
+          "period": "Mar-22",
+          "value": 309.01
+        },
+        {
+          "period": "Mar-23",
+          "value": 411.25
+        },
+        {
+          "period": "Mar-24",
+          "value": 1210.92
+        },
+        {
+          "period": "Mar-25",
+          "value": 713.43
+        },
+        {
+          "period": "Trailing",
+          "value": 631.19
+        },
+        {
+          "period": "Best Case",
+          "value": 832.71
+        },
+        {
+          "period": "Worst Case",
+          "value": 564.93
+        }
+      ],
+      "Tax": [
+        {
+          "period": "Mar-16",
+          "value": 202.72
+        },
+        {
+          "period": "Mar-17",
+          "value": 155.42
+        },
+        {
+          "period": "Mar-18",
+          "value": 43.89
+        },
+        {
+          "period": "Mar-19",
+          "value": 94.17
+        },
+        {
+          "period": "Mar-20",
+          "value": -165.78
+        },
+        {
+          "period": "Mar-21",
+          "value": 200.91
+        },
+        {
+          "period": "Mar-22",
+          "value": 108.71
+        },
+        {
+          "period": "Mar-23",
+          "value": 146.51
+        },
+        {
+          "period": "Mar-24",
+          "value": 399.44
+        },
+        {
+          "period": "Mar-25",
+          "value": 197.64
+        },
+        {
+          "period": "Trailing",
+          "value": 172.31
+        },
+        {
+          "period": "Best Case",
+          "value": "27%"
+        },
+        {
+          "period": "Worst Case",
+          "value": "27%"
+        }
+      ],
+      "Net profit": [
+        {
+          "period": "Mar-16",
+          "value": 467.31
+        },
+        {
+          "period": "Mar-17",
+          "value": 375.4
+        },
+        {
+          "period": "Mar-18",
+          "value": 66.04
+        },
+        {
+          "period": "Mar-19",
+          "value": 176.34
+        },
+        {
+          "period": "Mar-20",
+          "value": 150.76
+        },
+        {
+          "period": "Mar-21",
+          "value": 319.34
+        },
+        {
+          "period": "Mar-22",
+          "value": 210.02
+        },
+        {
+          "period": "Mar-23",
+          "value": 262.48
+        },
+        {
+          "period": "Mar-24",
+          "value": 786.23
+        },
+        {
+          "period": "Mar-25",
+          "value": 495.04
+        },
+        {
+          "period": "Trailing",
+          "value": 448.95
+        },
+        {
+          "period": "Best Case",
+          "value": 605.38
+        },
+        {
+          "period": "Worst Case",
+          "value": 410.71
+        }
+      ],
+      "EPS": [
+        {
+          "period": "Mar-16",
+          "value": 20.6
+        },
+        {
+          "period": "Mar-17",
+          "value": 16.55
+        },
+        {
+          "period": "Mar-18",
+          "value": 2.91
+        },
+        {
+          "period": "Mar-19",
+          "value": 7.16
+        },
+        {
+          "period": "Mar-20",
+          "value": 6.12
+        },
+        {
+          "period": "Mar-21",
+          "value": 12.97
+        },
+        {
+          "period": "Mar-22",
+          "value": 8.53
+        },
+        {
+          "period": "Mar-23",
+          "value": 10.66
+        },
+        {
+          "period": "Mar-24",
+          "value": 30.16
+        },
+        {
+          "period": "Mar-25",
+          "value": 18.07
+        },
+        {
+          "period": "Trailing",
+          "value": 16.38
+        },
+        {
+          "period": "Best Case",
+          "value": 22.09
+        },
+        {
+          "period": "Worst Case",
+          "value": 14.99
+        }
+      ],
+      "Price to earning": [
+        {
+          "period": "Mar-16",
+          "value": 4.09
+        },
+        {
+          "period": "Mar-17",
+          "value": 7.97
+        },
+        {
+          "period": "Mar-18",
+          "value": 55.96
+        },
+        {
+          "period": "Mar-19",
+          "value": 12.82
+        },
+        {
+          "period": "Mar-20",
+          "value": 6.63
+        },
+        {
+          "period": "Mar-21",
+          "value": 8.4
+        },
+        {
+          "period": "Mar-22",
+          "value": 13.76
+        },
+        {
+          "period": "Mar-23",
+          "value": 14.54
+        },
+        {
+          "period": "Mar-24",
+          "value": 14.33
+        },
+        {
+          "period": "Mar-25",
+          "value": 15.36
+        },
+        {
+          "period": "Trailing",
+          "value": 23.82
+        },
+        {
+          "period": "Best Case",
+          "value": 23.82
+        },
+        {
+          "period": "Worst Case",
+          "value": 13.71
+        }
+      ],
+      "Price": [
+        {
+          "period": "Mar-16",
+          "value": 84.2
+        },
+        {
+          "period": "Mar-17",
+          "value": 131.95
+        },
+        {
+          "period": "Mar-18",
+          "value": 162.95
+        },
+        {
+          "period": "Mar-19",
+          "value": 91.85
+        },
+        {
+          "period": "Mar-20",
+          "value": 40.6
+        },
+        {
+          "period": "Mar-21",
+          "value": 109.0
+        },
+        {
+          "period": "Mar-22",
+          "value": 117.35
+        },
+        {
+          "period": "Mar-23",
+          "value": 155.0
+        },
+        {
+          "period": "Mar-24",
+          "value": 432.05
+        },
+        {
+          "period": "Mar-25",
+          "value": 277.45
+        },
+        {
+          "period": "Trailing",
+          "value": 390.25
+        },
+        {
+          "period": "Best Case",
+          "value": 526.23
+        },
+        {
+          "period": "Worst Case",
+          "value": 205.44
+        }
+      ]
+    },
+    "ratios": {
+      "Dividend Payout": [
+        {
+          "period": "Mar-16",
+          "value": "12.13%"
+        },
+        {
+          "period": "Mar-17",
+          "value": "15.10%"
+        },
+        {
+          "period": "Mar-18",
+          "value": "51.51%"
+        },
+        {
+          "period": "Mar-19",
+          "value": "20.95%"
+        },
+        {
+          "period": "Mar-20",
+          "value": "11.44%"
+        },
+        {
+          "period": "Mar-21",
+          "value": "15.42%"
+        },
+        {
+          "period": "Mar-22",
+          "value": "17.59%"
+        },
+        {
+          "period": "Mar-23",
+          "value": "18.76%"
+        },
+        {
+          "period": "Mar-24",
+          "value": "14.92%"
+        },
+        {
+          "period": "Mar-25",
+          "value": "16.60%"
+        }
+      ],
+      "OPM": [
+        {
+          "period": "Mar-16",
+          "value": "16.19%"
+        },
+        {
+          "period": "Mar-17",
+          "value": "14.73%"
+        },
+        {
+          "period": "Mar-18",
+          "value": "8.91%"
+        },
+        {
+          "period": "Mar-19",
+          "value": "10.72%"
+        },
+        {
+          "period": "Mar-20",
+          "value": "11.30%"
+        },
+        {
+          "period": "Mar-21",
+          "value": "14.35%"
+        },
+        {
+          "period": "Mar-22",
+          "value": "8.96%"
+        },
+        {
+          "period": "Mar-23",
+          "value": "8.86%"
+        },
+        {
+          "period": "Mar-24",
+          "value": "13.94%"
+        },
+        {
+          "period": "Mar-25",
+          "value": "10.88%"
+        },
+        {
+          "period": "Trailing",
+          "value": "10.06%"
+        }
+      ]
+    },
+    "trends": {
+      "Sales Growth": [
+        {
+          "period": "10 YEARS",
+          "value": "8.76%"
+        },
+        {
+          "period": "7 YEARS",
+          "value": "8.55%"
+        },
+        {
+          "period": "5 YEARS",
+          "value": "10.99%"
+        },
+        {
+          "period": "3 YEARS",
+          "value": "7.03%"
+        },
+        {
+          "period": "RECENT",
+          "value": "1.56%"
+        },
+        {
+          "period": "BEST",
+          "value": "7.03%"
+        },
+        {
+          "period": "WORST",
+          "value": "1.56%"
+        }
+      ],
+      "OPM": [
+        {
+          "period": "10 YEARS",
+          "value": "11.60%"
+        },
+        {
+          "period": "7 YEARS",
+          "value": "11.20%"
+        },
+        {
+          "period": "5 YEARS",
+          "value": "11.26%"
+        },
+        {
+          "period": "3 YEARS",
+          "value": "11.25%"
+        },
+        {
+          "period": "RECENT",
+          "value": "10.06%"
+        },
+        {
+          "period": "BEST",
+          "value": "11.25%"
+        },
+        {
+          "period": "WORST",
+          "value": "10.06%"
+        }
+      ],
+      "Price to Earning": [
+        {
+          "period": "10 YEARS",
+          "value": 16.15
+        },
+        {
+          "period": "7 YEARS",
+          "value": 13.71
+        },
+        {
+          "period": "5 YEARS",
+          "value": 15.03
+        },
+        {
+          "period": "3 YEARS",
+          "value": 17.01
+        },
+        {
+          "period": "RECENT",
+          "value": 23.82
+        },
+        {
+          "period": "BEST",
+          "value": 23.82
+        },
+        {
+          "period": "WORST",
+          "value": 13.71
+        }
+      ]
+    }
+  },
+  "analysis": {
+    "data_type": {
+      "primary_type": "Profit and Loss Statement",
+      "confidence": 0.95,
+      "reasoning": "The data includes key components of a profit and loss statement such as Sales, Expenses, Operating Profit, Other Income, Depreciation, Interest, Profit before tax, Tax, and Net profit across multiple periods."
+    },
+    "number_of_periods": 10,
+    "period_type": "annual",
+    "periods_found": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19",
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ],
+    "sample_queries": [
+      "Get me past 3 years sales data",
+      "Compare sales growth between Mar-22 and Mar-24",
+      "What was the net profit trend over the last 5 years",
+      "Show me the operating profit margin for all years",
+      "Which year had the highest EPS",
+      "Compare expenses vs revenue for Mar-23",
+      "What is the average sales growth rate",
+      "Show profit before tax for the last 3 years"
+    ]
+  },
+  "metadata": {
+    "source_file": "JK tyres sales.pdf",
+    "model": "qwen3-coder:480b-cloud",
+    "iterations": 5,
+    "processed_at": "2026-01-09T12:33:30.074470"
+  }
+}

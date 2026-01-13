@@ -17,6 +17,7 @@ from starlette.responses import JSONResponse
 from .database import Base, engine, get_db
 from .models import Upload
 from .pipeline import process_document
+from .qwen_pipeline import process_document_qwen
 from .auth import require_login, login_user, AUTH_ENABLED
 
 from sqlalchemy.orm import Session
@@ -100,6 +101,75 @@ async def download_json(upload_id: str, db: Session = Depends(get_db), _=Depends
         upload.json_path,
         media_type="application/json",
         filename=f"{upload.id}.json"
+    )
+
+
+@app.post("/process-qwen", response_class=HTMLResponse)
+async def process_file_qwen(
+    request: Request,
+    file: UploadFile,
+    iterations: int = Form(5),
+    convert_pdf: bool = Form(False),
+    db: Session = Depends(get_db),
+    _=Depends(require_login),
+):
+    """Process file using Qwen3 480B Cloud with iterative self-checking."""
+    # Save uploaded file
+    uid = str(uuid.uuid4())
+    filename = f"{uid}_{file.filename}"
+    upload_path = os.path.join("uploads", filename)
+    with open(upload_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    # Run Qwen pipeline
+    try:
+        extracted_data, analysis = process_document_qwen(
+            upload_path,
+            convert_to_pdf_first=convert_pdf,
+            iterations=iterations
+        )
+        
+        # Combine results
+        json_result = {
+            "extracted_data": extracted_data,
+            "analysis": analysis,
+            "metadata": {
+                "source_file": file.filename,
+                "model": "qwen3-coder:480b-cloud",
+                "iterations": iterations
+            }
+        }
+        model_used = "qwen3-coder:480b-cloud"
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JSONResponse({"success": False, "error": str(e)}, status_code=500)
+
+    # Save JSON to processed/
+    json_path = os.path.join("processed", f"{uid}.json")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(json_result, f, ensure_ascii=False, indent=2)
+
+    # Insert into DB
+    upload = Upload(
+        id=uid,
+        filename=file.filename,
+        original_path=upload_path,
+        json_path=json_path,
+        model_used=model_used,
+    )
+    db.add(upload)
+    db.commit()
+
+    # Render result fragment
+    return templates.TemplateResponse(
+        "result_fragment.html",
+        {
+            "request": request,
+            "upload": upload,
+            "json_data": json_result,
+        },
     )
 
 

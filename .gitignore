@@ -19,7 +19,7 @@ database.db
 # Documents and Data
 input_files/
 uploads/
-processed/
+
 notes.txt
 
 # Editor

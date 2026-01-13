@@ -7,12 +7,34 @@
         <p class="text-sm text-gray-500 mb-4">Authentication enabled.</p>
         {% endif %}
 
-        <form hx-post="/process" hx-target="#result-container" hx-indicator="#loading" enctype="multipart/form-data"
+        <form id="upload-form" hx-post="/process" hx-target="#result-container" hx-indicator="#loading" enctype="multipart/form-data"
             class="space-y-4">
             <div>
-                <label class="block font-semibold mb-1">PDF or Excel file</label>
-                <input type="file" name="file" required
+                <label class="block font-semibold mb-1">PDF, Excel, or CSV file</label>
+                <input type="file" name="file" required accept=".pdf,.xls,.xlsx,.csv"
                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2">
+            </div>
+
+            <div>
+                <label class="block font-semibold mb-1">Model</label>
+                <select id="model-select" name="model" onchange="updateFormAction()"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 p-2">
+                    <option value="default">Default (Local LLM)</option>
+                    <option value="qwen3-480b">Qwen3 480B Cloud (5x Self-Check)</option>
+                </select>
+            </div>
+
+            <div id="qwen-options" class="hidden space-y-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Self-Check Iterations</label>
+                    <input type="number" name="iterations" value="5" min="1" max="10"
+                        class="block w-full text-sm border border-gray-300 rounded-lg p-2">
+                    <p class="text-xs text-gray-500 mt-1">Number of times the model will self-check for missed data</p>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" name="convert_pdf" id="convert_pdf" class="mr-2">
+                    <label for="convert_pdf" class="text-sm">Convert Excel/CSV to PDF before processing</label>
+                </div>
             </div>
 
             <button
@@ -63,4 +85,23 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+function updateFormAction() {
+    const form = document.getElementById('upload-form');
+    const select = document.getElementById('model-select');
+    const qwenOptions = document.getElementById('qwen-options');
+    
+    if (select.value === 'qwen3-480b') {
+        form.setAttribute('hx-post', '/process-qwen');
+        qwenOptions.classList.remove('hidden');
+    } else {
+        form.setAttribute('hx-post', '/process');
+        qwenOptions.classList.add('hidden');
+    }
+    
+    // Re-process htmx attributes
+    htmx.process(form);
+}
+</script>
 {% endblock %}
