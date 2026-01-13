@@ -17,14 +17,27 @@ from datetime import datetime
 
 import pandas as pd
 import pdfplumber
-import requests
+from ollama import Client
 
 # =========================
 # CONFIG
 # =========================
 
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
-QWEN_MODEL = os.getenv("QWEN_MODEL", "qwen3-coder:480b-cloud")
+# Ollama Cloud API configuration
+OLLAMA_API_KEY = os.getenv("OLLAMA_API_KEY")
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "https://ollama.com")
+QWEN_MODEL = os.getenv("QWEN_MODEL", "qwen3-coder:480b")
+
+def get_ollama_client():
+    """Get Ollama client configured for cloud API."""
+    if OLLAMA_API_KEY:
+        return Client(
+            host=OLLAMA_HOST,
+            headers={'Authorization': 'Bearer ' + OLLAMA_API_KEY}
+        )
+    else:
+        # Fallback to local if no API key
+        return Client(host="http://localhost:11434")
 
 print(f"Ollama Host: {OLLAMA_HOST}")
 print(f"Qwen Model: {QWEN_MODEL}")
@@ -341,7 +354,7 @@ def convert_to_pdf(input_path: str, output_dir: str = None) -> str:
 
 def _call_qwen(prompt: str, system_prompt: str = None, timeout: int = 600) -> str:
     """
-    Call Qwen3 480B model via Ollama.
+    Call Qwen model via Ollama cloud API.
     Returns the raw response text.
     """
     messages = []
@@ -349,25 +362,16 @@ def _call_qwen(prompt: str, system_prompt: str = None, timeout: int = 600) -> st
         messages.append({"role": "system", "content": system_prompt})
     messages.append({"role": "user", "content": prompt})
     
-    payload = {
-        "model": QWEN_MODEL,
-        "messages": messages,
-        "temperature": 0,
-        "stream": False,
-    }
-    
     try:
-        resp = requests.post(
-            f"{OLLAMA_HOST}/v1/chat/completions",
-            json=payload,
-            timeout=timeout
+        client = get_ollama_client()
+        response = client.chat(
+            model=QWEN_MODEL,
+            messages=messages,
+            options={"temperature": 0}
         )
-        resp.raise_for_status()
-        return resp.json()["choices"][0]["message"]["content"]
-    except requests.exceptions.Timeout:
-        raise TimeoutError(f"Request to Qwen3 480B timed out after {timeout}s")
+        return response['message']['content']
     except Exception as e:
-        raise RuntimeError(f"Failed to call Qwen3 480B: {e}")
+        raise RuntimeError(f"Failed to call Qwen: {e}")
 
 
 # =========================

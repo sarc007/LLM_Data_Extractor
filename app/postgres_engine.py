@@ -18,18 +18,31 @@ from decimal import Decimal
 import pandas as pd
 import psycopg2
 from psycopg2.extras import RealDictCursor, Json
-import requests
+from ollama import Client
 
 # =========================
 # CONFIG
 # =========================
 
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
-QWEN_MODEL = "qwen3-coder:480b-cloud"
+# Ollama Cloud API configuration
+OLLAMA_API_KEY = os.getenv("OLLAMA_API_KEY")
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "https://ollama.com")
+QWEN_MODEL = "qwen3-coder:480b"  # Cloud model
+
+def get_ollama_client():
+    """Get Ollama client configured for cloud API."""
+    if OLLAMA_API_KEY:
+        return Client(
+            host=OLLAMA_HOST,
+            headers={'Authorization': 'Bearer ' + OLLAMA_API_KEY}
+        )
+    else:
+        # Fallback to local if no API key
+        return Client(host="http://localhost:11434")
 
 # PostgreSQL connection
 PG_CONFIG = {
-    "host": "127.0.0.1",
+    "host": "5.189.160.57",
     "port": 5432,
     "database": "llmdb",
     "user": "llm_user",
@@ -419,22 +432,18 @@ IMPORTANT QUERY RULES:
 
 
 def _call_qwen(prompt: str, timeout: int = 300) -> str:
-    """Call QWEN 480B model via Ollama."""
-    payload = {
-        "model": QWEN_MODEL,
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0,
-        "stream": False,
-    }
-    
+    """Call QWEN model via Ollama cloud API."""
     try:
-        resp = requests.post(
-            f"{OLLAMA_HOST}/v1/chat/completions",
-            json=payload,
-            timeout=timeout
+        client = get_ollama_client()
+        messages = [{"role": "user", "content": prompt}]
+        
+        # Use chat API (non-streaming for simplicity)
+        response = client.chat(
+            model=QWEN_MODEL,
+            messages=messages,
+            options={"temperature": 0}
         )
-        resp.raise_for_status()
-        return resp.json()["choices"][0]["message"]["content"]
+        return response['message']['content']
     except Exception as e:
         raise RuntimeError(f"QWEN call failed: {e}")
 
