@@ -362,7 +362,7 @@ def convert_to_pdf(input_path: str, output_dir: str = None) -> str:
         elements.append(Spacer(1, 24))
     
     doc.build(elements)
-    print(f"  → Converted to PDF: {output_path}")
+    print(f"  -> Converted to PDF: {output_path}")
     return output_path
 
 
@@ -494,20 +494,20 @@ def extract_with_iterations(doc_text: str, iterations: int = 5) -> Dict[str, Any
     print(f"\n[EXTRACTION] Starting {iterations}-iteration extraction...")
     
     # Initial extraction using user's exact prompt
-    print(f"  → Iteration 1/{iterations}: Initial extraction...")
+    print(f"  -> Iteration 1/{iterations}: Initial extraction...")
     prompt = _build_extraction_prompt(doc_text)
     response = _call_qwen(prompt)
     
     try:
         current_json = _extract_json_from_text(response)
-        print(f"    ✓ Extracted {len(json.dumps(current_json))} chars of JSON")
+        print(f"    [OK] Extracted {len(json.dumps(current_json))} chars of JSON")
     except Exception as e:
         print(f"    ✗ Failed to parse JSON: {e}")
         current_json = {"raw_response": response, "error": str(e)}
     
     # Self-check iterations (iterations 2 through N)
     for i in range(2, iterations + 1):
-        print(f"  → Iteration {i}/{iterations}: Self-checking for missed data...")
+        print(f"  -> Iteration {i}/{iterations}: Self-checking for missed data...")
         
         prompt = _build_selfcheck_prompt(
             doc_text, 
@@ -525,16 +525,16 @@ def extract_with_iterations(doc_text: str, iterations: int = 5) -> Dict[str, Any
             new_size = len(json.dumps(new_json))
             
             if new_size > old_size:
-                print(f"    ✓ Found additional data (+{new_size - old_size} chars)")
+                print(f"    [OK] Found additional data (+{new_size - old_size} chars)")
                 current_json = new_json
             elif new_size == old_size:
-                print(f"    ✓ No additional data found")
+                print(f"    [OK] No additional data found")
                 current_json = new_json
             else:
-                print(f"    ⚠ JSON size decreased, keeping larger version")
+                print(f"    [WARN] JSON size decreased, keeping larger version")
             
         except Exception as e:
-            print(f"    ⚠ Iteration {i} failed: {e}, keeping previous result")
+            print(f"    [WARN] Iteration {i} failed: {e}, keeping previous result")
     
     return current_json
 
@@ -561,21 +561,21 @@ def analyze_extracted_data(extracted_json: Dict[str, Any]) -> Dict[str, Any]:
     
     for attempt in range(3):  # 3 attempts for analysis
         try:
-            print(f"  → Analysis attempt {attempt + 1}/3...")
+            print(f"  -> Analysis attempt {attempt + 1}/3...")
             response = _call_qwen(prompt)
             analysis_results = _extract_json_from_text(response)
             
             # Validate required fields (updated to match new prompt)
             required = ["data_type", "number_of_periods", "period_type", "sample_queries"]
             if all(k in analysis_results for k in required):
-                print("    ✓ Analysis complete")
+                print("    [OK] Analysis complete")
                 break
             else:
                 missing = [k for k in required if k not in analysis_results]
-                print(f"    ⚠ Missing fields: {missing}, retrying...")
+                print(f"    [WARN] Missing fields: {missing}, retrying...")
                 
         except Exception as e:
-            print(f"    ⚠ Attempt {attempt + 1} failed: {e}")
+            print(f"    [WARN] Attempt {attempt + 1} failed: {e}")
     
     if analysis_results is None:
         analysis_results = {
@@ -635,12 +635,12 @@ def process_document_qwen(
         if file_type == "excel":
             extracted_data = _load_excel_as_json(document_path)
             xl = pd.ExcelFile(document_path)
-            print(f"  → Found {len(xl.sheet_names)} sheet(s): {', '.join(xl.sheet_names)}")
+            print(f"  -> Found {len(xl.sheet_names)} sheet(s): {', '.join(xl.sheet_names)}")
             total_rows = sum(info["row_count"] for info in extracted_data["sheets"].values())
-            print(f"  → Total rows: {total_rows}")
+            print(f"  -> Total rows: {total_rows}")
         else:  # csv
             extracted_data = _load_csv_as_json(document_path)
-            print(f"  → Loaded {extracted_data['sheets']['data']['row_count']} rows")
+            print(f"  -> Loaded {extracted_data['sheets']['data']['row_count']} rows")
         
         # Run audit verification
         if run_audit and AUDIT_AVAILABLE:
@@ -650,11 +650,11 @@ def process_document_qwen(
                 audit_result.print_report()
                 
                 if not audit_result.passed:
-                    print("  ⚠️  AUDIT FAILED - Some data may be missing!")
+                    print("  [WARNING]  AUDIT FAILED - Some data may be missing!")
                 else:
-                    print("  ✅ AUDIT PASSED - All data verified")
+                    print("  [OK] AUDIT PASSED - All data verified")
             except Exception as e:
-                print(f"  ⚠️  Audit failed: {e}")
+                print(f"  [WARNING]  Audit failed: {e}")
         
         # Get text representation for LLM analysis
         if file_type == "excel":
@@ -681,19 +681,19 @@ def process_document_qwen(
         if file_type == "pdf":
             # Try PaddleOCR if enabled and available
             if use_paddleocr and PADDLEOCR_AVAILABLE:
-                print(f"  → Using PaddleOCR (DPI={ocr_dpi})...")
+                print(f"  -> Using PaddleOCR (DPI={ocr_dpi})...")
                 extraction_method = "paddleocr"
                 try:
                     doc_text = get_ocr_text_for_llm(document_path, dpi=ocr_dpi)
-                    print(f"  → PaddleOCR extracted {len(doc_text)} characters")
+                    print(f"  -> PaddleOCR extracted {len(doc_text)} characters")
                 except Exception as e:
-                    print(f"  ⚠️  PaddleOCR failed: {e}")
-                    print("  → Falling back to pdfplumber...")
+                    print(f"  [WARNING]  PaddleOCR failed: {e}")
+                    print("  -> Falling back to pdfplumber...")
                     doc_text = _load_pdf_text(document_path)
                     extraction_method = "pdfplumber"
             elif use_paddleocr and not PADDLEOCR_AVAILABLE:
-                print("  ⚠️  PaddleOCR requested but not installed")
-                print("  → Install with: pip install paddleocr paddlepaddle pdf2image")
+                print("  [WARNING]  PaddleOCR requested but not installed")
+                print("  -> Install with: pip install paddleocr paddlepaddle pdf2image")
                 doc_text = _load_pdf_text(document_path)
                 extraction_method = "pdfplumber"
             else:
@@ -708,7 +708,7 @@ def process_document_qwen(
         else:
             raise ValueError(f"Unsupported file type: {file_type}")
         
-        print(f"  → Loaded {len(doc_text)} characters via {extraction_method}")
+        print(f"  -> Loaded {len(doc_text)} characters via {extraction_method}")
         
         # Extract data with iterations
         extracted_data = extract_with_iterations(doc_text, iterations)
@@ -728,7 +728,7 @@ def process_document_qwen(
         }
     
     print("\n" + "=" * 60)
-    print("✓ PROCESSING COMPLETE")
+    print("[OK] PROCESSING COMPLETE")
     print("=" * 60)
     
     # Print summary
@@ -743,7 +743,7 @@ def process_document_qwen(
     if "sample_queries" in analysis:
         print(f"  • Sample Queries: {len(analysis['sample_queries'])} generated")
     if audit_result:
-        status = "✅ PASSED" if audit_result.passed else "❌ FAILED"
+        status = "[OK] PASSED" if audit_result.passed else "[FAIL] FAILED"
         print(f"  • Audit: {status}")
     
     return extracted_data, analysis

@@ -188,7 +188,7 @@ def main():
     # 5. Audit Result (if available)
     if "audit" in analysis:
         audit = analysis["audit"]
-        status = "✅ PASSED" if audit.get("passed") else "❌ FAILED"
+        status = "[OK] PASSED" if audit.get("passed") else "[FAIL] FAILED"
         print(f"\n5. AUDIT VERIFICATION: {status}")
         print(f"   Source rows: {audit.get('source_rows', 'N/A')}")
         print(f"   JSON rows: {audit.get('json_rows', 'N/A')}")
@@ -197,7 +197,7 @@ def main():
         if audit.get("warnings"):
             print("   Warnings:")
             for warning in audit["warnings"]:
-                print(f"     ⚠️  {warning}")
+                print(f"     [WARNING]  {warning}")
     
     print("\n" + "=" * 60)
     print("DONE")

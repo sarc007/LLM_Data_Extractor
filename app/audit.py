@@ -80,7 +80,7 @@ class AuditResult:
     
     def print_report(self):
         """Print a formatted audit report."""
-        status = "✅ PASSED" if self.passed else "❌ FAILED"
+        status = "[OK] PASSED" if self.passed else "[FAIL] FAILED"
         print(f"\n{'='*60}")
         print(f"AUDIT REPORT - {status}")
         print(f"{'='*60}")
@@ -88,21 +88,21 @@ class AuditResult:
         print(f"JSON: {self.json_file}")
         print(f"Time: {self.timestamp}")
         
-        print(f"\n{'─'*40}")
+        print(f"\n{'-'*40}")
         print("SUMMARY")
-        print(f"{'─'*40}")
+        print(f"{'-'*40}")
         
-        row_status = "✅" if self.source_row_count == self.json_row_count else "❌"
+        row_status = "[OK]" if self.source_row_count == self.json_row_count else "[FAIL]"
         print(f"  Rows:    {self.source_row_count:>6} source vs {self.json_row_count:>6} json {row_status}")
         
-        col_status = "✅" if self.source_column_count == self.json_column_count else "❌"
+        col_status = "[OK]" if self.source_column_count == self.json_column_count else "[FAIL]"
         print(f"  Columns: {self.source_column_count:>6} source vs {self.json_column_count:>6} json {col_status}")
         
-        sheet_status = "✅" if self.source_sheet_count == self.json_sheet_count else "❌"
+        sheet_status = "[OK]" if self.source_sheet_count == self.json_sheet_count else "[FAIL]"
         print(f"  Sheets:  {self.source_sheet_count:>6} source vs {self.json_sheet_count:>6} json {sheet_status}")
         
         numeric_diff = abs(self.source_numeric_sum - self.json_numeric_sum)
-        numeric_status = "✅" if numeric_diff < 0.01 else "❌"
+        numeric_status = "[OK]" if numeric_diff < 0.01 else "[FAIL]"
         print(f"\n  Numeric Sum: {self.source_numeric_sum:,.2f} source")
         print(f"               {self.json_numeric_sum:,.2f} json {numeric_status}")
         if numeric_diff >= 0.01:
@@ -111,45 +111,45 @@ class AuditResult:
         print(f"  Numeric Values: {self.source_numeric_count} source vs {self.json_numeric_count} json")
         
         if self.missing_sheets:
-            print(f"\n{'─'*40}")
+            print(f"\n{'-'*40}")
             print("MISSING SHEETS")
-            print(f"{'─'*40}")
+            print(f"{'-'*40}")
             for sheet in self.missing_sheets:
-                print(f"  ❌ {sheet}")
+                print(f"  [FAIL] {sheet}")
         
         if self.missing_columns:
-            print(f"\n{'─'*40}")
+            print(f"\n{'-'*40}")
             print("MISSING COLUMNS")
-            print(f"{'─'*40}")
+            print(f"{'-'*40}")
             for sheet, cols in self.missing_columns.items():
                 print(f"  Sheet '{sheet}':")
                 for col in cols[:10]:
-                    print(f"    ❌ {col}")
+                    print(f"    [FAIL] {col}")
                 if len(cols) > 10:
                     print(f"    ... and {len(cols) - 10} more")
         
         if self.row_count_mismatches:
-            print(f"\n{'─'*40}")
+            print(f"\n{'-'*40}")
             print("ROW COUNT MISMATCHES")
-            print(f"{'─'*40}")
+            print(f"{'-'*40}")
             for sheet, (source, json_count) in self.row_count_mismatches.items():
                 diff = source - json_count
-                print(f"  Sheet '{sheet}': {source} source → {json_count} json (missing {diff})")
+                print(f"  Sheet '{sheet}': {source} source -> {json_count} json (missing {diff})")
         
         if self.numeric_mismatches:
-            print(f"\n{'─'*40}")
+            print(f"\n{'-'*40}")
             print(f"NUMERIC MISMATCHES (showing first 10 of {len(self.numeric_mismatches)})")
-            print(f"{'─'*40}")
+            print(f"{'-'*40}")
             for mismatch in self.numeric_mismatches[:10]:
                 print(f"  {mismatch.get('location', 'unknown')}: "
-                      f"{mismatch.get('source_value', 'N/A')} → {mismatch.get('json_value', 'N/A')}")
+                      f"{mismatch.get('source_value', 'N/A')} -> {mismatch.get('json_value', 'N/A')}")
         
         if self.warnings:
-            print(f"\n{'─'*40}")
+            print(f"\n{'-'*40}")
             print("WARNINGS")
-            print(f"{'─'*40}")
+            print(f"{'-'*40}")
             for warning in self.warnings:
-                print(f"  ⚠️  {warning}")
+                print(f"  [WARNING]  {warning}")
         
         print(f"\n{'='*60}\n")
 
