@@ -238,7 +238,7 @@ async def execute_processing(
     db: Session = Depends(get_db),
     _=Depends(require_login),
 ):
-    """Execute the actual processing for a job."""
+    """Execute the actual processing for a job in background thread."""
     data = await request.json()
     upload_path = data.get("upload_path")
     filename = data.get("filename")
@@ -248,7 +248,10 @@ async def execute_processing(
     convert_pdf = data.get("convert_pdf", False)
     
     try:
-        extracted_data, analysis = process_document_qwen(
+        # Run in background thread to not block SSE event loop
+        import asyncio
+        extracted_data, analysis = await asyncio.to_thread(
+            process_document_qwen,
             upload_path,
             convert_to_pdf_first=convert_pdf,
             iterations=iterations,
