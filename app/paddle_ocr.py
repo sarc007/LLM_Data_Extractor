@@ -489,6 +489,78 @@ def extract_pdf_with_tesseract(pdf_path: str, dpi: int = 200) -> OCRResult:
     )
 
 
+def extract_pdf_pages_separately(pdf_path: str, dpi: int = 200) -> List[Dict[str, Any]]:
+    """
+    Extract OCR text from each page separately.
+    Returns list of page results for page-by-page LLM processing.
+    
+    Args:
+        pdf_path: Path to PDF file
+        dpi: DPI for conversion
+    
+    Returns:
+        List of dicts with page_num, text, char_count for each page
+    """
+    print(f"[OCR] Extracting pages from: {pdf_path}")
+    
+    if not TESSERACT_AVAILABLE and not PADDLEOCR_AVAILABLE:
+        raise ImportError("No OCR engine available")
+    
+    convert_from_path = _get_pdf2image()
+    poppler_path = _find_poppler_path()
+    
+    if poppler_path:
+        print(f"[OCR] Using poppler: {poppler_path}")
+    
+    print(f"[OCR] Converting PDF to images (DPI={dpi})...")
+    
+    try:
+        images = convert_from_path(pdf_path, dpi=dpi, poppler_path=poppler_path)
+    except Exception as e:
+        if "poppler" in str(e).lower():
+            raise RuntimeError(f"Poppler required: {e}")
+        raise
+    
+    total_pages = len(images)
+    print(f"[OCR] Found {total_pages} page(s)")
+    
+    page_results: List[Dict[str, Any]] = []
+    
+    for i, image in enumerate(images):
+        page_num = i + 1
+        print(f"[OCR] Page {page_num}/{total_pages}: Extracting text...")
+        
+        if TESSERACT_AVAILABLE:
+            pytesseract = _get_tesseract()
+            text = pytesseract.image_to_string(image)
+        else:
+            # PaddleOCR fallback
+            import tempfile
+            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                image.save(tmp.name, 'PNG')
+                ocr = _get_paddleocr()
+                result = ocr.ocr(tmp.name, cls=True)
+                if result and result[0]:
+                    text = "\n".join([line[1][0] for line in result[0] if line[1]])
+                else:
+                    text = ""
+                os.unlink(tmp.name)
+        
+        char_count = len(text)
+        print(f"[OCR] Page {page_num}/{total_pages}: {char_count} chars extracted")
+        
+        page_results.append({
+            "page_num": page_num,
+            "text": text,
+            "char_count": char_count
+        })
+    
+    total_chars = sum(p["char_count"] for p in page_results)
+    print(f"[OCR] Complete: {total_pages} pages, {total_chars} total chars")
+    
+    return page_results
+
+
 def get_ocr_text_for_llm(pdf_path: str, dpi: int = 200) -> str:
     """
     Get OCR-extracted text formatted for LLM processing.

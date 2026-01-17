@@ -25,7 +25,13 @@ from ollama import Client
 PADDLEOCR_AVAILABLE = False
 OCR_AVAILABLE = False
 try:
-    from app.paddle_ocr import get_ocr_text_for_llm, hybrid_pdf_extraction, OCR_AVAILABLE, TESSERACT_AVAILABLE
+    from app.paddle_ocr import (
+        get_ocr_text_for_llm, 
+        hybrid_pdf_extraction, 
+        extract_pdf_pages_separately,
+        OCR_AVAILABLE, 
+        TESSERACT_AVAILABLE
+    )
     PADDLEOCR_AVAILABLE = OCR_AVAILABLE  # For backward compatibility
 except ImportError:
     pass
@@ -513,10 +519,201 @@ Output ONLY valid JSON. Start with {{ and end with }}."""
 # MAIN PIPELINE
 # =========================
 
+def structure_single_page(page_text: str, page_num: int, total_pages: int, iterations: int = 5) -> Dict[str, Any]:
+    """
+    Structure a single page's OCR text to JSON with iterative verification.
+    
+    Args:
+        page_text: OCR-extracted text from one page
+        page_num: Current page number
+        total_pages: Total number of pages
+        iterations: Number of verification iterations (default 5)
+    
+    Returns:
+        Structured JSON for this page
+    """
+    print(f"\n{'='*60}")
+    print(f"[PAGE {page_num}/{total_pages}] Processing...")
+    print(f"{'='*60}")
+    
+    if not page_text.strip():
+        print(f"  [SKIP] Page {page_num} is empty")
+        return {"page": page_num, "data": None, "status": "empty"}
+    
+    # Initial structuring
+    print(f"  [ITER 1/{iterations}] Initial structuring...")
+    prompt = _build_ocr_to_json_prompt(page_text)
+    response = _call_qwen(prompt)
+    
+    try:
+        current_json = _extract_json_from_text(response)
+        print(f"    [OK] Structured {len(json.dumps(current_json))} chars")
+    except Exception as e:
+        print(f"    [FAIL] Parse error: {e}")
+        return {"page": page_num, "raw_text": page_text, "error": str(e), "status": "failed"}
+    
+    # Verification iterations (2 through N)
+    for i in range(2, iterations + 1):
+        print(f"  [ITER {i}/{iterations}] Verifying completeness...")
+        
+        prompt = f"""You are verifying OCR-extracted text was properly converted to JSON.
+
+PAGE {page_num} OCR TEXT:
+{page_text}
+
+CURRENT JSON:
+{json.dumps(current_json, indent=2)}
+
+TASK:
+1. Check if ALL data from the OCR text is in the JSON
+2. If ANYTHING is missing, add it
+3. If ANYTHING is wrong, fix it
+4. Return the complete, corrected JSON
+
+Output ONLY valid JSON. Start with {{ and end with }}."""
+        
+        try:
+            response = _call_qwen(prompt)
+            new_json = _extract_json_from_text(response)
+            
+            old_size = len(json.dumps(current_json))
+            new_size = len(json.dumps(new_json))
+            
+            if new_size > old_size:
+                print(f"    [OK] Found missing data (+{new_size - old_size} chars)")
+                current_json = new_json
+            elif new_size < old_size - 100:
+                print(f"    [WARN] Data loss detected, keeping previous")
+            else:
+                print(f"    [OK] Verified complete")
+                current_json = new_json
+        except Exception as e:
+            print(f"    [WARN] Iteration {i} failed: {e}")
+    
+    # Show the extracted JSON for this page
+    print(f"\n  [PAGE {page_num} JSON OUTPUT]")
+    print("-" * 50)
+    print(json.dumps(current_json, indent=2)[:2000])  # First 2000 chars
+    if len(json.dumps(current_json)) > 2000:
+        print(f"  ... (truncated, total {len(json.dumps(current_json))} chars)")
+    print("-" * 50)
+    print(f"  [DONE] Page {page_num} complete: {len(json.dumps(current_json))} chars\n")
+    
+    return {"page": page_num, "data": current_json, "status": "success"}
+
+
+def process_pdf_page_by_page(
+    pdf_path: str, 
+    dpi: int = 200, 
+    iterations_per_page: int = 5
+) -> Dict[str, Any]:
+    """
+    Process PDF page-by-page: OCR each page, LLM structures each, then combine.
+    
+    Args:
+        pdf_path: Path to PDF file
+        dpi: DPI for OCR conversion
+        iterations_per_page: Verification iterations per page (default 5)
+    
+    Returns:
+        Combined JSON from all pages
+    """
+    print("\n" + "="*60)
+    print("[PAGE-BY-PAGE PROCESSING]")
+    print("="*60)
+    
+    # Step 1: Extract all pages with OCR
+    print("\n[STEP 1] OCR Extraction...")
+    page_results = extract_pdf_pages_separately(pdf_path, dpi=dpi)
+    total_pages = len(page_results)
+    
+    # Step 2: Process each page with LLM (5 iterations each)
+    print(f"\n[STEP 2] LLM Structuring ({total_pages} pages, {iterations_per_page} iterations each)...")
+    
+    all_page_json: List[Dict[str, Any]] = []
+    
+    for page_data in page_results:
+        page_num = page_data["page_num"]
+        page_text = page_data["text"]
+        
+        page_json = structure_single_page(
+            page_text, 
+            page_num, 
+            total_pages, 
+            iterations=iterations_per_page
+        )
+        all_page_json.append(page_json)
+    
+    # Step 3: Combine all pages
+    print("\n" + "="*60)
+    print("[STEP 3] Combining all pages...")
+    print("="*60)
+    
+    combined_data: Dict[str, Any] = {
+        "source_file": os.path.basename(pdf_path),
+        "total_pages": total_pages,
+        "extraction_method": "ocr_page_by_page",
+        "pages": {}
+    }
+    
+    successful_pages = 0
+    for page_result in all_page_json:
+        page_num = page_result["page"]
+        status = page_result.get("status", "unknown")
+        
+        if status == "success" and page_result.get("data"):
+            combined_data["pages"][f"page_{page_num}"] = page_result["data"]
+            successful_pages += 1
+            print(f"  Page {page_num}: {len(json.dumps(page_result['data']))} chars [OK]")
+        elif status == "empty":
+            combined_data["pages"][f"page_{page_num}"] = {"note": "Empty page"}
+            print(f"  Page {page_num}: EMPTY [SKIP]")
+        else:
+            combined_data["pages"][f"page_{page_num}"] = {
+                "error": page_result.get("error", "Unknown error"),
+                "raw_text": page_result.get("raw_text", "")[:500]
+            }
+            print(f"  Page {page_num}: FAILED - {page_result.get('error', 'Unknown')}")
+    
+    print(f"\n  [OK] Combined {successful_pages}/{total_pages} pages successfully")
+    
+    # Step 4: Final verification pass to merge/deduplicate
+    print("\n[STEP 4] Final merge verification...")
+    
+    merge_prompt = f"""You have structured data from {total_pages} pages of a document.
+Merge them into a single clean JSON structure, removing duplicates and organizing logically.
+
+PAGE DATA:
+{json.dumps(combined_data["pages"], indent=2)}
+
+TASK:
+1. Merge all page data into one cohesive structure
+2. Remove any duplicate entries
+3. Organize by logical categories (e.g., profit_loss, balance_sheet, ratios)
+4. Keep ALL unique data - do not lose anything
+
+Output ONLY valid JSON. Start with {{ and end with }}."""
+    
+    try:
+        response = _call_qwen(merge_prompt)
+        merged_json = _extract_json_from_text(response)
+        combined_data["merged_data"] = merged_json
+        print(f"  [OK] Merged into {len(json.dumps(merged_json))} chars")
+    except Exception as e:
+        print(f"  [WARN] Merge failed: {e}, using page-by-page data")
+        combined_data["merged_data"] = combined_data["pages"]
+    
+    print("\n" + "="*60)
+    print(f"[COMPLETE] {total_pages} pages processed")
+    print("="*60)
+    
+    return combined_data.get("merged_data", combined_data)
+
+
 def structure_ocr_to_json(ocr_text: str, iterations: int = 3) -> Dict[str, Any]:
     """
-    Convert OCR-extracted text to structured JSON.
-    OCR has already done the extraction - LLM just structures it.
+    Convert OCR-extracted text to structured JSON (legacy single-call method).
+    For multi-page PDFs, use process_pdf_page_by_page instead.
     """
     print(f"\n[STRUCTURING] Converting OCR text to JSON ({iterations} verification passes)...")
     
@@ -767,19 +964,50 @@ def process_document_qwen(
         if file_type == "pdf":
             # Try PaddleOCR if enabled and available
             if use_paddleocr and PADDLEOCR_AVAILABLE:
-                print(f"  -> Using PaddleOCR (DPI={ocr_dpi})...")
-                extraction_method = "paddleocr"
+                print(f"  -> Using OCR with PAGE-BY-PAGE processing")
+                print(f"  -> DPI: {ocr_dpi}, Iterations per page: {iterations}")
+                extraction_method = "ocr_page_by_page"
                 try:
-                    doc_text = get_ocr_text_for_llm(document_path, dpi=ocr_dpi)
-                    print(f"  -> PaddleOCR extracted {len(doc_text)} characters")
+                    # Use page-by-page processing with 5 iterations per page
+                    extracted_data = process_pdf_page_by_page(
+                        document_path, 
+                        dpi=ocr_dpi, 
+                        iterations_per_page=iterations
+                    )
+                    analysis = analyze_extracted_data(extracted_data)
+                    
+                    # Skip the rest of the else block
+                    if audit_result:
+                        analysis["audit"] = {
+                            "passed": audit_result.passed,
+                            "source_rows": audit_result.source_row_count,
+                            "json_rows": audit_result.json_row_count,
+                            "source_numeric_sum": round(audit_result.source_numeric_sum, 2),
+                            "json_numeric_sum": round(audit_result.json_numeric_sum, 2),
+                            "warnings": audit_result.warnings,
+                        }
+                    
+                    print("\n" + "=" * 60)
+                    print("[OK] PROCESSING COMPLETE")
+                    print("=" * 60)
+                    print(f"\n[SUMMARY]")
+                    print(f"  - Extraction Method: {extraction_method}")
+                    if "data_type" in analysis:
+                        dt = analysis["data_type"]
+                        print(f"  - Data Type: {dt.get('primary_type', 'unknown')} (confidence: {dt.get('confidence', 0):.0%})")
+                    if "sample_queries" in analysis:
+                        print(f"  - Sample Queries: {len(analysis['sample_queries'])} generated")
+                    
+                    return extracted_data, analysis
+                    
                 except Exception as e:
-                    print(f"  [WARNING]  PaddleOCR failed: {e}")
+                    print(f"  [WARNING] OCR page-by-page failed: {e}")
                     print("  -> Falling back to pdfplumber...")
                     doc_text = _load_pdf_text(document_path)
                     extraction_method = "pdfplumber"
             elif use_paddleocr and not PADDLEOCR_AVAILABLE:
-                print("  [WARNING]  PaddleOCR requested but not installed")
-                print("  -> Install with: pip install paddleocr paddlepaddle pdf2image")
+                print("  [WARNING] OCR requested but not installed")
+                print("  -> Install: pip install pytesseract pdf2image")
                 doc_text = _load_pdf_text(document_path)
                 extraction_method = "pdfplumber"
             else:
@@ -796,14 +1024,8 @@ def process_document_qwen(
         
         print(f"  -> Loaded {len(doc_text)} characters via {extraction_method}")
         
-        # For OCR-extracted PDFs: LLM just structures data into JSON (OCR already did extraction)
-        # For other cases: LLM extracts and structures
-        if extraction_method == "paddleocr":
-            # OCR already extracted the data - LLM just structures it
-            extracted_data = structure_ocr_to_json(doc_text, iterations=min(iterations, 3))
-        else:
-            # LLM needs to extract data from text
-            extracted_data = extract_with_iterations(doc_text, iterations)
+        # LLM extraction for non-OCR cases
+        extracted_data = extract_with_iterations(doc_text, iterations)
         
         # Analyze extracted data
         analysis = analyze_extracted_data(extracted_data)
