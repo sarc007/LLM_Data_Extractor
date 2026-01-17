@@ -519,7 +519,7 @@ Output ONLY valid JSON. Start with {{ and end with }}."""
 # MAIN PIPELINE
 # =========================
 
-def structure_single_page(page_text: str, page_num: int, total_pages: int, iterations: int = 5) -> Dict[str, Any]:
+def structure_single_page(page_text: str, page_num: int, total_pages: int, iterations: int = 5, job_id: str = None) -> Dict[str, Any]:
     """
     Structure a single page's OCR text to JSON with iterative verification.
     
@@ -536,12 +536,22 @@ def structure_single_page(page_text: str, page_num: int, total_pages: int, itera
     print(f"[PAGE {page_num}/{total_pages}] Processing...")
     print(f"{'='*60}")
     
+    # Import progress tracker if job_id provided
+    if job_id:
+        from app.progress import update_progress
+        update_progress(job_id, current_page=page_num, current_iteration=0, 
+                       message=f"Processing page {page_num}/{total_pages}")
+    
     if not page_text.strip():
         print(f"  [SKIP] Page {page_num} is empty")
+        if job_id:
+            update_progress(job_id, message=f"Page {page_num} is empty - skipping")
         return {"page": page_num, "data": None, "status": "empty"}
     
     # Initial structuring
     print(f"  [ITER 1/{iterations}] Initial structuring...")
+    if job_id:
+        update_progress(job_id, current_iteration=1, message=f"Page {page_num}: Initial structuring...")
     prompt = _build_ocr_to_json_prompt(page_text)
     response = _call_qwen(prompt)
     
@@ -555,6 +565,8 @@ def structure_single_page(page_text: str, page_num: int, total_pages: int, itera
     # Verification iterations (2 through N)
     for i in range(2, iterations + 1):
         print(f"  [ITER {i}/{iterations}] Verifying completeness...")
+        if job_id:
+            update_progress(job_id, current_iteration=i, message=f"Page {page_num}: Verification {i}/{iterations}")
         
         prompt = f"""You are verifying OCR-extracted text was properly converted to JSON.
 
@@ -599,13 +611,19 @@ Output ONLY valid JSON. Start with {{ and end with }}."""
     print("-" * 50)
     print(f"  [DONE] Page {page_num} complete: {len(json.dumps(current_json))} chars\n")
     
+    # Update progress with page JSON
+    if job_id:
+        update_progress(job_id, page_json=current_json, 
+                       message=f"Page {page_num} complete: {len(json.dumps(current_json))} chars")
+    
     return {"page": page_num, "data": current_json, "status": "success"}
 
 
 def process_pdf_page_by_page(
     pdf_path: str, 
     dpi: int = 200, 
-    iterations_per_page: int = 5
+    iterations_per_page: int = 5,
+    job_id: str = None
 ) -> Dict[str, Any]:
     """
     Process PDF page-by-page: OCR each page, LLM structures each, then combine.
@@ -622,13 +640,25 @@ def process_pdf_page_by_page(
     print("[PAGE-BY-PAGE PROCESSING]")
     print("="*60)
     
+    # Initialize progress tracking
+    if job_id:
+        from app.progress import update_progress
+        update_progress(job_id, status="ocr_extraction", message="Starting OCR extraction...")
+    
     # Step 1: Extract all pages with OCR
     print("\n[STEP 1] OCR Extraction...")
     page_results = extract_pdf_pages_separately(pdf_path, dpi=dpi)
     total_pages = len(page_results)
     
+    if job_id:
+        update_progress(job_id, total_pages=total_pages, total_iterations=iterations_per_page,
+                       message=f"OCR complete: {total_pages} pages extracted")
+    
     # Step 2: Process each page with LLM (5 iterations each)
     print(f"\n[STEP 2] LLM Structuring ({total_pages} pages, {iterations_per_page} iterations each)...")
+    
+    if job_id:
+        update_progress(job_id, status="llm_structuring", message=f"Processing {total_pages} pages...")
     
     all_page_json: List[Dict[str, Any]] = []
     
@@ -640,7 +670,8 @@ def process_pdf_page_by_page(
             page_text, 
             page_num, 
             total_pages, 
-            iterations=iterations_per_page
+            iterations=iterations_per_page,
+            job_id=job_id
         )
         all_page_json.append(page_json)
     
@@ -677,6 +708,9 @@ def process_pdf_page_by_page(
     
     print(f"\n  [OK] Combined {successful_pages}/{total_pages} pages successfully")
     
+    if job_id:
+        update_progress(job_id, status="merging", message="Merging all pages into final JSON...")
+    
     # Step 4: Final verification pass to merge/deduplicate
     print("\n[STEP 4] Final merge verification...")
     
@@ -706,6 +740,10 @@ Output ONLY valid JSON. Start with {{ and end with }}."""
     print("\n" + "="*60)
     print(f"[COMPLETE] {total_pages} pages processed")
     print("="*60)
+    
+    if job_id:
+        update_progress(job_id, status="complete", completed=True,
+                       message=f"Complete: {total_pages} pages processed successfully")
     
     return combined_data.get("merged_data", combined_data)
 
@@ -880,7 +918,8 @@ def process_document_qwen(
     use_direct_extraction: bool = True,
     use_paddleocr: bool = False,
     run_audit: bool = True,
-    ocr_dpi: int = 200
+    ocr_dpi: int = 200,
+    job_id: str = None
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
     Main pipeline function for Qwen3 480B processing.
@@ -972,7 +1011,8 @@ def process_document_qwen(
                     extracted_data = process_pdf_page_by_page(
                         document_path, 
                         dpi=ocr_dpi, 
-                        iterations_per_page=iterations
+                        iterations_per_page=iterations,
+                        job_id=job_id
                     )
                     analysis = analyze_extracted_data(extracted_data)
                     

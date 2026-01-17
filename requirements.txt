@@ -17,3 +17,6 @@ paddleocr
 paddlepaddle
 pdf2image
 ollama
+sse-starlette
+pytesseract
+psycopg2-binary

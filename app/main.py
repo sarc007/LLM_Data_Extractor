@@ -2,9 +2,12 @@ import os
 import uuid
 import json
 import shutil
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
-from fastapi import FastAPI, UploadFile, Form, Depends, Request
+from fastapi import FastAPI, UploadFile, Form, Depends, Request, BackgroundTasks
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
+from sse_starlette.sse import EventSourceResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
@@ -19,6 +22,7 @@ from .models import Upload
 from .pipeline import process_document
 from .qwen_pipeline import process_document_qwen
 from .auth import require_login, login_user, AUTH_ENABLED
+from .progress import create_tracker, get_tracker, update_progress, generate_progress_events, cleanup_tracker
 
 from sqlalchemy.orm import Session
 
@@ -181,6 +185,136 @@ async def process_file_qwen(
             "json_data": json_result,
         },
     )
+
+
+# Thread pool for background processing
+executor = ThreadPoolExecutor(max_workers=2)
+
+
+@app.get("/progress/{job_id}")
+async def progress_stream(job_id: str):
+    """SSE endpoint for real-time progress updates."""
+    return EventSourceResponse(generate_progress_events(job_id))
+
+
+@app.post("/process-qwen-async")
+async def process_file_qwen_async(
+    request: Request,
+    file: UploadFile,
+    iterations: int = Form(5),
+    convert_pdf: bool = Form(False),
+    use_paddleocr: bool = Form(True),
+    ocr_dpi: int = Form(200),
+    db: Session = Depends(get_db),
+    _=Depends(require_login),
+):
+    """Start async processing and return job_id for progress tracking."""
+    uid = str(uuid.uuid4())
+    filename = f"{uid}_{file.filename}"
+    upload_path = os.path.join("uploads", filename)
+    
+    with open(upload_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    # Create progress tracker
+    create_tracker(uid)
+    update_progress(uid, status="starting", message="Processing started...")
+    
+    # Return job_id immediately for SSE tracking
+    return JSONResponse({
+        "job_id": uid,
+        "filename": file.filename,
+        "upload_path": upload_path,
+        "iterations": iterations,
+        "use_paddleocr": use_paddleocr,
+        "ocr_dpi": ocr_dpi
+    })
+
+
+@app.post("/process-qwen-execute/{job_id}")
+async def execute_processing(
+    job_id: str,
+    request: Request,
+    db: Session = Depends(get_db),
+    _=Depends(require_login),
+):
+    """Execute the actual processing for a job."""
+    data = await request.json()
+    upload_path = data.get("upload_path")
+    filename = data.get("filename")
+    iterations = data.get("iterations", 5)
+    use_paddleocr = data.get("use_paddleocr", True)
+    ocr_dpi = data.get("ocr_dpi", 200)
+    convert_pdf = data.get("convert_pdf", False)
+    
+    try:
+        extracted_data, analysis = process_document_qwen(
+            upload_path,
+            convert_to_pdf_first=convert_pdf,
+            iterations=iterations,
+            use_paddleocr=use_paddleocr,
+            run_audit=True,
+            ocr_dpi=ocr_dpi,
+            job_id=job_id  # Pass job_id for progress tracking
+        )
+        
+        json_result = {
+            "extracted_data": extracted_data,
+            "analysis": analysis,
+            "metadata": {
+                "source_file": filename,
+                "model": "qwen3-coder:480b-cloud",
+                "iterations": iterations
+            }
+        }
+        model_used = "qwen3-coder:480b-cloud"
+        
+        # Save JSON to processed/
+        json_path = os.path.join("processed", f"{job_id}.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(json_result, f, ensure_ascii=False, indent=2)
+        
+        # Insert into SQLite DB
+        upload = Upload(
+            id=job_id,
+            filename=filename,
+            original_path=upload_path,
+            json_path=json_path,
+            model_used=model_used,
+        )
+        db.add(upload)
+        db.commit()
+        
+        # Save to PostgreSQL for querying
+        try:
+            from app.postgres_engine import get_connection
+            from psycopg2.extras import Json
+            conn = get_connection()
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO source_files (file_name, file_type, company_name, data_type, raw_json)
+                VALUES (%s, %s, %s, %s, %s)
+                ON CONFLICT (file_name) DO UPDATE SET raw_json = EXCLUDED.raw_json, loaded_at = CURRENT_TIMESTAMP
+            """, (filename, 'pdf', filename.replace('.pdf', ''), 
+                  analysis.get('data_type', {}).get('primary_type', 'Unknown'),
+                  Json(json_result)))
+            conn.commit()
+            cursor.close()
+            conn.close()
+            print(f"[OK] Saved to PostgreSQL: {filename}")
+        except Exception as pg_err:
+            print(f"[WARN] PostgreSQL save failed: {pg_err}")
+        
+        update_progress(job_id, completed=True, message="Processing complete!")
+        cleanup_tracker(job_id)
+        
+        return JSONResponse({"success": True, "upload_id": job_id})
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        update_progress(job_id, error=str(e), message=f"Error: {e}")
+        return JSONResponse({"success": False, "error": str(e)}, status_code=500)
 
 
 @app.get("/history", response_class=HTMLResponse)
