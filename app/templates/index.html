@@ -176,11 +176,14 @@ function connectProgress(jobId, jobData) {
 
 // Prevent htmx swap for async endpoint - handle manually
 document.body.addEventListener('htmx:beforeSwap', function(evt) {
-    const form = evt.detail.elt;
-    if (form.id === 'upload-form' && form.getAttribute('hx-post') === '/process-qwen-async') {
+    const url = evt.detail.pathInfo?.requestPath || evt.detail.xhr?.responseURL || '';
+    console.log('htmx:beforeSwap URL:', url, 'Response:', evt.detail.xhr?.responseText?.substring(0, 100));
+    
+    if (url.includes('/process-qwen-async')) {
         evt.detail.shouldSwap = false;  // Don't render JSON to result-container
         try {
             const resp = JSON.parse(evt.detail.xhr.responseText);
+            console.log('Parsed async response:', resp);
             if (resp.job_id) {
                 document.getElementById('result-container').innerHTML = '';
                 document.getElementById('progress-container').classList.remove('hidden');
