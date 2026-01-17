@@ -21,11 +21,12 @@ import pandas as pd
 import pdfplumber
 from ollama import Client
 
-# Optional PaddleOCR import (lazy loaded)
+# Optional OCR import (lazy loaded) - supports Tesseract and PaddleOCR
 PADDLEOCR_AVAILABLE = False
+OCR_AVAILABLE = False
 try:
-    from app.paddle_ocr import get_ocr_text_for_llm, hybrid_pdf_extraction
-    PADDLEOCR_AVAILABLE = True
+    from app.paddle_ocr import get_ocr_text_for_llm, hybrid_pdf_extraction, OCR_AVAILABLE, TESSERACT_AVAILABLE
+    PADDLEOCR_AVAILABLE = OCR_AVAILABLE  # For backward compatibility
 except ImportError:
     pass
 

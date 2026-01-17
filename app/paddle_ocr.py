@@ -1,8 +1,12 @@
 """
-PaddleOCR Integration for PDF Extraction
+OCR Integration for PDF Extraction
 
 Provides OCR-based text and table extraction from PDFs,
 especially useful for scanned documents and complex table layouts.
+
+Supports:
+- Tesseract OCR (pytesseract) - works with Python 3.14+
+- PaddleOCR (fallback if available)
 """
 
 import os
@@ -12,29 +16,65 @@ from typing import Dict, Any, List, Tuple, Optional
 from dataclasses import dataclass, field
 
 # Lazy imports to avoid loading heavy libraries until needed
-_paddle_ocr = None
+_ocr_engine = None
 _pdf2image = None
 
-# Check if PaddleOCR is available (for external checks)
+# Check which OCR engine is available
+TESSERACT_AVAILABLE = False
 PADDLEOCR_AVAILABLE = False
+
+try:
+    import pytesseract
+    # Configure Tesseract path for Windows
+    tesseract_paths = [
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+        os.path.expanduser(r"~\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"),
+    ]
+    for path in tesseract_paths:
+        if os.path.exists(path):
+            pytesseract.pytesseract.tesseract_cmd = path
+            break
+    TESSERACT_AVAILABLE = True
+except ImportError:
+    pass
+
 try:
     import paddleocr
     PADDLEOCR_AVAILABLE = True
 except ImportError:
     pass
 
+# Use Tesseract if available (more compatible), else PaddleOCR
+OCR_AVAILABLE = TESSERACT_AVAILABLE or PADDLEOCR_AVAILABLE
+
+
+def _get_tesseract():
+    """Get Tesseract OCR engine."""
+    try:
+        import pytesseract
+        # Test if tesseract is installed
+        pytesseract.get_tesseract_version()
+        return pytesseract
+    except Exception as e:
+        raise ImportError(
+            f"Tesseract OCR not available: {e}\n"
+            "Install Tesseract: https://github.com/UB-Mannheim/tesseract/wiki\n"
+            "Then: pip install pytesseract"
+        )
+
 
 def _get_paddleocr():
     """Lazy load PaddleOCR."""
-    global _paddle_ocr
-    if _paddle_ocr is None:
+    global _ocr_engine
+    if _ocr_engine is None:
         try:
             from paddleocr import PaddleOCR
-            _paddle_ocr = PaddleOCR(
+            _ocr_engine = PaddleOCR(
                 use_angle_cls=True,
                 lang='en',
                 show_log=False,
-                use_gpu=False,  # Set to True if GPU available
+                use_gpu=False,
                 det_db_thresh=0.3,
                 det_db_box_thresh=0.5,
             )
@@ -42,7 +82,7 @@ def _get_paddleocr():
             raise ImportError(
                 "PaddleOCR not installed. Run: pip install paddleocr paddlepaddle"
             )
-    return _paddle_ocr
+    return _ocr_engine
 
 
 def _get_pdf2image():
@@ -390,9 +430,69 @@ def extract_pdf_to_structured_json(
     }
 
 
+def extract_pdf_with_tesseract(pdf_path: str, dpi: int = 200) -> OCRResult:
+    """
+    Extract text from PDF using Tesseract OCR.
+    
+    Args:
+        pdf_path: Path to PDF file
+        dpi: DPI for PDF to image conversion
+    
+    Returns:
+        OCRResult with extracted text
+    """
+    print(f"[Tesseract] Processing PDF: {pdf_path}")
+    
+    pytesseract = _get_tesseract()
+    convert_from_path = _get_pdf2image()
+    
+    # Find poppler path for Windows
+    poppler_path = _find_poppler_path()
+    if poppler_path:
+        print(f"[Tesseract] Using poppler from: {poppler_path}")
+    
+    print(f"[Tesseract] Converting PDF to images (DPI={dpi})...")
+    
+    try:
+        images = convert_from_path(pdf_path, dpi=dpi, poppler_path=poppler_path)
+    except Exception as e:
+        if "poppler" in str(e).lower() or "pdftoppm" in str(e).lower():
+            raise RuntimeError(
+                f"Failed to convert PDF: {e}\n\n"
+                "Poppler is required. Install from:\n"
+                "https://github.com/oschwartz10612/poppler-windows/releases"
+            )
+        raise RuntimeError(f"Failed to convert PDF: {e}")
+    
+    print(f"[Tesseract] Found {len(images)} page(s)")
+    
+    all_text_parts = []
+    
+    for i, image in enumerate(images):
+        page_num = i + 1
+        print(f"[Tesseract] Processing page {page_num}/{len(images)}...")
+        
+        # Run Tesseract OCR
+        text = pytesseract.image_to_string(image)
+        all_text_parts.append(f"--- PAGE {page_num} ---\n{text}")
+    
+    full_text = "\n\n".join(all_text_parts)
+    
+    print(f"[Tesseract] Extraction complete: {len(full_text)} chars")
+    
+    return OCRResult(
+        text=full_text,
+        tables=[],
+        raw_boxes=[],
+        page_count=len(images),
+        confidence=0.9,  # Tesseract doesn't provide confidence per-page easily
+    )
+
+
 def get_ocr_text_for_llm(pdf_path: str, dpi: int = 200) -> str:
     """
     Get OCR-extracted text formatted for LLM processing.
+    Uses Tesseract if available (Python 3.14 compatible), else PaddleOCR.
     
     Args:
         pdf_path: Path to PDF file
@@ -401,7 +501,17 @@ def get_ocr_text_for_llm(pdf_path: str, dpi: int = 200) -> str:
     Returns:
         Text string suitable for LLM input
     """
-    result = extract_pdf_with_ocr(pdf_path, dpi=dpi)
+    # Use Tesseract if available (more compatible with Python 3.14)
+    if TESSERACT_AVAILABLE:
+        result = extract_pdf_with_tesseract(pdf_path, dpi=dpi)
+    elif PADDLEOCR_AVAILABLE:
+        result = extract_pdf_with_ocr(pdf_path, dpi=dpi)
+    else:
+        raise ImportError(
+            "No OCR engine available. Install one of:\n"
+            "- Tesseract: pip install pytesseract (+ install Tesseract binary)\n"
+            "- PaddleOCR: pip install paddleocr paddlepaddle"
+        )
     
     # Format text with table markers
     output_parts = [result.text]
