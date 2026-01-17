@@ -12,3 +12,8 @@ requests
 openai
 tabulate
 reportlab
+numpy
+paddleocr
+paddlepaddle
+pdf2image
+ollama

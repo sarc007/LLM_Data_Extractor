@@ -9,11 +9,16 @@ Options:
     --convert-pdf       Convert Excel/CSV to PDF before processing
     --iterations N      Number of self-check iterations (default: 5)
     --output PATH       Custom output path for results JSON
+    --paddleocr         Use PaddleOCR for PDF extraction (better for scanned docs)
+    --ocr-dpi N         DPI for OCR conversion (default: 200)
+    --no-audit          Skip audit verification for Excel/CSV
 
 Examples:
     python run_qwen_extraction.py "input/JK tyres sales.pdf"
+    python run_qwen_extraction.py "input/JK tyres sales.pdf" --paddleocr
     python run_qwen_extraction.py "data/sales.xlsx" --convert-pdf
     python run_qwen_extraction.py "data/report.csv" --iterations 3
+    python run_qwen_extraction.py "data/report.xlsx"  # auto audit enabled
 """
 
 import sys
@@ -28,7 +33,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from app.qwen_pipeline import (
     process_document_qwen,
     QWEN_MODEL,
-    OLLAMA_HOST
+    OLLAMA_HOST,
+    PADDLEOCR_AVAILABLE,
+    AUDIT_AVAILABLE
 )
 
 
@@ -57,6 +64,22 @@ def main():
         default=None,
         help="Custom output path for results JSON"
     )
+    parser.add_argument(
+        "--paddleocr",
+        action="store_true",
+        help="Use PaddleOCR for PDF extraction (better for scanned docs)"
+    )
+    parser.add_argument(
+        "--ocr-dpi",
+        type=int,
+        default=200,
+        help="DPI for OCR conversion (default: 200)"
+    )
+    parser.add_argument(
+        "--no-audit",
+        action="store_true",
+        help="Skip audit verification for Excel/CSV"
+    )
     
     args = parser.parse_args()
     
@@ -73,13 +96,20 @@ def main():
     print(f"Input: {args.file_path}")
     print(f"Iterations: {args.iterations}")
     print(f"Convert to PDF: {args.convert_pdf}")
+    print(f"PaddleOCR: {args.paddleocr} (available: {PADDLEOCR_AVAILABLE})")
+    print(f"Audit: {not args.no_audit} (available: {AUDIT_AVAILABLE})")
+    if args.paddleocr:
+        print(f"OCR DPI: {args.ocr_dpi}")
     
     # Run extraction
     try:
         extracted_data, analysis = process_document_qwen(
             args.file_path,
             convert_to_pdf_first=args.convert_pdf,
-            iterations=args.iterations
+            iterations=args.iterations,
+            use_paddleocr=args.paddleocr,
+            run_audit=not args.no_audit,
+            ocr_dpi=args.ocr_dpi
         )
     except Exception as e:
         print(f"\nError during extraction: {e}")
@@ -154,6 +184,20 @@ def main():
         print(f"\n4. SAMPLE QUERIES:")
         for i, query in enumerate(analysis["sample_queries"][:8], 1):
             print(f"   {i}. {query}")
+    
+    # 5. Audit Result (if available)
+    if "audit" in analysis:
+        audit = analysis["audit"]
+        status = "✅ PASSED" if audit.get("passed") else "❌ FAILED"
+        print(f"\n5. AUDIT VERIFICATION: {status}")
+        print(f"   Source rows: {audit.get('source_rows', 'N/A')}")
+        print(f"   JSON rows: {audit.get('json_rows', 'N/A')}")
+        print(f"   Source numeric sum: {audit.get('source_numeric_sum', 'N/A'):,.2f}")
+        print(f"   JSON numeric sum: {audit.get('json_numeric_sum', 'N/A'):,.2f}")
+        if audit.get("warnings"):
+            print("   Warnings:")
+            for warning in audit["warnings"]:
+                print(f"     ⚠️  {warning}")
     
     print("\n" + "=" * 60)
     print("DONE")

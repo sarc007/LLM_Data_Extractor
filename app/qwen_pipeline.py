@@ -6,6 +6,8 @@ This module uses Ollama's Qwen3 480B cloud model for:
 2. Document type classification
 3. Period detection and analysis
 4. Sample query generation
+5. PaddleOCR integration for scanned PDFs
+6. Data audit verification
 """
 
 import json
@@ -18,6 +20,22 @@ from datetime import datetime
 import pandas as pd
 import pdfplumber
 from ollama import Client
+
+# Optional PaddleOCR import (lazy loaded)
+PADDLEOCR_AVAILABLE = False
+try:
+    from app.paddle_ocr import get_ocr_text_for_llm, hybrid_pdf_extraction
+    PADDLEOCR_AVAILABLE = True
+except ImportError:
+    pass
+
+# Optional Audit import
+AUDIT_AVAILABLE = False
+try:
+    from app.audit import audit_extraction, AuditResult
+    AUDIT_AVAILABLE = True
+except ImportError:
+    pass
 
 # =========================
 # CONFIG
@@ -576,7 +594,10 @@ def process_document_qwen(
     document_path: str,
     convert_to_pdf_first: bool = False,
     iterations: int = 5,
-    use_direct_extraction: bool = True
+    use_direct_extraction: bool = True,
+    use_paddleocr: bool = False,
+    run_audit: bool = True,
+    ocr_dpi: int = 200
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
     Main pipeline function for Qwen3 480B processing.
@@ -586,6 +607,9 @@ def process_document_qwen(
         convert_to_pdf_first: If True, converts Excel/CSV to PDF before processing
         iterations: Number of self-check iterations (default 5)
         use_direct_extraction: If True, directly reads Excel/CSV using pandas (recommended)
+        use_paddleocr: If True, uses PaddleOCR for PDF extraction (better for scanned docs)
+        run_audit: If True, runs audit verification for Excel/CSV extractions
+        ocr_dpi: DPI for PaddleOCR conversion (default 200)
     
     Returns:
         Tuple of (extracted_data, analysis)
@@ -598,6 +622,11 @@ def process_document_qwen(
     print(f"\n[INFO] File type: {file_type}")
     print(f"[INFO] File: {document_path}")
     print(f"[INFO] Iterations: {iterations}")
+    print(f"[INFO] PaddleOCR: {'enabled' if use_paddleocr else 'disabled'}")
+    print(f"[INFO] Audit: {'enabled' if run_audit else 'disabled'}")
+    
+    audit_result = None
+    extraction_method = "pandas"
     
     # For Excel/CSV: Use direct pandas extraction (more accurate)
     if use_direct_extraction and file_type in ["excel", "csv"]:
@@ -612,6 +641,20 @@ def process_document_qwen(
         else:  # csv
             extracted_data = _load_csv_as_json(document_path)
             print(f"  → Loaded {extracted_data['sheets']['data']['row_count']} rows")
+        
+        # Run audit verification
+        if run_audit and AUDIT_AVAILABLE:
+            print("\n[AUDIT] Verifying extraction completeness...")
+            try:
+                audit_result = audit_extraction(document_path, json_data=extracted_data)
+                audit_result.print_report()
+                
+                if not audit_result.passed:
+                    print("  ⚠️  AUDIT FAILED - Some data may be missing!")
+                else:
+                    print("  ✅ AUDIT PASSED - All data verified")
+            except Exception as e:
+                print(f"  ⚠️  Audit failed: {e}")
         
         # Get text representation for LLM analysis
         if file_type == "excel":
@@ -634,16 +677,38 @@ def process_document_qwen(
         
         # Load document text
         print("\n[LOAD] Loading document content...")
+        
         if file_type == "pdf":
-            doc_text = _load_pdf_text(document_path)
+            # Try PaddleOCR if enabled and available
+            if use_paddleocr and PADDLEOCR_AVAILABLE:
+                print(f"  → Using PaddleOCR (DPI={ocr_dpi})...")
+                extraction_method = "paddleocr"
+                try:
+                    doc_text = get_ocr_text_for_llm(document_path, dpi=ocr_dpi)
+                    print(f"  → PaddleOCR extracted {len(doc_text)} characters")
+                except Exception as e:
+                    print(f"  ⚠️  PaddleOCR failed: {e}")
+                    print("  → Falling back to pdfplumber...")
+                    doc_text = _load_pdf_text(document_path)
+                    extraction_method = "pdfplumber"
+            elif use_paddleocr and not PADDLEOCR_AVAILABLE:
+                print("  ⚠️  PaddleOCR requested but not installed")
+                print("  → Install with: pip install paddleocr paddlepaddle pdf2image")
+                doc_text = _load_pdf_text(document_path)
+                extraction_method = "pdfplumber"
+            else:
+                doc_text = _load_pdf_text(document_path)
+                extraction_method = "pdfplumber"
         elif file_type == "excel":
             doc_text = _load_excel_text(document_path)
+            extraction_method = "pandas_text"
         elif file_type == "csv":
             doc_text = _load_csv_text(document_path)
+            extraction_method = "pandas_text"
         else:
             raise ValueError(f"Unsupported file type: {file_type}")
         
-        print(f"  → Loaded {len(doc_text)} characters")
+        print(f"  → Loaded {len(doc_text)} characters via {extraction_method}")
         
         # Extract data with iterations
         extracted_data = extract_with_iterations(doc_text, iterations)
@@ -651,18 +716,16 @@ def process_document_qwen(
         # Analyze extracted data
         analysis = analyze_extracted_data(extracted_data)
     
-    # Combine results
-    final_result = {
-        "extracted_data": extracted_data,
-        "analysis": analysis,
-        "metadata": {
-            "source_file": os.path.basename(document_path),
-            "file_type": file_type,
-            "extraction_iterations": iterations,
-            "model": QWEN_MODEL,
-            "processed_at": datetime.now().isoformat()
+    # Add audit result to analysis if available
+    if audit_result:
+        analysis["audit"] = {
+            "passed": audit_result.passed,
+            "source_rows": audit_result.source_row_count,
+            "json_rows": audit_result.json_row_count,
+            "source_numeric_sum": round(audit_result.source_numeric_sum, 2),
+            "json_numeric_sum": round(audit_result.json_numeric_sum, 2),
+            "warnings": audit_result.warnings,
         }
-    }
     
     print("\n" + "=" * 60)
     print("✓ PROCESSING COMPLETE")
@@ -670,6 +733,7 @@ def process_document_qwen(
     
     # Print summary
     print("\n[SUMMARY]")
+    print(f"  • Extraction Method: {extraction_method}")
     if "data_type" in analysis:
         dt = analysis["data_type"]
         print(f"  • Data Type: {dt.get('primary_type', 'unknown')} (confidence: {dt.get('confidence', 0):.0%})")
@@ -678,6 +742,9 @@ def process_document_qwen(
         print(f"  • Periods: {pa.get('number_of_periods', 0)} {pa.get('period_type', 'unknown')} periods")
     if "sample_queries" in analysis:
         print(f"  • Sample Queries: {len(analysis['sample_queries'])} generated")
+    if audit_result:
+        status = "✅ PASSED" if audit_result.passed else "❌ FAILED"
+        print(f"  • Audit: {status}")
     
     return extracted_data, analysis
 
@@ -690,11 +757,19 @@ if __name__ == "__main__":
     import sys
     
     if len(sys.argv) < 2:
-        print("Usage: python -m app.qwen_pipeline <document_path> [--convert-pdf] [--iterations N]")
+        print("Usage: python -m app.qwen_pipeline <document_path> [options]")
+        print("\nOptions:")
+        print("  --convert-pdf      Convert Excel/CSV to PDF before processing")
+        print("  --iterations N     Number of self-check iterations (default: 5)")
+        print("  --paddleocr        Use PaddleOCR for PDF extraction")
+        print("  --ocr-dpi N        DPI for OCR conversion (default: 200)")
+        print("  --no-audit         Skip audit verification")
         sys.exit(1)
     
     doc_path = sys.argv[1]
     convert_pdf = "--convert-pdf" in sys.argv
+    use_paddleocr = "--paddleocr" in sys.argv
+    run_audit = "--no-audit" not in sys.argv
     
     iterations = 5
     if "--iterations" in sys.argv:
@@ -702,10 +777,19 @@ if __name__ == "__main__":
         if idx + 1 < len(sys.argv):
             iterations = int(sys.argv[idx + 1])
     
+    ocr_dpi = 200
+    if "--ocr-dpi" in sys.argv:
+        idx = sys.argv.index("--ocr-dpi")
+        if idx + 1 < len(sys.argv):
+            ocr_dpi = int(sys.argv[idx + 1])
+    
     extracted, analysis = process_document_qwen(
         doc_path,
         convert_to_pdf_first=convert_pdf,
-        iterations=iterations
+        iterations=iterations,
+        use_paddleocr=use_paddleocr,
+        run_audit=run_audit,
+        ocr_dpi=ocr_dpi
     )
     
     # Save results
