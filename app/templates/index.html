@@ -102,6 +102,7 @@
 
 <script>
 let eventSource = null;
+let currentJobId = null;
 
 function updateFormAction() {
     const form = document.getElementById('upload-form');
@@ -109,24 +110,15 @@ function updateFormAction() {
     const qwenOptions = document.getElementById('qwen-options');
     
     if (select.value === 'qwen3-480b') {
-        form.setAttribute('hx-post', '/process-qwen');
+        form.setAttribute('hx-post', '/process-qwen-async');
         qwenOptions.classList.remove('hidden');
     } else {
         form.setAttribute('hx-post', '/process');
         qwenOptions.classList.add('hidden');
     }
     
-    // Re-process htmx attributes
     htmx.process(form);
 }
-
-// Listen for htmx request start to show progress
-document.body.addEventListener('htmx:beforeRequest', function(evt) {
-    const form = evt.detail.elt;
-    if (form.id === 'upload-form' && form.getAttribute('hx-post') === '/process-qwen') {
-        document.getElementById('progress-container').classList.remove('hidden');
-    }
-});
 
 // Update progress display
 function updateProgress(data) {
@@ -135,39 +127,66 @@ function updateProgress(data) {
     const status = document.getElementById('progress-status');
     const percent = document.getElementById('progress-percent');
     const message = document.getElementById('progress-message');
-    const pageResults = document.getElementById('page-results');
     
     container.classList.remove('hidden');
     bar.style.width = data.progress_percent + '%';
     percent.textContent = data.progress_percent + '%';
-    status.textContent = data.status || 'Processing...';
     message.textContent = data.message || '';
     
-    // Show page info
     if (data.current_page > 0) {
         status.textContent = `Page ${data.current_page}/${data.total_pages} - Iter ${data.current_iteration}/${data.total_iterations}`;
+    } else {
+        status.textContent = data.status || 'Processing...';
     }
 }
 
 // Connect to SSE for progress updates
-function connectProgress(jobId) {
+function connectProgress(jobId, jobData) {
     if (eventSource) eventSource.close();
+    currentJobId = jobId;
     
+    // Start the actual processing
+    fetch('/process-qwen-execute/' + jobId, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(jobData)
+    });
+    
+    // Connect to SSE for progress
     eventSource = new EventSource('/progress/' + jobId);
     eventSource.onmessage = function(event) {
         const data = JSON.parse(event.data);
         updateProgress(data);
         
-        if (data.completed || data.error) {
+        if (data.completed) {
             eventSource.close();
-            if (data.completed) {
-                location.reload(); // Refresh to show results
-            }
+            window.location.href = '/view/' + jobId;
+        } else if (data.error) {
+            eventSource.close();
+            alert('Error: ' + data.error);
+            location.reload();
         }
     };
     eventSource.onerror = function() {
         eventSource.close();
     };
 }
+
+// Intercept htmx response for async processing
+document.body.addEventListener('htmx:afterRequest', function(evt) {
+    const form = evt.detail.elt;
+    if (form.id === 'upload-form' && form.getAttribute('hx-post') === '/process-qwen-async') {
+        try {
+            const resp = JSON.parse(evt.detail.xhr.responseText);
+            if (resp.job_id) {
+                document.getElementById('progress-container').classList.remove('hidden');
+                document.getElementById('loading').classList.add('htmx-request');
+                connectProgress(resp.job_id, resp);
+            }
+        } catch(e) {
+            console.error('Failed to parse response', e);
+        }
+    }
+});
 </script>
 {% endblock %}
