@@ -110,6 +110,8 @@ async def process_file_qwen(
     file: UploadFile,
     iterations: int = Form(5),
     convert_pdf: bool = Form(False),
+    use_paddleocr: bool = Form(True),  # Default True for better PDF extraction
+    ocr_dpi: int = Form(200),
     db: Session = Depends(get_db),
     _=Depends(require_login),
 ):
@@ -121,12 +123,20 @@ async def process_file_qwen(
     with open(upload_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
+    # Auto-enable PaddleOCR for PDFs
+    file_ext = os.path.splitext(file.filename)[1].lower()
+    if file_ext == ".pdf" and use_paddleocr:
+        print(f"[INFO] PDF detected - using PaddleOCR for extraction")
+
     # Run Qwen pipeline
     try:
         extracted_data, analysis = process_document_qwen(
             upload_path,
             convert_to_pdf_first=convert_pdf,
-            iterations=iterations
+            iterations=iterations,
+            use_paddleocr=use_paddleocr,
+            run_audit=True,
+            ocr_dpi=ocr_dpi
         )
         
         # Combine results
