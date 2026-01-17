@@ -548,19 +548,32 @@ def structure_single_page(page_text: str, page_num: int, total_pages: int, itera
             update_progress(job_id, message=f"Page {page_num} is empty - skipping")
         return {"page": page_num, "data": None, "status": "empty"}
     
-    # Initial structuring
+    # Initial structuring with retry logic for malformed JSON
     print(f"  [ITER 1/{iterations}] Initial structuring...")
     if job_id:
         update_progress(job_id, current_iteration=1, message=f"Page {page_num}: Initial structuring...")
-    prompt = _build_ocr_to_json_prompt(page_text)
-    response = _call_qwen(prompt)
     
-    try:
-        current_json = _extract_json_from_text(response)
-        print(f"    [OK] Structured {len(json.dumps(current_json))} chars")
-    except Exception as e:
-        print(f"    [FAIL] Parse error: {e}")
-        return {"page": page_num, "raw_text": page_text, "error": str(e), "status": "failed"}
+    current_json = None
+    max_retries = 3
+    for retry in range(max_retries):
+        prompt = _build_ocr_to_json_prompt(page_text)
+        if retry > 0:
+            # Add stronger instruction on retry
+            prompt += "\n\nIMPORTANT: Your previous response had a JSON syntax error. Return ONLY valid JSON with proper commas and brackets."
+            print(f"    [RETRY {retry + 1}/{max_retries}] Requesting valid JSON...")
+        
+        response = _call_qwen(prompt)
+        
+        try:
+            current_json = _extract_json_from_text(response)
+            print(f"    [OK] Structured {len(json.dumps(current_json))} chars")
+            break  # Success - exit retry loop
+        except Exception as e:
+            if retry < max_retries - 1:
+                print(f"    [WARN] Parse error (retry {retry + 1}): {e}")
+            else:
+                print(f"    [FAIL] Parse error after {max_retries} attempts: {e}")
+                return {"page": page_num, "raw_text": page_text, "error": str(e), "status": "failed"}
     
     # Verification iterations (2 through N)
     for i in range(2, iterations + 1):
