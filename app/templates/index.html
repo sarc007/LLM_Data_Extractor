@@ -145,14 +145,7 @@ function connectProgress(jobId, jobData) {
     if (eventSource) eventSource.close();
     currentJobId = jobId;
     
-    // Start the actual processing
-    fetch('/process-qwen-execute/' + jobId, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(jobData)
-    });
-    
-    // Connect to SSE for progress
+    // Connect to SSE FIRST
     eventSource = new EventSource('/progress/' + jobId);
     eventSource.onmessage = function(event) {
         const data = JSON.parse(event.data);
@@ -168,19 +161,30 @@ function connectProgress(jobId, jobData) {
         }
     };
     eventSource.onerror = function() {
-        eventSource.close();
+        console.error('SSE error');
     };
+    
+    // Wait for SSE connection, THEN start processing
+    setTimeout(() => {
+        fetch('/process-qwen-execute/' + jobId, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(jobData)
+        });
+    }, 100);
 }
 
-// Intercept htmx response for async processing
-document.body.addEventListener('htmx:afterRequest', function(evt) {
+// Prevent htmx swap for async endpoint - handle manually
+document.body.addEventListener('htmx:beforeSwap', function(evt) {
     const form = evt.detail.elt;
     if (form.id === 'upload-form' && form.getAttribute('hx-post') === '/process-qwen-async') {
+        evt.detail.shouldSwap = false;  // Don't render JSON to result-container
         try {
             const resp = JSON.parse(evt.detail.xhr.responseText);
             if (resp.job_id) {
+                document.getElementById('result-container').innerHTML = '';
                 document.getElementById('progress-container').classList.remove('hidden');
-                document.getElementById('loading').classList.add('htmx-request');
+                document.getElementById('loading').style.display = 'block';
                 connectProgress(resp.job_id, resp);
             }
         } catch(e) {
