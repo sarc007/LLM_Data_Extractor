@@ -419,6 +419,32 @@ DOCUMENT CONTENT:
 Output ONLY valid JSON. Start with {{ and end with }}."""
 
 
+def _build_ocr_to_json_prompt(ocr_text: str) -> str:
+    """Build prompt to convert OCR-extracted text to structured JSON.
+    
+    This is used when OCR has already extracted the data - LLM just structures it.
+    """
+    return f"""You are a data structuring expert. The following text was extracted from a PDF using OCR.
+Your task is to CONVERT this already-extracted text into clean, structured JSON format.
+
+The OCR has already extracted ALL the data. You do NOT need to extract anything new.
+Just organize the existing data into proper JSON structure.
+
+OCR-EXTRACTED TEXT:
+{ocr_text}
+
+STRUCTURING REQUIREMENTS:
+1. For tabular data with periods/dates as columns:
+   "metric_name": [{{"period": "Mar-16", "value": 1234.56}}, {{"period": "Mar-17", "value": 2345.67}}, ...]
+2. Keep percentage values as strings like "27%" or "12.13%"
+3. Keep "-" or empty cells as null
+4. Preserve ALL data from the OCR text - do not skip anything
+5. Create logical groupings (e.g., "profit_loss", "balance_sheet", "ratios")
+6. Include any headers, titles, company names found in the text
+
+Output ONLY valid JSON. Start with {{ and end with }}."""
+
+
 def _build_selfcheck_prompt(doc_text: str, current_json: str, iteration: int, total_iterations: int) -> str:
     """Build prompt for self-checking extracted data - using user's iteration approach."""
     return f"""You are a data analyst. This is self-check iteration {iteration} of {total_iterations}.
@@ -486,6 +512,65 @@ Output ONLY valid JSON. Start with {{ and end with }}."""
 # =========================
 # MAIN PIPELINE
 # =========================
+
+def structure_ocr_to_json(ocr_text: str, iterations: int = 3) -> Dict[str, Any]:
+    """
+    Convert OCR-extracted text to structured JSON.
+    OCR has already done the extraction - LLM just structures it.
+    """
+    print(f"\n[STRUCTURING] Converting OCR text to JSON ({iterations} verification passes)...")
+    
+    # Initial structuring
+    print(f"  -> Pass 1/{iterations}: Initial structuring...")
+    prompt = _build_ocr_to_json_prompt(ocr_text)
+    response = _call_qwen(prompt)
+    
+    try:
+        current_json = _extract_json_from_text(response)
+        print(f"    [OK] Structured {len(json.dumps(current_json))} chars of JSON")
+    except Exception as e:
+        print(f"    [WARN] Failed to parse JSON: {e}")
+        current_json = {"raw_text": ocr_text, "error": str(e)}
+        return current_json
+    
+    # Verification passes
+    for i in range(2, iterations + 1):
+        print(f"  -> Pass {i}/{iterations}: Verifying completeness...")
+        
+        prompt = f"""You are verifying that OCR-extracted text was properly converted to JSON.
+
+OCR TEXT:
+{ocr_text}
+
+CURRENT JSON:
+{json.dumps(current_json, indent=2)}
+
+TASK:
+1. Check if ALL data from the OCR text is present in the JSON
+2. If anything is missing, add it
+3. If anything is wrong, fix it
+4. Return the complete, corrected JSON
+
+Output ONLY valid JSON. Start with {{ and end with }}."""
+        
+        try:
+            response = _call_qwen(prompt)
+            new_json = _extract_json_from_text(response)
+            
+            old_size = len(json.dumps(current_json))
+            new_size = len(json.dumps(new_json))
+            
+            if new_size > old_size:
+                print(f"    [OK] Found missing data (+{new_size - old_size} chars)")
+                current_json = new_json
+            else:
+                print(f"    [OK] JSON verified complete")
+                current_json = new_json
+        except Exception as e:
+            print(f"    [WARN] Pass {i} failed: {e}")
+    
+    return current_json
+
 
 def extract_with_iterations(doc_text: str, iterations: int = 5) -> Dict[str, Any]:
     """
@@ -711,8 +796,14 @@ def process_document_qwen(
         
         print(f"  -> Loaded {len(doc_text)} characters via {extraction_method}")
         
-        # Extract data with iterations
-        extracted_data = extract_with_iterations(doc_text, iterations)
+        # For OCR-extracted PDFs: LLM just structures data into JSON (OCR already did extraction)
+        # For other cases: LLM extracts and structures
+        if extraction_method == "paddleocr":
+            # OCR already extracted the data - LLM just structures it
+            extracted_data = structure_ocr_to_json(doc_text, iterations=min(iterations, 3))
+        else:
+            # LLM needs to extract data from text
+            extracted_data = extract_with_iterations(doc_text, iterations)
         
         # Analyze extracted data
         analysis = analyze_extracted_data(extracted_data)
