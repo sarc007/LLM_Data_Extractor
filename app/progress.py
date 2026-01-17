@@ -115,10 +115,10 @@ async def generate_progress_events(job_id: str):
     while True:
         tracker = get_tracker(job_id)
         if not tracker:
-            yield f"data: {json.dumps({'error': 'Job not found'})}\n\n"
+            yield {"data": json.dumps({'error': 'Job not found'})}
             break
         
-        yield f"data: {json.dumps(tracker.to_dict())}\n\n"
+        yield {"data": json.dumps(tracker.to_dict())}
         
         if tracker.completed or tracker.error:
             break
