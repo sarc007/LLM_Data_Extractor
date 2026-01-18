@@ -404,23 +404,43 @@ def _call_qwen(prompt: str, system_prompt: str = None, timeout: int = 600) -> st
 # =========================
 
 # User's exact prompt for extraction with 5-iteration self-check
-USER_EXTRACTION_PROMPT = """You are a data analyst. Extract all data from pdf in json format make sure you get all the data. I want you to iterate at least 5 times to self check if you have missed any thing at all from the pdf. And if missed, make sure that missed data gets into the json."""
+USER_EXTRACTION_PROMPT = """You are a financial data analyst. Extract all data from the document in clean JSON format."""
 
 
 def _build_extraction_prompt(doc_text: str) -> str:
-    """Build the extraction prompt using the user's exact prompt."""
+    """Build the extraction prompt with strict data quality rules."""
     return f"""{USER_EXTRACTION_PROMPT}
-
-CRITICAL REQUIREMENTS:
-1. For tabular data, include the column headers/periods with each value. Use this format:
-   "Sales": [{{"period": "Mar-16", "value": 6898.23}}, {{"period": "Mar-17", "value": 7689.37}}, ...]
-2. Keep percentage values as strings like "27%" or "12.13%"
-3. Keep "-" or empty cells as null
-4. Extract ALL rows, ALL columns, ALL values exactly as shown
-5. Include company name, source, ratios, trends - everything
 
 DOCUMENT CONTENT:
 {doc_text}
+
+CRITICAL RULES - FOLLOW EXACTLY:
+
+1. DATE RANGE - USE ONLY ACTUAL PERIODS FROM DOCUMENT:
+   - Look at the COLUMN HEADERS to find actual periods (e.g., Mar-16, Mar-17)
+   - The FIRST period in your JSON must match the FIRST column in the document
+   - Do NOT invent periods like Mar-13, Mar-14 if they don't exist in source
+   - If document shows Mar-16 to Mar-25, output Mar-16 to Mar-25 ONLY
+
+2. SEPARATE DATA BY FREQUENCY - NEVER MIX:
+   - Annual data (Mar-16, Mar-17, Mar-18): Put in main "profit_loss", "balance_sheet" sections
+   - Quarterly data (Q1, Jun-24, Sep-24): Put in separate "quarterly_data" section
+   - TTM/Trailing values: Put in separate "ttm_data" section
+   - Best Case/Worst Case: Put in "scenario_data" - these are NOT historical periods
+
+3. COMPLETE EXTRACTION - ALL VALUES:
+   - If a row has 10 columns, extract ALL 10 values (not just first 3 or last 3)
+   - Operating profit, depreciation, interest, PBT, tax, net profit, EPS - ALL must be complete
+   - Each metric should have the SAME number of periods
+
+4. TABLE BOUNDARIES:
+   - Profit & Loss, Balance Sheet, Cash Flow, Ratios = SEPARATE sections
+   - Do NOT merge data from different tables
+
+5. DATA FORMAT:
+   - "metric": [{{"period": "Mar-16", "value": 1234.56}}, {{"period": "Mar-17", "value": 2345.67}}]
+   - Percentages as strings: "27%"
+   - Empty cells as null
 
 Output ONLY valid JSON. Start with {{ and end with }}."""
 
@@ -838,7 +858,7 @@ def structure_ocr_to_json(ocr_text: str, iterations: int = 3) -> Dict[str, Any]:
     for i in range(2, iterations + 1):
         print(f"  -> Pass {i}/{iterations}: Verifying completeness...")
         
-        prompt = f"""You are verifying that OCR-extracted text was properly converted to JSON.
+        prompt = f"""Verify OCR-to-JSON conversion quality.
 
 OCR TEXT:
 {ocr_text}
@@ -846,13 +866,13 @@ OCR TEXT:
 CURRENT JSON:
 {json.dumps(current_json, indent=2)}
 
-TASK:
-1. Check if ALL data from the OCR text is present in the JSON
-2. If anything is missing, add it
-3. If anything is wrong, fix it
-4. Return the complete, corrected JSON
+VERIFICATION CHECKLIST:
+1. DATE ACCURACY: Do JSON periods match EXACTLY what's in OCR? Remove any invented periods (Mar-13/14/15 if not in source).
+2. FREQUENCY: Annual data separate from quarterly/TTM/scenario data? No mixing?
+3. COMPLETENESS: All metrics have ALL values? (If 10 columns, 10 values each)
+4. CONSISTENCY: All metrics have similar period counts? (sales=10, expenses=10, op=10, etc.)
 
-Output ONLY valid JSON. Start with {{ and end with }}."""
+Fix any issues. Output corrected JSON. Start with {{ and end with }}."""
         
         try:
             response = _call_qwen(prompt)
