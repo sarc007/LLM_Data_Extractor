@@ -1,0 +1,31 @@
+{
+  "page": 6,
+  "total_pages": 10,
+  "document_type": "metadata",
+  "document_type_confidence": 0.85,
+  "periods": [],
+  "period_type": "annual",
+  "period_count": 0,
+  "extracted_data": {
+    "face_value": null,
+    "market_cap": null,
+    "share_price": null,
+    "52_week_high": null,
+    "52_week_low": null
+  },
+  "audit": {
+    "pdfplumber_char_count": 92,
+    "ocr_char_count": 7,
+    "pdfplumber_numbers": 0,
+    "ocr_numbers": 0,
+    "json_values": 0,
+    "text_match_ratio": 0.0,
+    "passed": true,
+    "warnings": []
+  },
+  "source_chars": {
+    "pdfplumber": 92,
+    "ocr": 7
+  },
+  "timestamp": "2026-01-18T16:48:56.494165"
+}

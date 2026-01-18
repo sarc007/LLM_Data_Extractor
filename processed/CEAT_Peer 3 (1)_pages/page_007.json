@@ -1,0 +1,141 @@
+{
+  "page": 7,
+  "total_pages": 10,
+  "document_type": "profit_loss",
+  "document_type_confidence": 0.95,
+  "periods": [
+    "Mar-16",
+    "Mar-17",
+    "Mar-18",
+    "Mar-19"
+  ],
+  "period_type": "annual",
+  "period_count": 4,
+  "extracted_data": {
+    "periods": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19",
+      "Jun-23",
+      "Sep-23",
+      "Dec-23",
+      "Mar-24"
+    ],
+    "sales": [
+      5483.55,
+      5766.36,
+      6282.48,
+      6984.51,
+      2935.17,
+      3053.32,
+      2963.14,
+      2991.85
+    ],
+    "expenses": [
+      null,
+      null,
+      null,
+      null,
+      2548.07,
+      2597.2,
+      2545.64,
+      2600.34
+    ],
+    "operating_profit": [
+      null,
+      null,
+      null,
+      null,
+      387.1,
+      456.12,
+      417.5,
+      391.51
+    ],
+    "other_income": [
+      6.54,
+      28.12,
+      9.22,
+      9.6,
+      3.25,
+      10.47,
+      2.94,
+      -55.1
+    ],
+    "depreciation": [
+      107.72,
+      143.08,
+      168.61,
+      192.71,
+      120.94,
+      124.49,
+      127.34,
+      136.06
+    ],
+    "interest": [
+      101.4,
+      89.56,
+      103.63,
+      92.87,
+      70.13,
+      71.72,
+      65.55,
+      61.66
+    ],
+    "profit_before_tax": [
+      586.88,
+      465.65,
+      367.32,
+      376.2,
+      199.28,
+      270.38,
+      227.55,
+      138.69
+    ],
+    "tax": [
+      187.34,
+      106.42,
+      134.03,
+      125.12,
+      52.87,
+      68.29,
+      54.44,
+      45.82
+    ],
+    "net_profit": [
+      437.54,
+      361.15,
+      237.98,
+      252.22,
+      144.61,
+      208,
+      181.48,
+      108.56
+    ],
+    "eps": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "audit": {
+    "pdfplumber_char_count": 1212,
+    "ocr_char_count": 1194,
+    "pdfplumber_numbers": 113,
+    "ocr_numbers": 102,
+    "json_values": 88,
+    "text_match_ratio": 0.9254658385093167,
+    "passed": true,
+    "warnings": []
+  },
+  "source_chars": {
+    "pdfplumber": 1212,
+    "ocr": 1194
+  },
+  "timestamp": "2026-01-18T16:55:50.109651"
+}

@@ -1,0 +1,28 @@
+{
+  "page": 5,
+  "total_pages": 10,
+  "document_type": "metadata",
+  "document_type_confidence": 0.85,
+  "periods": [],
+  "period_type": "annual",
+  "period_count": 0,
+  "extracted_data": {
+    "error": "Failed to extract JSON",
+    "raw_response": "Looking at the PAGE CONTENT provided, I cannot find any actual financial data or numbers to extract. The content only contains:\n\n- Instructions on how to use the workbook\n- Information about customization\n- A link for uploading files\n- Testing information\n- Required JSON structure format\n\nThere are no actual financial figures, no column headers with dates like \"Mar-16, Mar-17\", and no numerical data values present in this metadata document page.\n\nTherefore, I cannot extract the requested financi"
+  },
+  "audit": {
+    "pdfplumber_char_count": 555,
+    "ocr_char_count": 557,
+    "pdfplumber_numbers": 0,
+    "ocr_numbers": 0,
+    "json_values": 0,
+    "text_match_ratio": 0.9696969696969697,
+    "passed": true,
+    "warnings": []
+  },
+  "source_chars": {
+    "pdfplumber": 555,
+    "ocr": 557
+  },
+  "timestamp": "2026-01-18T16:48:50.955949"
+}

@@ -1,0 +1,123 @@
+{
+  "page": 10,
+  "total_pages": 10,
+  "document_type": "profit_loss",
+  "document_type_confidence": 0.95,
+  "periods": [
+    "Mar-20",
+    "Mar-21",
+    "Mar-22",
+    "Mar-23",
+    "Mar-24",
+    "Mar-25"
+  ],
+  "period_type": "annual",
+  "period_count": 6,
+  "extracted_data": {
+    "periods": [
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ],
+    "eps": [
+      40.45,
+      40.45,
+      40.45,
+      40.45,
+      40.45,
+      40.45
+    ],
+    "sales": [
+      2867.47,
+      3275.84,
+      3232.36,
+      3399.19,
+      4002.16,
+      4328.08
+    ],
+    "expenses": [
+      2035.04,
+      1532.53,
+      2228.87,
+      2295.47,
+      1791.5,
+      2136.38
+    ],
+    "operating_profit": [
+      2422.56,
+      3284.35,
+      3657.86,
+      3891.45,
+      4160.39,
+      4707.48
+    ],
+    "other_income": [
+      7365.52,
+      8133.17,
+      9159.54,
+      9626.56,
+      9994.5,
+      11212.39
+    ],
+    "depreciation": [
+      4159.79,
+      4763.43,
+      5329.18,
+      6096.11,
+      6271.08,
+      6984.34
+    ],
+    "interest": [
+      1068.54,
+      792.86,
+      875.88,
+      596.07,
+      683.53,
+      537.5
+    ],
+    "profit_before_tax": [
+      183.65,
+      210.09,
+      179.15,
+      169.57,
+      182.09,
+      189.84
+    ],
+    "tax": [
+      1953.54,
+      2366.79,
+      2775.33,
+      2764.81,
+      2857.8,
+      3500.71
+    ],
+    "net_profit": [
+      674.35,
+      921.56,
+      1154.32,
+      1307.03,
+      1283.22,
+      1653.31
+    ]
+  },
+  "audit": {
+    "pdfplumber_char_count": 987,
+    "ocr_char_count": 999,
+    "pdfplumber_numbers": 138,
+    "ocr_numbers": 138,
+    "json_values": 66,
+    "text_match_ratio": 1.0,
+    "passed": false,
+    "warnings": [
+      "JSON values (66) much less than source numbers (138)"
+    ]
+  },
+  "source_chars": {
+    "pdfplumber": 987,
+    "ocr": 999
+  },
+  "timestamp": "2026-01-18T16:58:05.424224"
+}

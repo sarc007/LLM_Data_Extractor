@@ -21,6 +21,7 @@ from .database import Base, engine, get_db
 from .models import Upload
 from .pipeline import process_document
 from .qwen_pipeline import process_document_qwen
+from .page_extractor import process_pdf_page_by_page_v2
 from .auth import require_login, login_user, AUTH_ENABLED
 from .progress import create_tracker, get_tracker, update_progress, generate_progress_events, cleanup_tracker
 
@@ -318,6 +319,85 @@ async def execute_processing(
         traceback.print_exc()
         update_progress(job_id, error=str(e), message=f"Error: {e}")
         return JSONResponse({"success": False, "error": str(e)}, status_code=500)
+
+
+@app.post("/process-page-by-page")
+async def process_page_by_page(
+    request: Request,
+    file: UploadFile,
+    iterations: int = Form(3),
+    use_ocr: bool = Form(True),
+    db: Session = Depends(get_db),
+    _=Depends(require_login),
+):
+    """Process PDF page-by-page with document type detection and progress tracking."""
+    uid = str(uuid.uuid4())
+    filename = f"{uid}_{file.filename}"
+    upload_path = os.path.join("uploads", filename)
+    
+    with open(upload_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+    
+    # Create progress tracker
+    create_tracker(uid)
+    update_progress(uid, status="starting", message="Starting page-by-page extraction...")
+    
+    try:
+        # Run page-by-page extraction
+        result = await asyncio.to_thread(
+            process_pdf_page_by_page_v2,
+            pdf_path=upload_path,
+            iterations_per_page=iterations,
+            combine_iterations=3,
+            use_ocr=use_ocr,
+            job_id=uid
+        )
+        
+        # Build JSON result
+        json_result = {
+            "extraction_result": result,
+            "metadata": {
+                "source_file": file.filename,
+                "model": "qwen3-coder:480b-cloud",
+                "extraction_method": "page-by-page",
+                "total_pages": result.get("total_pages", 0),
+                "documents_found": len(result.get("documents", []))
+            }
+        }
+        
+        # Save JSON to processed/
+        json_path = os.path.join("processed", f"{uid}.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(json_result, f, ensure_ascii=False, indent=2)
+        
+        # Insert into DB
+        upload = Upload(
+            id=uid,
+            filename=file.filename,
+            original_path=upload_path,
+            json_path=json_path,
+            model_used="qwen3-coder:480b-cloud (page-by-page)",
+        )
+        db.add(upload)
+        db.commit()
+        
+        update_progress(uid, completed=True, message="Extraction complete!")
+        
+        return JSONResponse({
+            "success": True,
+            "upload_id": uid,
+            "total_pages": result.get("total_pages", 0),
+            "documents_found": len(result.get("documents", [])),
+            "document_types": result.get("document_types_found", [])
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        update_progress(uid, error=str(e), message=f"Error: {e}")
+        return JSONResponse({"success": False, "error": str(e)}, status_code=500)
+    finally:
+        cleanup_tracker(uid)
 
 
 @app.get("/history", response_class=HTMLResponse)

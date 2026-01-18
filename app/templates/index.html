@@ -135,6 +135,7 @@ function updateProgress(data) {
     const status = document.getElementById('progress-status');
     const percent = document.getElementById('progress-percent');
     const message = document.getElementById('progress-message');
+    const pageResults = document.getElementById('page-results');
     
     container.classList.remove('hidden');
     bar.style.width = data.progress_percent + '%';
@@ -142,7 +143,20 @@ function updateProgress(data) {
     message.textContent = data.message || '';
     
     if (data.current_page > 0) {
-        status.textContent = `Page ${data.current_page}/${data.total_pages} - Iter ${data.current_iteration}/${data.total_iterations}`;
+        let statusText = `Page ${data.current_page}/${data.total_pages}`;
+        if (data.current_doc_type) {
+            statusText += ` [${data.current_doc_type}]`;
+        }
+        if (data.audit_status) {
+            statusText += ` ${data.audit_status}`;
+        }
+        status.textContent = statusText;
+        
+        // Show document types found
+        if (data.document_types_found && data.document_types_found.length > 0) {
+            pageResults.innerHTML = `<div class="text-green-600 font-medium">Document types: ${data.document_types_found.join(', ')}</div>
+                <div class="text-gray-500">Pages completed: ${data.pages_completed || 0}</div>`;
+        }
     } else {
         status.textContent = data.status || 'Processing...';
     }

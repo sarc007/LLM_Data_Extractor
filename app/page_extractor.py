@@ -20,6 +20,19 @@ from datetime import datetime
 import pdfplumber
 from ollama import Client
 
+# Import progress tracking
+try:
+    from app.progress import update_progress as _update_progress
+    PROGRESS_AVAILABLE = True
+except ImportError:
+    PROGRESS_AVAILABLE = False
+    _update_progress = None  # type: ignore
+
+def update_progress(*args, **kwargs):  # type: ignore
+    """Wrapper for progress updates."""
+    if PROGRESS_AVAILABLE and _update_progress:
+        return _update_progress(*args, **kwargs)
+
 # Import OCR functions
 try:
     from app.paddle_ocr import extract_pdf_pages_separately, OCR_AVAILABLE
@@ -310,6 +323,17 @@ def process_single_page(
     """
     
     print(f"\n[PAGE {page_num}/{total_pages}] Processing...")
+    
+    # Update progress for frontend
+    if job_id and PROGRESS_AVAILABLE:
+        update_progress(
+            job_id,
+            status="extracting",
+            message=f"Processing page {page_num}/{total_pages}",
+            current_page=page_num,
+            total_pages=total_pages,
+            current_iteration=1
+        )
     
     # Step 1: Extract text with pdfplumber
     print(f"  [1/5] Extracting with pdfplumber...")

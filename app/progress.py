@@ -27,6 +27,9 @@ class ProgressTracker:
     started_at: datetime = field(default_factory=datetime.now)
     completed: bool = False
     error: Optional[str] = None
+    document_types_found: list = field(default_factory=list)
+    current_doc_type: str = ""
+    audit_status: str = ""
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -40,6 +43,10 @@ class ProgressTracker:
             "completed": self.completed,
             "error": self.error,
             "progress_percent": self._calc_progress(),
+            "document_types_found": self.document_types_found,
+            "current_doc_type": self.current_doc_type,
+            "audit_status": self.audit_status,
+            "pages_completed": len(self.page_results),
         }
     
     def _calc_progress(self) -> int:

@@ -1,0 +1,21 @@
+{
+  "document_type": "metadata",
+  "pages": [
+    5,
+    6
+  ],
+  "periods": [],
+  "period_count": 0,
+  "period_type": "quarterly",
+  "data": {
+    "face_value": null,
+    "market_cap": null,
+    "share_price": null,
+    "52_week_high": null,
+    "52_week_low": null,
+    "error": "Failed to extract JSON",
+    "raw_response": "I don't see any actual financial data or metadata content in the page content you provided. The text appears to be instructional information about formatting capabilities, but doesn't contain any specific financial figures or data to extract.\n\nBased on the JSON structure you've specified, I would need to see actual financial data with values for face_value, market_cap, share_price, 52_week_high, and 52_week_low to provide a meaningful extraction.\n\nCould you please provide the actual financial da",
+    "periods": []
+  },
+  "sample_queries": []
+}
