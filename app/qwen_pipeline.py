@@ -430,32 +430,70 @@ def _build_ocr_to_json_prompt(ocr_text: str) -> str:
     
     This is used when OCR has already extracted the data - LLM just structures it.
     """
-    return f"""You are a data structuring expert. The following text was extracted from a PDF using OCR.
-Your task is to CONVERT this already-extracted text into clean, structured JSON format.
-
-The OCR has already extracted ALL the data. You do NOT need to extract anything new.
-Just organize the existing data into proper JSON structure.
+    return f"""You are a financial data structuring expert. Convert this OCR-extracted text to clean JSON.
 
 OCR-EXTRACTED TEXT:
 {ocr_text}
 
-STRUCTURING REQUIREMENTS:
-1. For tabular data with periods/dates as columns:
-   "metric_name": [{{"period": "Mar-16", "value": 1234.56}}, {{"period": "Mar-17", "value": 2345.67}}, ...]
-2. Keep percentage values as strings like "27%" or "12.13%"
-3. Keep "-" or empty cells as null
-4. Preserve ALL data from the OCR text - do not skip anything
-5. Create logical groupings (e.g., "profit_loss", "balance_sheet", "ratios")
-6. Include any headers, titles, company names found in the text
+CRITICAL RULES - READ CAREFULLY:
+
+1. DETECT ACTUAL DATE RANGE FROM THE DATA:
+   - Look at the column headers to find the ACTUAL periods (e.g., "Mar-16", "Mar-17", etc.)
+   - ONLY use periods that ACTUALLY APPEAR in the OCR text
+   - Do NOT invent periods like Mar-13, Mar-14 if they don't exist in the source
+
+2. SEPARATE DATA BY FREQUENCY - DO NOT MIX:
+   - "annual_data": For fiscal year data (Mar-16, Mar-17, Mar-18, etc.)
+   - "quarterly_data": For quarterly data (Q1, Q2, Jun-24, Sep-24, etc.) - KEEP SEPARATE
+   - "ttm_data": For Trailing Twelve Months / TTM values - KEEP SEPARATE
+   - "scenario_data": For Best Case, Worst Case projections - KEEP SEPARATE, NOT historical
+
+3. TABLE BOUNDARY DETECTION:
+   - Each distinct table (Profit & Loss, Balance Sheet, Cash Flow, Ratios) should be a separate section
+   - If you see a new table header, START A NEW SECTION
+   - Do NOT merge data from different tables
+
+4. DATA FORMAT:
+   - "metric_name": [{{"period": "Mar-16", "value": 1234.56}}, {{"period": "Mar-17", "value": 2345.67}}]
+   - Percentages as strings: "27%" or "12.13%"
+   - Empty cells or "-" as null
+   - Numbers without currency symbols
+
+5. EXTRACT COMPLETE SERIES:
+   - Extract ALL values for each metric row, not just first/last few
+   - If a row has 10 year columns, extract all 10 values
+   - Do NOT skip middle values
+
+JSON STRUCTURE:
+{{
+    "company_name": "...",
+    "source": "...",
+    "profit_loss": {{
+        "sales": [...],
+        "expenses": [...],
+        "operating_profit": [...],
+        "other_income": [...],
+        "depreciation": [...],
+        "interest": [...],
+        "profit_before_tax": [...],
+        "tax": [...],
+        "net_profit": [...],
+        "eps": [...]
+    }},
+    "balance_sheet": {{...}},
+    "cash_flow": {{...}},
+    "ratios": {{...}},
+    "quarterly_data": {{...}},
+    "ttm_data": {{...}},
+    "scenario_data": {{"best_case": ..., "worst_case": ...}}
+}}
 
 Output ONLY valid JSON. Start with {{ and end with }}."""
 
 
 def _build_selfcheck_prompt(doc_text: str, current_json: str, iteration: int, total_iterations: int) -> str:
     """Build prompt for self-checking extracted data - using user's iteration approach."""
-    return f"""You are a data analyst. This is self-check iteration {iteration} of {total_iterations}.
-
-You previously extracted data from a document. Now verify your extraction is COMPLETE.
+    return f"""You are a financial data analyst. Self-check iteration {iteration} of {total_iterations}.
 
 ORIGINAL DOCUMENT:
 {doc_text}
@@ -463,14 +501,29 @@ ORIGINAL DOCUMENT:
 YOUR CURRENT EXTRACTION:
 {current_json}
 
-TASK - SELF CHECK ITERATION {iteration}/{total_iterations}:
-1. Compare your extraction with the original document
-2. Check if ANY data was missed - every single number, every row, every column
-3. If you find ANYTHING missing, add it to the JSON
-4. If you find errors, correct them
-5. Make sure you get ALL the data
+VERIFICATION CHECKLIST:
 
-Output the COMPLETE JSON with any corrections. Start with {{ and end with }}."""
+1. DATE RANGE ACCURACY:
+   - Are the periods in JSON matching EXACTLY what's in the document?
+   - Did you invent any periods (Mar-13, Mar-14) that don't exist in source? REMOVE THEM
+   - The FIRST period should match the FIRST column header in the document
+
+2. DATA FREQUENCY SEPARATION:
+   - Annual data (Mar-16, Mar-17) should be in main sections
+   - Quarterly data (Q1, Jun-24) should be in "quarterly_data" - NOT mixed with annual
+   - TTM/Trailing values should be in "ttm_data" - NOT mixed with annual
+   - Best/Worst Case should be in "scenario_data" - NOT treated as historical
+
+3. COMPLETE EXTRACTION:
+   - Each metric row should have ALL values (if 10 columns, extract 10 values)
+   - Operating profit, other income, depreciation, interest, PBT, tax, net profit, EPS - all complete?
+   - No artificial drops or jumps in series due to mixed frequencies?
+
+4. TABLE BOUNDARIES:
+   - Profit & Loss, Balance Sheet, Cash Flow, Ratios - each in separate sections?
+   - No data from one table bleeding into another?
+
+Fix any issues found. Output COMPLETE corrected JSON. Start with {{ and end with }}."""
 
 
 # =========================
@@ -581,21 +634,21 @@ def structure_single_page(page_text: str, page_num: int, total_pages: int, itera
         if job_id:
             update_progress(job_id, current_iteration=i, message=f"Page {page_num}: Verification {i}/{iterations}")
         
-        prompt = f"""You are verifying OCR-extracted text was properly converted to JSON.
+        prompt = f"""Verify OCR-to-JSON conversion for PAGE {page_num}.
 
-PAGE {page_num} OCR TEXT:
+OCR TEXT:
 {page_text}
 
 CURRENT JSON:
 {json.dumps(current_json, indent=2)}
 
-TASK:
-1. Check if ALL data from the OCR text is in the JSON
-2. If ANYTHING is missing, add it
-3. If ANYTHING is wrong, fix it
-4. Return the complete, corrected JSON
+VERIFICATION CHECKLIST:
+1. DATE ACCURACY: Do JSON periods match EXACTLY what's in OCR? Remove invented periods.
+2. FREQUENCY: Annual data separate from quarterly/TTM/scenario data?
+3. COMPLETENESS: All values for each metric row extracted (not just first/last)?
+4. NO MIXING: Best/Worst Case in "scenario_data", TTM in "ttm_data", quarterly in "quarterly_data"?
 
-Output ONLY valid JSON. Start with {{ and end with }}."""
+Fix any issues. Output corrected JSON. Start with {{ and end with }}."""
         
         try:
             response = _call_qwen(prompt)
