@@ -41,7 +41,7 @@
         ],
         "borrowings": [
           663.18,
-          924,
+          924.0,
           871.67,
           1498.02
         ],
@@ -52,28 +52,106 @@
           2140.2
         ],
         "total_liabilities": [
-          2053.21,
-          2501.99,
-          2540.35,
-          3638.22
+          4107.95,
+          4916.94,
+          5146.44,
+          6404.33
         ],
         "fixed_assets": [
-          2331.15,
-          2778.79,
-          3019.2,
-          4012.44
+          2032.07,
+          2452.53,
+          2709.24,
+          3179.53
         ],
-        "current_assets": [
-          1296.25,
-          1603.2,
-          1618.09,
-          1855.52
+        "capital_work_in_progress": [
+          299.08,
+          326.26,
+          309.96,
+          832.91
+        ],
+        "investments": [
+          195.49,
+          231.6,
+          213.52,
+          181.42
+        ],
+        "other_assets": [
+          1581.31,
+          1906.55,
+          1913.72,
+          2210.47
         ],
         "total_assets": [
           4107.95,
           4916.94,
           5146.44,
           6404.33
+        ],
+        "receivables": [
+          593.51,
+          613.8,
+          747.23,
+          706.38
+        ],
+        "inventory": [
+          639.71,
+          943.48,
+          784.61,
+          1005.6
+        ],
+        "cash_bank": [
+          63.03,
+          35.92,
+          86.25,
+          73.54
+        ],
+        "no_of_equity_shares": [
+          40450092,
+          40450092,
+          40450092,
+          40450092
+        ],
+        "face_value": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "cash_from_operating_activity": [
+          702.05,
+          334.66,
+          672.39,
+          561.4
+        ],
+        "cash_from_investing_activity": [
+          -432.61,
+          -543.43,
+          -411.75,
+          -1060.47
+        ],
+        "cash_from_financing_activity": [
+          -326.36,
+          219.12,
+          -202.47,
+          484.44
+        ],
+        "net_cash_flow": [
+          -56.92,
+          10.35,
+          58.17,
+          -14.63
+        ],
+        "price": [
+          1086.65,
+          1324.85,
+          1506.3,
+          1119.9
+        ],
+        "adjusted_equity_shares_in_cr": [
+          4.05,
+          4.05,
+          4.05,
+          4.05
         ]
       },
       "audit": {
@@ -81,12 +159,10 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 92,
         "ocr_numbers": 0,
-        "json_values": 40,
+        "json_values": 92,
         "text_match_ratio": 0.0,
-        "passed": false,
-        "warnings": [
-          "JSON values (40) much less than source numbers (92)"
-        ]
+        "passed": true,
+        "warnings": []
       }
     },
     {
@@ -154,7 +230,7 @@
       "extracted_data": {
         "company_name": "METADATA",
         "face_value": 10,
-        "market_cap": 4509.45,
+        "market_cap": 4508850000,
         "share_price": 1119.9,
         "num_shares": 40450092,
         "balance_sheet": {
@@ -236,29 +312,11 @@
             784.61,
             1005.6
           ],
-          "cash_bank": [
+          "cash_and_bank": [
             63.03,
             35.92,
             86.25,
             73.54
-          ],
-          "no_of_equity_shares": [
-            40450092,
-            40450092,
-            40450092,
-            40450092
-          ],
-          "new_bonus_shares": [
-            null,
-            null,
-            null,
-            null
-          ],
-          "face_value_per_share": [
-            10,
-            10,
-            10,
-            10
           ]
         },
         "cash_flow": {
@@ -293,6 +351,12 @@
             -14.63
           ]
         },
+        "price": [
+          1086.65,
+          1324.85,
+          1506.3,
+          1119.9
+        ],
         "derived": {
           "adjusted_equity_shares_in_cr": [
             4.05,
@@ -307,7 +371,7 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 92,
         "ocr_numbers": 0,
-        "json_values": 92,
+        "json_values": 84,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
@@ -318,5 +382,5 @@
     "pdfplumber": 1052,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:00:02.411317"
+  "timestamp": "2026-01-18T19:25:39.404601"
 }

@@ -33,12 +33,6 @@
           779.12,
           844.05
         ],
-        "total_equity": [
-          924.48,
-          1089.57,
-          1297.57,
-          1330.53
-        ],
         "borrowings": [
           0,
           0,
@@ -56,42 +50,6 @@
           1089.57,
           1297.57,
           1330.53
-        ],
-        "fixed_assets": [
-          250.27,
-          258.09,
-          272.4,
-          301.24
-        ],
-        "current_assets": [
-          674.21,
-          831.48,
-          1025.17,
-          1029.29
-        ],
-        "total_assets": [
-          924.48,
-          1089.57,
-          1297.57,
-          1330.53
-        ],
-        "receivables": [
-          159.39,
-          157.23,
-          208.29,
-          243.49
-        ],
-        "inventory": [
-          127.52,
-          169.03,
-          168.24,
-          167.25
-        ],
-        "cash_bank": [
-          333.53,
-          453.43,
-          576.64,
-          558.81
         ],
         "net_block": [
           221.37,
@@ -116,6 +74,30 @@
           831.48,
           1025.17,
           1029.29
+        ],
+        "total_assets": [
+          924.48,
+          1089.57,
+          1297.57,
+          1330.53
+        ],
+        "receivables": [
+          159.39,
+          157.23,
+          208.29,
+          243.49
+        ],
+        "inventory": [
+          127.52,
+          169.03,
+          168.24,
+          167.25
+        ],
+        "cash_and_bank": [
+          333.53,
+          453.43,
+          576.64,
+          558.81
         ],
         "cash_from_operating_activity": [
           9.33,
@@ -158,12 +140,6 @@
           10,
           10,
           10
-        ],
-        "adjusted_equity_shares_in_cr": [
-          2.31,
-          2.31,
-          2.31,
-          2.31
         ]
       },
       "audit": {
@@ -171,7 +147,7 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 84,
         "ocr_numbers": 0,
-        "json_values": 100,
+        "json_values": 84,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
@@ -242,16 +218,16 @@
       "extracted_data": {
         "company_name": "METADATA",
         "face_value": 10,
-        "market_cap": 2179.99,
+        "market_cap": 2183.94,
         "share_price": 944.75,
         "num_shares": 23066507,
-        "report_dates": [
-          "Mar-16",
-          "Mar-17",
-          "Mar-18",
-          "Mar-19"
-        ],
         "balance_sheet": {
+          "report_dates": [
+            "Mar-16",
+            "Mar-17",
+            "Mar-18",
+            "Mar-19"
+          ],
           "equity_share_capital": [
             23.07,
             23.07,
@@ -263,6 +239,12 @@
             684.01,
             779.12,
             844.05
+          ],
+          "borrowings": [
+            null,
+            null,
+            null,
+            null
           ],
           "other_liabilities": [
             310.36,
@@ -288,6 +270,12 @@
             26.19,
             50.29
           ],
+          "investments": [
+            null,
+            null,
+            null,
+            null
+          ],
           "other_assets": [
             674.21,
             831.48,
@@ -312,27 +300,45 @@
             168.24,
             167.25
           ],
-          "cash_bank": [
+          "cash_and_bank": [
             333.53,
             453.43,
             576.64,
             558.81
+          ],
+          "number_of_equity_shares": [
+            23066507,
+            23066507,
+            23066507,
+            23066507
+          ],
+          "new_bonus_shares": [
+            null,
+            null,
+            null,
+            null
           ]
         },
         "cash_flow": {
-          "operating_activity": [
+          "report_dates": [
+            "Mar-16",
+            "Mar-17",
+            "Mar-18",
+            "Mar-19"
+          ],
+          "cash_from_operating_activity": [
             9.33,
             167.77,
             182.28,
             56.57
           ],
-          "investing_activity": [
+          "cash_from_investing_activity": [
             -132.93,
             -11.5,
             -22.04,
             -35.56
           ],
-          "financing_activity": [
+          "cash_from_financing_activity": [
             -31.03,
             -36.62,
             -37.28,
@@ -345,14 +351,8 @@
             -17.86
           ]
         },
-        "prices": [
-          480.7,
-          845.15,
-          1111.85,
-          944.75
-        ],
         "derived": {
-          "adjusted_equity_shares_cr": [
+          "adjusted_equity_shares_in_cr": [
             2.31,
             2.31,
             2.31,
@@ -365,7 +365,7 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 84,
         "ocr_numbers": 0,
-        "json_values": 72,
+        "json_values": 88,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
@@ -376,5 +376,5 @@
     "pdfplumber": 977,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:36:52.323840"
+  "timestamp": "2026-01-18T19:34:57.018032"
 }

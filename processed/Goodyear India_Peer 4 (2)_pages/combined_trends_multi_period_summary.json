@@ -1,0 +1,48 @@
+{
+  "document_type": "trends",
+  "period_type": "multi_period_summary",
+  "pages": [
+    1
+  ],
+  "periods": [],
+  "period_count": 0,
+  "data": {
+    "10_years": {
+      "Sales Growth": 4.66,
+      "OPM": 8.53,
+      "Price to Earning": 22.61
+    },
+    "7_years": {
+      "Sales Growth": 6.62,
+      "OPM": 7.41,
+      "Price to Earning": 25.54
+    },
+    "5_years": {
+      "Sales Growth": 8.36,
+      "OPM": 7.17,
+      "Price to Earning": 27.87
+    },
+    "3_years": {
+      "Sales Growth": 2.31,
+      "OPM": 6.11,
+      "Price to Earning": 33.05
+    },
+    "recent": {
+      "Sales Growth": 2.21,
+      "OPM": 3.91,
+      "Price to Earning": 51.15
+    },
+    "best": {
+      "Sales Growth": 2.31,
+      "OPM": 6.11,
+      "Price to Earning": 51.15
+    },
+    "worst": {
+      "Sales Growth": 2.21,
+      "OPM": 3.91,
+      "Price to Earning": 22.61
+    },
+    "periods": []
+  },
+  "sample_queries": []
+}

@@ -1,45 +1,154 @@
 {
-  "test_date": "2026-01-18T18:55:17.984830",
+  "test_date": "2026-01-18T19:51:44.011650",
   "total_pdfs": 5,
-  "successful": 0,
-  "failed": 5,
-  "average_quality_score": 0.0,
-  "total_documents_extracted": 0,
+  "successful": 5,
+  "failed": 0,
+  "average_quality_score": 21.9,
+  "total_documents_extracted": 29,
   "results": [
     {
       "pdf_name": "Apollo Tyres_Peer 2",
-      "status": "error",
-      "error": "name 'doc_types_found' is not defined",
-      "duration_seconds": 911.337375,
-      "quality_score": 0
+      "status": "success",
+      "page_count": 10,
+      "duration_seconds": 685.374723,
+      "documents_extracted": 6,
+      "document_types": [
+        "quarterly_results",
+        "profit_loss",
+        "cash_flow",
+        "balance_sheet",
+        "ratios",
+        "metadata"
+      ],
+      "period_types": [
+        "annual",
+        "quarterly",
+        "none"
+      ],
+      "quality_score": 0,
+      "issues": [],
+      "warnings": [
+        "balance_sheet.equity_share_capital: Expected 10 values, got 14",
+        "balance_sheet.reserves: Expected 10 values, got 14",
+        "balance_sheet.borrowings: Expected 10 values, got 14",
+        "balance_sheet.other_liabilities: Expected 10 values, got 14",
+        "balance_sheet.total_liabilities: Expected 10 values, got 14"
+      ],
+      "null_values": 58
     },
     {
       "pdf_name": "CEAT_Peer 3 (1)",
-      "status": "error",
-      "error": "'float' object has no attribute 'extend'",
-      "duration_seconds": 699.142434,
-      "quality_score": 0
+      "status": "success",
+      "page_count": 10,
+      "duration_seconds": 606.82578,
+      "documents_extracted": 6,
+      "document_types": [
+        "quarterly_results",
+        "profit_loss",
+        "cash_flow",
+        "balance_sheet",
+        "ratios",
+        "metadata"
+      ],
+      "period_types": [
+        "annual",
+        "quarterly",
+        "none"
+      ],
+      "quality_score": 0,
+      "issues": [],
+      "warnings": [
+        "balance_sheet.equity_share_capital: Expected 10 values, got 14",
+        "balance_sheet.reserves: Expected 10 values, got 14",
+        "balance_sheet.total_equity: Expected 10 values, got 14",
+        "balance_sheet.borrowings: Expected 10 values, got 14",
+        "balance_sheet.other_liabilities: Expected 10 values, got 14"
+      ],
+      "null_values": 43
     },
     {
       "pdf_name": "Goodyear India_Peer 4 (2)",
-      "status": "error",
-      "error": "name 'doc_types_found' is not defined",
-      "duration_seconds": 876.071166,
-      "quality_score": 0
+      "status": "success",
+      "page_count": 10,
+      "duration_seconds": 550.514378,
+      "documents_extracted": 7,
+      "document_types": [
+        "quarterly_results",
+        "profit_loss",
+        "cash_flow",
+        "balance_sheet",
+        "ratios",
+        "trends",
+        "metadata"
+      ],
+      "period_types": [
+        "annual",
+        "quarterly",
+        "multi_period_summary",
+        "none"
+      ],
+      "quality_score": 0,
+      "issues": [
+        "trends: Missing periods"
+      ],
+      "warnings": [
+        "balance_sheet.equity_share_capital: Expected 10 values, got 14",
+        "balance_sheet.reserves: Expected 10 values, got 14",
+        "balance_sheet.borrowings: Expected 10 values, got 14",
+        "balance_sheet.other_liabilities: Expected 10 values, got 14",
+        "balance_sheet.total_liabilities: Expected 10 values, got 14"
+      ],
+      "null_values": 92
     },
     {
       "pdf_name": "JK tyres sales",
-      "status": "error",
-      "error": "name 'doc_types_found' is not defined",
-      "duration_seconds": 107.984288,
-      "quality_score": 0
+      "status": "success",
+      "page_count": 1,
+      "duration_seconds": 113.717701,
+      "documents_extracted": 3,
+      "document_types": [
+        "ratios",
+        "metadata",
+        "profit_loss"
+      ],
+      "period_types": [
+        "annual",
+        "none"
+      ],
+      "quality_score": 99.0,
+      "issues": [],
+      "warnings": [],
+      "null_values": 10
     },
     {
       "pdf_name": "MRF_Peer 1 (1)",
-      "status": "error",
-      "error": "name 'doc_types_found' is not defined",
-      "duration_seconds": 806.151478,
-      "quality_score": 0
+      "status": "success",
+      "page_count": 10,
+      "duration_seconds": 748.073659,
+      "documents_extracted": 7,
+      "document_types": [
+        "quarterly_results",
+        "profit_loss",
+        "cash_flow",
+        "balance_sheet",
+        "ratios",
+        "metadata"
+      ],
+      "period_types": [
+        "annual",
+        "quarterly",
+        "none"
+      ],
+      "quality_score": 10.5,
+      "issues": [],
+      "warnings": [
+        "balance_sheet.equity_share_capital: Expected 10 values, got 14",
+        "balance_sheet.reserves: Expected 10 values, got 14",
+        "balance_sheet.borrowings: Expected 10 values, got 14",
+        "balance_sheet.other_liabilities: Expected 10 values, got 14",
+        "balance_sheet.total_assets: Expected 10 values, got 14"
+      ],
+      "null_values": 23
     }
   ]
 }

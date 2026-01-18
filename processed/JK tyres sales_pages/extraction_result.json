@@ -4,11 +4,14 @@
   "pages_processed": 1,
   "pages_successful": 1,
   "document_types_found": [
+    "ratios",
+    "metadata",
     "profit_loss"
   ],
   "documents": [
     {
-      "document_type": "profit_loss",
+      "document_type": "ratios",
+      "period_type": "annual",
       "pages": [
         1
       ],
@@ -25,7 +28,6 @@
         "Mar-25"
       ],
       "period_count": 10,
-      "period_type": "annual",
       "data": {
         "sales": [
           6898.23,
@@ -69,11 +71,11 @@
           134.7,
           -4.7,
           -75.55,
-          8,
-          0.55,
+          80.55,
           40.1,
           -25,
-          3.76
+          3.76,
+          47.66
         ],
         "depreciation": [
           216.13,
@@ -147,6 +149,54 @@
           30.16,
           18.07
         ],
+        "price_to_earning": [
+          4.09,
+          7.97,
+          55.96,
+          12.82,
+          6.63,
+          8.4,
+          13.76,
+          14.54,
+          14.33,
+          15.36
+        ],
+        "price": [
+          84.2,
+          131.95,
+          162.95,
+          91.85,
+          40.6,
+          109,
+          117.35,
+          155,
+          432.05,
+          277.45
+        ],
+        "dividend_payout": [
+          12.13,
+          15.1,
+          51.51,
+          20.95,
+          11.44,
+          15.42,
+          17.59,
+          18.76,
+          14.92,
+          16.6
+        ],
+        "opm": [
+          16.19,
+          14.73,
+          8.91,
+          10.72,
+          11.3,
+          14.35,
+          8.96,
+          8.86,
+          13.94,
+          10.88
+        ],
         "periods": [
           "Mar-16",
           "Mar-17",
@@ -161,19 +211,32 @@
         ]
       },
       "sample_queries": [
-        "What was the net profit in Mar-25?",
-        "Show sales trend from Mar-16 to Mar-25",
-        "What is the operating profit margin?",
-        "Compare expenses across all years"
+        "What is the ROE?",
+        "Show ROCE trend",
+        "What are the debtor days?"
       ]
-    }
-  ],
-  "page_details": [
+    },
     {
-      "page": 1,
-      "total_pages": 1,
+      "document_type": "metadata",
+      "period_type": "none",
+      "pages": [
+        1
+      ],
+      "periods": [],
+      "period_count": 0,
+      "data": {
+        "error": "Failed to extract JSON",
+        "raw_response": "{\n  \"company_name\": \"JK TYRE & INDUSTRIES LTD\",\n  \"face_value\": 10,\n  \"market_cap\": 14926.38,\n  \"share_price\": 205.44,\n  \"num_shares\": 14926.38 / 205.44 * 10000000\n}",
+        "periods": []
+      },
+      "sample_queries": []
+    },
+    {
       "document_type": "profit_loss",
-      "document_type_confidence": 0.95,
+      "period_type": "annual",
+      "pages": [
+        1
+      ],
       "periods": [
         "Mar-16",
         "Mar-17",
@@ -186,21 +249,8 @@
         "Mar-24",
         "Mar-25"
       ],
-      "period_type": "annual",
       "period_count": 10,
-      "extracted_data": {
-        "periods": [
-          "Mar-16",
-          "Mar-17",
-          "Mar-18",
-          "Mar-19",
-          "Mar-20",
-          "Mar-21",
-          "Mar-22",
-          "Mar-23",
-          "Mar-24",
-          "Mar-25"
-        ],
+      "data": {
         "sales": [
           6898.23,
           7689.37,
@@ -243,11 +293,11 @@
           134.7,
           -4.7,
           -75.55,
-          8,
-          0.55,
+          80.55,
           40.1,
           -25,
-          3.76
+          37.6,
+          47.66
         ],
         "depreciation": [
           216.13,
@@ -320,27 +370,461 @@
           10.66,
           30.16,
           18.07
+        ],
+        "dividend_amount": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19",
+          "Mar-20",
+          "Mar-21",
+          "Mar-22",
+          "Mar-23",
+          "Mar-24",
+          "Mar-25"
         ]
       },
-      "audit": {
-        "pdfplumber_char_count": 1779,
-        "ocr_char_count": 1625,
-        "pdfplumber_numbers": 235,
-        "ocr_numbers": 234,
-        "json_values": 110,
-        "text_match_ratio": 0.7603686635944701,
-        "passed": false,
-        "warnings": [
-          "JSON values (110) much less than source numbers (235)"
-        ]
-      },
+      "sample_queries": [
+        "What was the net profit in Mar-25?",
+        "Show sales trend from Mar-16 to Mar-25",
+        "What is the operating profit margin?",
+        "Compare expenses across all years"
+      ]
+    }
+  ],
+  "page_details": [
+    {
+      "page": 1,
+      "total_pages": 1,
+      "documents_on_page": 3,
+      "documents": [
+        {
+          "document_type": "profit_loss",
+          "document_type_confidence": 0.95,
+          "periods": [
+            "Mar-16",
+            "Mar-17",
+            "Mar-18",
+            "Mar-19",
+            "Mar-20",
+            "Mar-21",
+            "Mar-22",
+            "Mar-23",
+            "Mar-24",
+            "Mar-25"
+          ],
+          "period_type": "annual",
+          "period_count": 10,
+          "extracted_data": {
+            "periods": [
+              "Mar-16",
+              "Mar-17",
+              "Mar-18",
+              "Mar-19",
+              "Mar-20",
+              "Mar-21",
+              "Mar-22",
+              "Mar-23",
+              "Mar-24",
+              "Mar-25"
+            ],
+            "sales": [
+              6898.23,
+              7689.37,
+              8272.1,
+              10367.76,
+              8722.7,
+              9102.2,
+              11982.96,
+              14644.94,
+              15001.78,
+              14692.92
+            ],
+            "expenses": [
+              5781.62,
+              6556.96,
+              7535.03,
+              9255.85,
+              7737.1,
+              7795.86,
+              10909.6,
+              13347.13,
+              12910.94,
+              13094.37
+            ],
+            "operating_profit": [
+              1116.61,
+              1132.41,
+              737.07,
+              1111.91,
+              985.6,
+              1306.34,
+              1073.36,
+              1297.81,
+              2090.84,
+              1598.55
+            ],
+            "other_income": [
+              11.46,
+              134.51,
+              134.7,
+              -4.7,
+              -75.55,
+              80.55,
+              40.1,
+              -25,
+              37.6,
+              47.66
+            ],
+            "depreciation": [
+              216.13,
+              291.32,
+              299.46,
+              315.67,
+              377.83,
+              386.69,
+              385.36,
+              407.06,
+              436.75,
+              456.49
+            ],
+            "interest": [
+              252.43,
+              440.36,
+              465.5,
+              521.08,
+              548.99,
+              465.85,
+              419.09,
+              454.5,
+              446.93,
+              476.29
+            ],
+            "profit_before_tax": [
+              659.51,
+              535.24,
+              106.81,
+              270.46,
+              -16.77,
+              534.35,
+              309.01,
+              411.25,
+              1210.92,
+              713.43
+            ],
+            "tax": [
+              202.72,
+              155.42,
+              43.89,
+              94.17,
+              -165.78,
+              200.91,
+              108.71,
+              146.51,
+              399.44,
+              197.64
+            ],
+            "net_profit": [
+              467.31,
+              375.4,
+              66.04,
+              176.34,
+              150.76,
+              319.34,
+              210.02,
+              262.48,
+              786.23,
+              495.04
+            ],
+            "eps": [
+              20.6,
+              16.55,
+              2.91,
+              7.16,
+              6.12,
+              12.97,
+              8.53,
+              10.66,
+              30.16,
+              18.07
+            ],
+            "dividend_amount": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "audit": {
+            "pdfplumber_char_count": 1779,
+            "ocr_char_count": 0,
+            "pdfplumber_numbers": 235,
+            "ocr_numbers": 0,
+            "json_values": 120,
+            "text_match_ratio": 0.0,
+            "passed": true,
+            "warnings": []
+          }
+        },
+        {
+          "document_type": "ratios",
+          "document_type_confidence": 0.9,
+          "periods": [
+            "Mar-16",
+            "Mar-17",
+            "Mar-18",
+            "Mar-19",
+            "Mar-20",
+            "Mar-21",
+            "Mar-22",
+            "Mar-23",
+            "Mar-24",
+            "Mar-25"
+          ],
+          "period_type": "annual",
+          "period_count": 10,
+          "extracted_data": {
+            "periods": [
+              "Mar-16",
+              "Mar-17",
+              "Mar-18",
+              "Mar-19",
+              "Mar-20",
+              "Mar-21",
+              "Mar-22",
+              "Mar-23",
+              "Mar-24",
+              "Mar-25"
+            ],
+            "sales": [
+              6898.23,
+              7689.37,
+              8272.1,
+              10367.76,
+              8722.7,
+              9102.2,
+              11982.96,
+              14644.94,
+              15001.78,
+              14692.92
+            ],
+            "expenses": [
+              5781.62,
+              6556.96,
+              7535.03,
+              9255.85,
+              7737.1,
+              7795.86,
+              10909.6,
+              13347.13,
+              12910.94,
+              13094.37
+            ],
+            "operating_profit": [
+              1116.61,
+              1132.41,
+              737.07,
+              1111.91,
+              985.6,
+              1306.34,
+              1073.36,
+              1297.81,
+              2090.84,
+              1598.55
+            ],
+            "other_income": [
+              11.46,
+              134.51,
+              134.7,
+              -4.7,
+              -75.55,
+              80.55,
+              40.1,
+              -25,
+              3.76,
+              47.66
+            ],
+            "depreciation": [
+              216.13,
+              291.32,
+              299.46,
+              315.67,
+              377.83,
+              386.69,
+              385.36,
+              407.06,
+              436.75,
+              456.49
+            ],
+            "interest": [
+              252.43,
+              440.36,
+              465.5,
+              521.08,
+              548.99,
+              465.85,
+              419.09,
+              454.5,
+              446.93,
+              476.29
+            ],
+            "profit_before_tax": [
+              659.51,
+              535.24,
+              106.81,
+              270.46,
+              -16.77,
+              534.35,
+              309.01,
+              411.25,
+              1210.92,
+              713.43
+            ],
+            "tax": [
+              202.72,
+              155.42,
+              43.89,
+              94.17,
+              -165.78,
+              200.91,
+              108.71,
+              146.51,
+              399.44,
+              197.64
+            ],
+            "net_profit": [
+              467.31,
+              375.4,
+              66.04,
+              176.34,
+              150.76,
+              319.34,
+              210.02,
+              262.48,
+              786.23,
+              495.04
+            ],
+            "eps": [
+              20.6,
+              16.55,
+              2.91,
+              7.16,
+              6.12,
+              12.97,
+              8.53,
+              10.66,
+              30.16,
+              18.07
+            ],
+            "price_to_earning": [
+              4.09,
+              7.97,
+              55.96,
+              12.82,
+              6.63,
+              8.4,
+              13.76,
+              14.54,
+              14.33,
+              15.36
+            ],
+            "price": [
+              84.2,
+              131.95,
+              162.95,
+              91.85,
+              40.6,
+              109,
+              117.35,
+              155,
+              432.05,
+              277.45
+            ],
+            "dividend_payout": [
+              12.13,
+              15.1,
+              51.51,
+              20.95,
+              11.44,
+              15.42,
+              17.59,
+              18.76,
+              14.92,
+              16.6
+            ],
+            "opm": [
+              16.19,
+              14.73,
+              8.91,
+              10.72,
+              11.3,
+              14.35,
+              8.96,
+              8.86,
+              13.94,
+              10.88
+            ]
+          },
+          "audit": {
+            "pdfplumber_char_count": 1779,
+            "ocr_char_count": 0,
+            "pdfplumber_numbers": 235,
+            "ocr_numbers": 0,
+            "json_values": 150,
+            "text_match_ratio": 0.0,
+            "passed": true,
+            "warnings": []
+          }
+        },
+        {
+          "document_type": "metadata",
+          "document_type_confidence": 0.85,
+          "periods": [],
+          "period_type": "none",
+          "period_count": 0,
+          "extracted_data": {
+            "error": "Failed to extract JSON",
+            "raw_response": "{\n  \"company_name\": \"JK TYRE & INDUSTRIES LTD\",\n  \"face_value\": 10,\n  \"market_cap\": 14926.38,\n  \"share_price\": 205.44,\n  \"num_shares\": 14926.38 / 205.44 * 10000000\n}"
+          },
+          "audit": {
+            "pdfplumber_char_count": 1779,
+            "ocr_char_count": 0,
+            "pdfplumber_numbers": 235,
+            "ocr_numbers": 0,
+            "json_values": 0,
+            "text_match_ratio": 0.0,
+            "passed": false,
+            "warnings": [
+              "JSON values (0) much less than source numbers (235)"
+            ]
+          }
+        }
+      ],
       "source_chars": {
         "pdfplumber": 1779,
-        "ocr": 1625
+        "ocr": 0
       },
-      "timestamp": "2026-01-18T17:03:47.634100"
+      "timestamp": "2026-01-18T19:39:15.924043"
     }
   ],
   "output_directory": "processed\\JK tyres sales_pages",
-  "timestamp": "2026-01-18T17:03:47.638636"
+  "timestamp": "2026-01-18T19:39:15.930769"
 }

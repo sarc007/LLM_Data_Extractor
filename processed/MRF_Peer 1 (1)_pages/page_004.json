@@ -1,7 +1,7 @@
 {
   "page": 4,
   "total_pages": 10,
-  "documents_on_page": 2,
+  "documents_on_page": 1,
   "documents": [
     {
       "document_type": "cash_flow",
@@ -92,81 +92,11 @@
         "passed": true,
         "warnings": []
       }
-    },
-    {
-      "document_type": "metadata",
-      "document_type_confidence": 0.95,
-      "periods": [],
-      "period_type": "none",
-      "period_count": 0,
-      "extracted_data": {
-        "company_name": "MRF LTD",
-        "cash_from_operating_activity": {
-          "Mar-16": 3043.47,
-          "Mar-17": 1955.72,
-          "Mar-18": 2412.98,
-          "Mar-19": 1252.85,
-          "Mar-20": 2271.23,
-          "Mar-21": 4324.58,
-          "Mar-22": -578.01,
-          "Mar-23": 2755.47,
-          "Mar-24": 3303.36,
-          "Mar-25": 1867.8
-        },
-        "cash_from_investing_activity": {
-          "Mar-16": -3407.81,
-          "Mar-17": -1392.7,
-          "Mar-18": -2013.88,
-          "Mar-19": -1386.15,
-          "Mar-20": -162.31,
-          "Mar-21": -5086.57,
-          "Mar-22": 168.73,
-          "Mar-23": -1921.81,
-          "Mar-24": -2380.58,
-          "Mar-25": -2082.23
-        },
-        "cash_from_financing_activity": {
-          "Mar-16": 212.31,
-          "Mar-17": -437.62,
-          "Mar-18": -452.58,
-          "Mar-19": 42.19,
-          "Mar-20": -1032.35,
-          "Mar-21": -249.68,
-          "Mar-22": 423.74,
-          "Mar-23": -839.54,
-          "Mar-24": -868.22,
-          "Mar-25": 282.0
-        },
-        "net_cash_flow": {
-          "Mar-16": -152.03,
-          "Mar-17": 125.4,
-          "Mar-18": -53.48,
-          "Mar-19": -91.11,
-          "Mar-20": 1076.57,
-          "Mar-21": -1011.67,
-          "Mar-22": 14.46,
-          "Mar-23": -5.88,
-          "Mar-24": 54.56,
-          "Mar-25": 67.57
-        }
-      },
-      "audit": {
-        "pdfplumber_char_count": 533,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 70,
-        "ocr_numbers": 0,
-        "json_values": 0,
-        "text_match_ratio": 0.0,
-        "passed": false,
-        "warnings": [
-          "JSON values (0) much less than source numbers (70)"
-        ]
-      }
     }
   ],
   "source_chars": {
     "pdfplumber": 533,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:48:53.150351"
+  "timestamp": "2026-01-18T19:47:05.572275"
 }

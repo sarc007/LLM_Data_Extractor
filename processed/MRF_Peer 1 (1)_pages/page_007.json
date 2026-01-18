@@ -15,10 +15,10 @@
         "market_cap": 66136.38,
         "share_price": 155940,
         "num_shares": 0.42,
-        "profit_loss": {
+        "profit_and_loss": {
           "annual": [
             {
-              "year": "Mar-16",
+              "report_date": "Mar-16",
               "sales": 20179.41,
               "raw_material_cost": 11288.89,
               "change_in_inventory": 14.48,
@@ -36,7 +36,7 @@
               "dividend_amount": 42.4
             },
             {
-              "year": "Mar-17",
+              "report_date": "Mar-17",
               "sales": 13411.98,
               "raw_material_cost": 7722.8,
               "change_in_inventory": 227.71,
@@ -54,7 +54,7 @@
               "dividend_amount": 25.44
             },
             {
-              "year": "Mar-18",
+              "report_date": "Mar-18",
               "sales": 14953.71,
               "raw_material_cost": 9031.34,
               "change_in_inventory": -77.61,
@@ -72,7 +72,7 @@
               "dividend_amount": 25.44
             },
             {
-              "year": "Mar-19",
+              "report_date": "Mar-19",
               "sales": 16061.72,
               "raw_material_cost": 10323.17,
               "change_in_inventory": 613.83,
@@ -92,7 +92,7 @@
           ],
           "quarterly": [
             {
-              "period": "Mar-23",
+              "report_date": "Mar-23",
               "sales": 5841.72,
               "expenses": 4988.18,
               "other_income": 69.79,
@@ -104,7 +104,7 @@
               "operating_profit": 853.54
             },
             {
-              "period": "Jun-23",
+              "report_date": "Jun-23",
               "sales": 6440.29,
               "expenses": 5310.44,
               "other_income": 74.69,
@@ -116,7 +116,7 @@
               "operating_profit": 1129.85
             },
             {
-              "period": "Sep-23",
+              "report_date": "Sep-23",
               "sales": 6217.1,
               "expenses": 5060.19,
               "other_income": 70.72,
@@ -128,7 +128,7 @@
               "operating_profit": 1156.91
             },
             {
-              "period": "Dec-23",
+              "report_date": "Dec-23",
               "sales": 6162.46,
               "expenses": 5107.69,
               "other_income": 77.62,
@@ -188,10 +188,10 @@
           6162.46
         ],
         "expenses": [
-          14570.43,
-          10462.37,
-          12079.43,
-          13704.56,
+          14567.36,
+          10444.66,
+          11929.72,
+          13034.5,
           4988.18,
           5310.44,
           5060.19,
@@ -396,5 +396,5 @@
     "pdfplumber": 1250,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:49:56.033986"
+  "timestamp": "2026-01-18T19:48:21.034333"
 }

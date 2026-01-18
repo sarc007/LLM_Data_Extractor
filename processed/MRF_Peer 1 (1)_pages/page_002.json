@@ -4,171 +4,148 @@
   "documents_on_page": 3,
   "documents": [
     {
-      "document_type": "profit_loss",
+      "document_type": "metadata",
       "document_type_confidence": 0.95,
-      "periods": [
-        "Mar-23",
-        "Mar-24",
-        "Mar-25"
-      ],
-      "period_type": "annual",
-      "period_count": 3,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
       "extracted_data": {
-        "periods": [
-          "Mar-23",
-          "Jun-23",
-          "Sep-23",
-          "Dec-23",
-          "Mar-24",
-          "Jun-24",
-          "Sep-24",
-          "Dec-24",
-          "Mar-25",
-          "Jun-25"
-        ],
-        "sales": [
-          5841.72,
-          6440.29,
-          6217.1,
-          6162.46,
-          6349.36,
-          7196.45,
-          6881.09,
-          7000.82,
-          7074.82,
-          7675.69
-        ],
-        "expenses": [
-          4988.18,
-          5310.44,
-          5060.19,
-          5107.69,
-          5437.33,
-          6036.83,
-          5869.61,
-          6166.08,
-          5996.19,
-          6604.45
-        ],
-        "operating_profit": [
-          853.54,
-          1129.85,
-          1156.91,
-          1054.77,
-          912.03,
-          1159.62,
-          1011.48,
-          834.74,
-          1078.63,
-          1071.24
-        ],
-        "other_income": [
-          69.79,
-          74.69,
-          70.72,
-          77.62,
-          93.81,
-          84.04,
-          113.21,
-          98.08,
-          112.78,
-          126.43
-        ],
-        "depreciation": [
-          329.63,
-          333.26,
-          351.48,
-          359.98,
-          385.25,
-          396.08,
-          409.73,
-          414.99,
-          432.75,
-          428.78
-        ],
-        "interest": [
-          92.47,
-          84.22,
-          85.54,
-          90.0,
-          93.25,
-          84.67,
-          83.78,
-          93.65,
-          97.93,
-          98.41
-        ],
-        "profit_before_tax": [
-          501.23,
-          787.06,
-          790.61,
-          682.41,
-          527.34,
-          762.91,
-          631.18,
-          424.18,
-          660.73,
-          670.48
-        ],
-        "tax": [
-          160.58,
-          198.31,
-          203.95,
-          172.7,
-          131.23,
-          191.89,
-          160.48,
-          108.72,
-          148.62,
-          170.01
-        ],
-        "net_profit": [
-          340.64,
-          588.75,
-          586.66,
-          509.71,
-          396.1,
-          571.02,
-          470.7,
-          315.45,
-          512.11,
-          500.47
-        ],
-        "opm": [
-          15,
-          18,
-          19,
-          17,
-          14,
-          16,
-          15,
-          12,
-          15,
-          14
-        ],
-        "eps": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ],
-        "dividend_amount": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
+        "company_name": "MRF LTD",
+        "face_value": null,
+        "market_cap": null,
+        "share_price": null,
+        "num_shares": null,
+        "financials": [
+          {
+            "period": "Mar-23",
+            "sales": 5841.72,
+            "expenses": 4988.18,
+            "operating_profit": 853.54,
+            "other_income": 69.79,
+            "depreciation": 329.63,
+            "interest": 92.47,
+            "profit_before_tax": 501.23,
+            "tax": 160.58,
+            "net_profit": 340.64,
+            "opm_percent": 15
+          },
+          {
+            "period": "Jun-23",
+            "sales": 6440.29,
+            "expenses": 5310.44,
+            "operating_profit": 1129.85,
+            "other_income": 74.69,
+            "depreciation": 333.26,
+            "interest": 84.22,
+            "profit_before_tax": 787.06,
+            "tax": 198.31,
+            "net_profit": 588.75,
+            "opm_percent": 18
+          },
+          {
+            "period": "Sep-23",
+            "sales": 6217.1,
+            "expenses": 5060.19,
+            "operating_profit": 1156.91,
+            "other_income": 70.72,
+            "depreciation": 351.48,
+            "interest": 85.54,
+            "profit_before_tax": 790.61,
+            "tax": 203.95,
+            "net_profit": 586.66,
+            "opm_percent": 19
+          },
+          {
+            "period": "Dec-23",
+            "sales": 6162.46,
+            "expenses": 5107.69,
+            "operating_profit": 1054.77,
+            "other_income": 77.62,
+            "depreciation": 359.98,
+            "interest": 90.0,
+            "profit_before_tax": 682.41,
+            "tax": 172.7,
+            "net_profit": 509.71,
+            "opm_percent": 17
+          },
+          {
+            "period": "Mar-24",
+            "sales": 6349.36,
+            "expenses": 5437.33,
+            "operating_profit": 912.03,
+            "other_income": 93.81,
+            "depreciation": 385.25,
+            "interest": 93.25,
+            "profit_before_tax": 527.34,
+            "tax": 131.23,
+            "net_profit": 396.1,
+            "opm_percent": 14
+          },
+          {
+            "period": "Jun-24",
+            "sales": 7196.45,
+            "expenses": 6036.83,
+            "operating_profit": 1159.62,
+            "other_income": 84.04,
+            "depreciation": 396.08,
+            "interest": 84.67,
+            "profit_before_tax": 762.91,
+            "tax": 191.89,
+            "net_profit": 571.02,
+            "opm_percent": 16
+          },
+          {
+            "period": "Sep-24",
+            "sales": 6881.09,
+            "expenses": 5869.61,
+            "operating_profit": 1011.48,
+            "other_income": 113.21,
+            "depreciation": 409.73,
+            "interest": 83.78,
+            "profit_before_tax": 631.18,
+            "tax": 160.48,
+            "net_profit": 470.7,
+            "opm_percent": 15
+          },
+          {
+            "period": "Dec-24",
+            "sales": 7000.82,
+            "expenses": 6166.08,
+            "operating_profit": 834.74,
+            "other_income": 98.08,
+            "depreciation": 414.99,
+            "interest": 93.65,
+            "profit_before_tax": 424.18,
+            "tax": 108.72,
+            "net_profit": 315.45,
+            "opm_percent": 12
+          },
+          {
+            "period": "Mar-25",
+            "sales": 7074.82,
+            "expenses": 5996.19,
+            "operating_profit": 1078.63,
+            "other_income": 112.78,
+            "depreciation": 432.75,
+            "interest": 97.93,
+            "profit_before_tax": 660.73,
+            "tax": 148.62,
+            "net_profit": 512.11,
+            "opm_percent": 15
+          },
+          {
+            "period": "Jun-25",
+            "sales": 7675.69,
+            "expenses": 6604.45,
+            "operating_profit": 1071.24,
+            "other_income": 126.43,
+            "depreciation": 428.78,
+            "interest": 98.41,
+            "profit_before_tax": 670.48,
+            "tax": 170.01,
+            "net_profit": 500.47,
+            "opm_percent": 14
+          }
         ]
       },
       "audit": {
@@ -176,26 +153,31 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 121,
         "ocr_numbers": 0,
-        "json_values": 130,
+        "json_values": 10,
         "text_match_ratio": 0.0,
-        "passed": true,
-        "warnings": []
+        "passed": false,
+        "warnings": [
+          "JSON values (10) much less than source numbers (121)"
+        ]
       }
     },
     {
       "document_type": "quarterly_results",
       "document_type_confidence": 0.95,
       "periods": [
+        "Mar-23",
         "Jun-23",
         "Sep-23",
         "Dec-23",
+        "Mar-24",
         "Jun-24",
         "Sep-24",
         "Dec-24",
+        "Mar-25",
         "Jun-25"
       ],
       "period_type": "quarterly",
-      "period_count": 7,
+      "period_count": 10,
       "extracted_data": {
         "periods": [
           "Mar-23",
@@ -356,7 +338,7 @@
         "Mar-25",
         "Jun-25"
       ],
-      "period_type": "mixed",
+      "period_type": "quarterly",
       "period_count": 10,
       "extracted_data": {
         "periods": [
@@ -508,5 +490,5 @@
     "pdfplumber": 894,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:45:51.259923"
+  "timestamp": "2026-01-18T19:43:33.678497"
 }

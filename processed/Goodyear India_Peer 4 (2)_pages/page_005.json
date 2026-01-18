@@ -1,11 +1,36 @@
 {
   "page": 5,
   "total_pages": 10,
-  "documents_on_page": 0,
-  "documents": [],
+  "documents_on_page": 1,
+  "documents": [
+    {
+      "document_type": "metadata",
+      "document_type_confidence": 0.95,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
+      "extracted_data": {
+        "company_name": "METADATA",
+        "face_value": 10,
+        "market_cap": 15000000000,
+        "share_price": 1500,
+        "num_shares": 10000000
+      },
+      "audit": {
+        "pdfplumber_char_count": 555,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 0,
+        "ocr_numbers": 0,
+        "json_values": 0,
+        "text_match_ratio": 0.0,
+        "passed": true,
+        "warnings": []
+      }
+    }
+  ],
   "source_chars": {
     "pdfplumber": 555,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:34:05.942931"
+  "timestamp": "2026-01-18T19:32:39.706265"
 }

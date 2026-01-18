@@ -4,6 +4,221 @@
   "documents_on_page": 3,
   "documents": [
     {
+      "document_type": "metadata",
+      "document_type_confidence": 0.95,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
+      "extracted_data": {
+        "company_name": "MRF LTD",
+        "face_value": 4.24,
+        "market_cap": 29566.99,
+        "share_price": null,
+        "num_shares": null,
+        "equity_share_capital": [
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24
+        ],
+        "reserves": [
+          7220.1,
+          108636.52,
+          9733.95,
+          10833.11,
+          12210.47,
+          13409.43,
+          14027.51,
+          14703.42,
+          16698.75,
+          18484.22
+        ],
+        "borrowings": [
+          2463.9,
+          2332.84,
+          2162.9,
+          2506.31,
+          1854.14,
+          2388.23,
+          3228.95,
+          3013.61,
+          2821.5,
+          3771.16
+        ],
+        "other_liabilities": [
+          3565.57,
+          4074.56,
+          4577.13,
+          5097.54,
+          5373.49,
+          6779.96,
+          5799.04,
+          6648.14,
+          7324.94,
+          7307.37
+        ],
+        "total_liabilities": [
+          13253.81,
+          15048.16,
+          16478.22,
+          18441.2,
+          19442.34,
+          22581.86,
+          23059.74,
+          24369.41,
+          26849.43,
+          29566.99
+        ],
+        "net_block": [
+          4608.29,
+          5502.24,
+          6092.17,
+          6786.0,
+          8869.76,
+          9440.75,
+          9521.82,
+          10117.97,
+          12046.22,
+          13220.78
+        ],
+        "capital_work_in_progress": [
+          1059.28,
+          847.93,
+          1078.91,
+          1403.47,
+          1740.94,
+          1002.23,
+          1233.07,
+          3045.86,
+          2384.53,
+          1168.63
+        ],
+        "investments": [
+          3137.9,
+          3382.1,
+          4145.0,
+          3854.68,
+          1519.33,
+          5874.02,
+          3656.46,
+          3085.11,
+          3382.97,
+          4548.24
+        ],
+        "other_assets": [
+          4448.34,
+          5315.89,
+          5162.14,
+          6397.05,
+          7312.31,
+          6264.86,
+          8648.39,
+          8120.47,
+          9035.71,
+          10629.34
+        ],
+        "working_capital": [
+          882.77,
+          1241.33,
+          585.01,
+          1299.51,
+          1938.82,
+          -515.1,
+          2849.35,
+          1472.33,
+          1710.77,
+          3321.97
+        ],
+        "debtors": [
+          1838.72,
+          1969.0,
+          2149.93,
+          2382.71,
+          2299.4,
+          2145.96,
+          2332.68,
+          2503.27,
+          2911.96,
+          3370.25
+        ],
+        "inventory": [
+          1899.81,
+          2425.27,
+          2197.33,
+          2993.2,
+          2905.18,
+          2938.81,
+          4129.67,
+          4141.05,
+          4468.58,
+          5624.78
+        ],
+        "debtor_days": [
+          33.26,
+          53.59,
+          52.48,
+          54.15,
+          51.69,
+          48.46,
+          44.08,
+          39.71,
+          42.23,
+          43.7
+        ],
+        "inventory_turnover": [
+          10.62,
+          5.53,
+          6.81,
+          5.37,
+          5.59,
+          5.5,
+          4.68,
+          5.56,
+          5.63,
+          5.01
+        ],
+        "return_on_equity": [
+          35,
+          17,
+          12,
+          10,
+          12,
+          10,
+          5,
+          5,
+          12,
+          10
+        ],
+        "return_on_capital_employed": [
+          23,
+          17,
+          15,
+          13,
+          14,
+          7,
+          8,
+          17,
+          14
+        ]
+      },
+      "audit": {
+        "pdfplumber_char_count": 1570,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 194,
+        "ocr_numbers": 0,
+        "json_values": 159,
+        "text_match_ratio": 0.0,
+        "passed": true,
+        "warnings": []
+      }
+    },
+    {
       "document_type": "balance_sheet",
       "document_type_confidence": 0.95,
       "periods": [
@@ -81,7 +296,7 @@
           7324.94,
           7307.37
         ],
-        "total_liabilities": [
+        "total_liabilities_and_equity": [
           13253.81,
           15048.16,
           16478.22,
@@ -107,7 +322,7 @@
         ],
         "capital_work_in_progress": [
           1059.28,
-          847.93,
+          47.93,
           1078.91,
           1403.47,
           1740.94,
@@ -235,7 +450,7 @@
           8,
           17,
           14,
-          14
+          null
         ]
       },
       "audit": {
@@ -279,104 +494,6 @@
           "Mar-24",
           "Mar-25"
         ],
-        "roe": [
-          35,
-          17,
-          12,
-          10,
-          12,
-          10,
-          5,
-          5,
-          12,
-          10
-        ],
-        "roce": [
-          23,
-          17,
-          15,
-          13,
-          14,
-          7,
-          8,
-          17,
-          14,
-          null
-        ],
-        "current_ratio": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ],
-        "debtor_days": [
-          53.26,
-          53.59,
-          52.48,
-          54.15,
-          51.69,
-          48.46,
-          44.08,
-          39.71,
-          42.23,
-          43.7
-        ],
-        "inventory_turnover": [
-          10.62,
-          5.53,
-          6.81,
-          5.37,
-          5.59,
-          5.5,
-          4.68,
-          5.56,
-          5.63,
-          5.01
-        ],
-        "dividend_payout": [
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          null
-        ]
-      },
-      "audit": {
-        "pdfplumber_char_count": 1570,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 194,
-        "ocr_numbers": 0,
-        "json_values": 70,
-        "text_match_ratio": 0.0,
-        "passed": false,
-        "warnings": [
-          "JSON values (70) much less than source numbers (194)"
-        ]
-      }
-    },
-    {
-      "document_type": "metadata",
-      "document_type_confidence": 0.95,
-      "periods": [],
-      "period_type": "none",
-      "period_count": 0,
-      "extracted_data": {
-        "company_name": "MRF LTD",
-        "face_value": 4.24,
-        "market_cap": null,
-        "share_price": null,
-        "num_shares": null,
         "equity_share_capital": [
           4.24,
           4.24,
@@ -391,7 +508,7 @@
         ],
         "reserves": [
           7220.1,
-          8636.52,
+          108636.52,
           9733.95,
           10833.11,
           12210.47,
@@ -441,7 +558,7 @@
           4608.29,
           5502.24,
           6092.17,
-          6786.0,
+          6786,
           8869.76,
           9440.75,
           9521.82,
@@ -464,7 +581,7 @@
         "investments": [
           3137.9,
           3382.1,
-          4145.0,
+          4145,
           3854.68,
           1519.33,
           5874.02,
@@ -511,7 +628,7 @@
         ],
         "debtors": [
           1838.72,
-          1969.0,
+          1969,
           2149.93,
           2382.71,
           2299.4,
@@ -587,7 +704,7 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 194,
         "ocr_numbers": 0,
-        "json_values": 170,
+        "json_values": 180,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
@@ -598,5 +715,5 @@
     "pdfplumber": 1570,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:48:00.483471"
+  "timestamp": "2026-01-18T19:46:46.252035"
 }

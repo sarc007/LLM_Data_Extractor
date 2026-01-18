@@ -66,7 +66,7 @@
         "current_assets": [
           3617.64,
           4109.95,
-          4979.57,
+          4979.62,
           5361.1
         ],
         "total_assets": [
@@ -232,11 +232,37 @@
             2945.35,
             3484.09
           ],
-          "cash_bank": [
+          "cash_and_bank": [
             594.2,
             336.92,
             599.19,
             562.65
+          ]
+        },
+        "share_data": {
+          "no_of_equity_shares": [
+            509024770,
+            509024770,
+            572049980,
+            572049980
+          ],
+          "new_bonus_shares": [
+            null,
+            null,
+            null,
+            null
+          ],
+          "face_value": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "adjusted_equity_shares_in_cr": [
+            50.9,
+            50.9,
+            57.2,
+            57.2
           ]
         },
         "cash_flow": {
@@ -246,19 +272,19 @@
             "Mar-18",
             "Mar-19"
           ],
-          "operating_activity": [
+          "cash_from_operating_activity": [
             2122.5,
             902.27,
             1719.67,
             1071.12
           ],
-          "investing_activity": [
+          "cash_from_investing_activity": [
             -2225.94,
             -3367.71,
             -3890.83,
             -1027.32
           ],
-          "financing_activity": [
+          "cash_from_financing_activity": [
             -254.66,
             1894.63,
             2320.88,
@@ -271,45 +297,25 @@
             -18.41
           ]
         },
-        "share_data": {
+        "price_data": {
           "report_dates": [
             "Mar-16",
             "Mar-17",
             "Mar-18",
             "Mar-19"
           ],
-          "num_shares": [
-            509024770,
-            509024770,
-            572049980,
-            572049980
-          ],
-          "adjusted_equity_shares_cr": [
-            50.9,
-            50.9,
-            57.2,
-            57.2
-          ],
-          "face_value": [
-            1,
-            1,
-            1,
-            1
-          ]
-        },
-        "market_data": {
-          "report_dates": [
-            "Mar-16",
-            "Mar-17",
-            "Mar-18",
-            "Mar-19"
-          ],
-          "share_price": [
+          "price": [
             174.9,
             208.7,
             277.05,
             222.75
           ]
+        },
+        "current_period_data": {
+          "face_value": 1,
+          "market_cap": 20150.89,
+          "share_price": 222.75,
+          "num_shares": 572049980
         }
       },
       "audit": {
@@ -328,5 +334,5 @@
     "pdfplumber": 1087,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:10:42.752757"
+  "timestamp": "2026-01-18T19:15:46.088654"
 }

@@ -24,7 +24,7 @@
       5766.36,
       6282.48,
       6984.51,
-      6778.83,
+      16778.83,
       7609.6,
       9363.41,
       11314.88,
@@ -197,6 +197,35 @@
       13.84,
       11.16
     ],
+    "trends": {
+      "sales_growth": {
+        "ten_years": 10.27,
+        "seven_years": 11.21,
+        "five_years": 14.29,
+        "three_years": 12.18,
+        "recent": 10.67,
+        "best": 12.18,
+        "worst": 10.27
+      },
+      "opm_percentage": {
+        "ten_years": 10.96,
+        "seven_years": 10.71,
+        "five_years": 10.89,
+        "three_years": 11.25,
+        "recent": 11.55,
+        "best": 11.55,
+        "worst": 10.71
+      },
+      "price_to_earning": {
+        "ten_years": 23.06,
+        "seven_years": 25.39,
+        "five_years": 28.54,
+        "three_years": 25.91,
+        "recent": 30.5,
+        "best": 30.5,
+        "worst": 23.06
+      }
+    },
     "roe": [
       21,
       15,

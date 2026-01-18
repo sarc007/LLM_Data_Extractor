@@ -11,10 +11,18 @@
       "period_count": 0,
       "extracted_data": {
         "company_name": "METADATA",
-        "face_value": 1,
+        "face_value": 63.51,
         "market_cap": 27226.69,
         "share_price": 63.51,
         "num_shares": 635100946,
+        "periods": [
+          "Mar-20",
+          "Mar-21",
+          "Mar-22",
+          "Mar-23",
+          "Mar-24",
+          "Mar-25"
+        ],
         "revenue": [
           9872.81,
           11379.62,
@@ -31,7 +39,7 @@
           4905.1,
           4410.43
         ],
-        "net_income": [
+        "net_profit": [
           6511.57,
           7039.78,
           8228.24,
@@ -47,7 +55,7 @@
           26874.88,
           27226.69
         ],
-        "total_liabilities": [
+        "equity_capital": [
           15448.4,
           16419.57,
           17591.32,
@@ -55,7 +63,7 @@
           17006.4,
           16411.03
         ],
-        "operating_cash_flow": [
+        "eps": [
           1641.98,
           1106.51,
           618.23,
@@ -63,7 +71,7 @@
           347.73,
           435.44
         ],
-        "investing_cash_flow": [
+        "dividend_payout": [
           19.42,
           109.61,
           481.26,
@@ -71,7 +79,7 @@
           531.65,
           45.15
         ],
-        "financing_cash_flow": [
+        "operating_cash_flow": [
           6095.68,
           8180.73,
           8350.47,
@@ -79,23 +87,15 @@
           8989.1,
           10335.07
         ],
-        "equity": [
-          23205.48,
-          25816.42,
-          27041.28,
-          27281.12,
-          26874.88,
-          27226.69
+        "debt_to_equity_ratio": [
+          0.93988,
+          1.38082,
+          2.05129,
+          2.48853,
+          2.66484,
+          3.0621
         ],
-        "gross_profit": [
-          939.88,
-          1380.82,
-          2051.29,
-          2488.53,
-          2664.84,
-          3062.1
-        ],
-        "operating_expenses": [
+        "return_on_equity": [
           3206.92,
           3318.53,
           4155.39,
@@ -103,7 +103,7 @@
           4245.73,
           5131.16
         ],
-        "ebit": [
+        "current_ratio": [
           749.6,
           2145.79,
           1080.66,
@@ -111,23 +111,7 @@
           922.13,
           897.5
         ],
-        "periods": [
-          "Mar-20",
-          "Mar-21",
-          "Mar-22",
-          "Mar-23",
-          "Mar-24",
-          "Mar-25"
-        ],
-        "eps": [
-          57.21,
-          63.51,
-          63.51,
-          63.51,
-          63.51,
-          63.51
-        ],
-        "dividends": [
+        "free_cash_flow": [
           2517.36,
           2446.87,
           2153.56,
@@ -135,7 +119,7 @@
           3439.52,
           1823.14
         ],
-        "free_cash_flow": [
+        "working_capital": [
           -2817.32,
           -2341.98,
           -1172.16,
@@ -143,7 +127,7 @@
           -704.03,
           -201.98
         ],
-        "capex": [
+        "inventory_turnover": [
           472.47,
           152.15,
           -1081.4,
@@ -151,7 +135,7 @@
           -2659.06,
           -1646.57
         ],
-        "working_capital_change": [
+        "gross_margin": [
           172.51,
           257.05,
           -100,
@@ -159,7 +143,7 @@
           76.43,
           -25.41
         ],
-        "depreciation_amortization": [
+        "operating_margin": [
           79.4,
           223.7,
           191,
@@ -173,7 +157,7 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 138,
         "ocr_numbers": 0,
-        "json_values": 114,
+        "json_values": 102,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
@@ -250,12 +234,12 @@
           10335.07
         ],
         "profit_before_tax": [
-          23205.48,
-          25816.42,
-          27041.28,
-          27281.12,
-          26874.88,
-          27226.69
+          15448.4,
+          16419.57,
+          17591.32,
+          17652.94,
+          17006.4,
+          16411.03
         ],
         "tax": [
           939.88,
@@ -274,22 +258,14 @@
           5131.16
         ],
         "eps": [
-          749.6,
-          2145.79,
-          1080.66,
-          846.23,
-          922.13,
-          897.5
+          57.21,
+          63.51,
+          63.51,
+          63.51,
+          63.51,
+          63.51
         ],
         "dividend_amount": [
-          572049980,
-          635100946,
-          635100946,
-          635100946,
-          635100946,
-          635100946
-        ],
-        "dividend_percentage": [
           1,
           1,
           1,
@@ -297,7 +273,7 @@
           1,
           1
         ],
-        "cash_flow_from_operations": [
+        "cash_flow_from_operating_activities": [
           2517.36,
           2446.87,
           2153.56,
@@ -305,7 +281,7 @@
           3439.52,
           1823.14
         ],
-        "cash_flow_from_investing": [
+        "cash_flow_from_investing_activities": [
           -2817.32,
           -2341.98,
           -1172.16,
@@ -313,7 +289,7 @@
           -704.03,
           -201.98
         ],
-        "cash_flow_from_financing": [
+        "cash_flow_from_financing_activities": [
           472.47,
           152.15,
           -1081.4,
@@ -321,7 +297,7 @@
           -2659.06,
           -1646.57
         ],
-        "net_cash_change": [
+        "net_change_in_cash": [
           172.51,
           257.05,
           -100,
@@ -329,7 +305,7 @@
           76.43,
           -25.41
         ],
-        "closing_cash_balance": [
+        "cash_at_beginning_of_period": [
           79.4,
           223.7,
           191,
@@ -337,13 +313,13 @@
           466.45,
           426.05
         ],
-        "share_capital": [
-          57.21,
-          63.51,
-          63.51,
-          63.51,
-          63.51,
-          63.51
+        "cash_at_end_of_period": [
+          251.91,
+          480.75,
+          91.0,
+          286.32,
+          542.88,
+          400.64
         ]
       },
       "audit": {
@@ -351,7 +327,7 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 138,
         "ocr_numbers": 0,
-        "json_values": 114,
+        "json_values": 108,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
@@ -362,5 +338,5 @@
     "pdfplumber": 1025,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T18:13:48.608226"
+  "timestamp": "2026-01-18T19:18:04.826739"
 }
