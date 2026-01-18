@@ -28,6 +28,31 @@ def get_pdf_periods(pdf_path: str) -> list:
     return periods
 
 
+def get_json_periods(pl: dict, extracted: dict) -> list:
+    """Extract periods from JSON - handles multiple formats."""
+    # Format 1: Separate periods list in profit_loss
+    if "periods" in pl:
+        return pl["periods"]
+    # Format 2: Periods at top level
+    if "periods" in extracted:
+        return extracted["periods"]
+    # Format 3: Each metric has [{period, value}] format
+    sales = pl.get("sales", [])
+    if sales and isinstance(sales[0], dict):
+        return [s.get("period") for s in sales if s.get("period")]
+    return []
+
+
+def get_metric_values(pl: dict, metric: str) -> list:
+    """Get values for a metric - handles multiple formats."""
+    values = pl.get(metric, [])
+    if not values:
+        return []
+    if isinstance(values[0], dict):
+        return [v.get("value") for v in values]
+    return values
+
+
 def validate(pdf_path: str, json_path: str) -> list:
     """Validate JSON extraction against source PDF."""
     issues = []
@@ -44,9 +69,8 @@ def validate(pdf_path: str, json_path: str) -> list:
     print(f"\n[PDF] Periods found: {pdf_periods[:10]}...")
     
     # Get JSON periods
-    sales = pl.get("sales", [])
-    json_periods = [s.get("period") for s in sales if s.get("period")]
-    print(f"[JSON] Periods in sales: {json_periods[:10]}...")
+    json_periods = get_json_periods(pl, extracted)
+    print(f"[JSON] Periods in data: {json_periods[:10]}...")
     
     # 1. Check for invented periods
     invented = [p for p in json_periods if p not in pdf_periods]
@@ -63,14 +87,17 @@ def validate(pdf_path: str, json_path: str) -> list:
             print(f"✅ First period matches: {json_periods[0]}")
     
     # 3. Check for frequency mixing (70%+ drops)
-    for i in range(1, len(sales)):
-        prev = sales[i-1].get("value", 0) or 0
-        curr = sales[i].get("value", 0) or 0
+    sales_values = get_metric_values(pl, "sales")
+    for i in range(1, len(sales_values)):
+        prev = sales_values[i-1] or 0
+        curr = sales_values[i] or 0
         if prev > 0 and curr > 0:
             drop = (prev - curr) / prev * 100
             if drop > 70:
+                period_prev = json_periods[i-1] if i-1 < len(json_periods) else "?"
+                period_curr = json_periods[i] if i < len(json_periods) else "?"
                 issues.append(
-                    f"❌ FREQUENCY MIX: {sales[i-1]['period']}={prev} → {sales[i]['period']}={curr} ({drop:.1f}% drop)"
+                    f"❌ FREQUENCY MIX: {period_prev}={prev} → {period_curr}={curr} ({drop:.1f}% drop)"
                 )
     if not any("FREQUENCY" in i for i in issues):
         print("✅ No frequency mixing detected")
