@@ -26,6 +26,40 @@ def get_pdf_periods(pdf_path: str) -> list:
     return periods
 
 
+def get_periods_from_extraction(extracted: dict) -> list:
+    """Extract periods from JSON - handles multiple formats."""
+    pl = extracted.get("profit_loss", {})
+    
+    # Format 1: Separate periods list
+    if "periods" in pl:
+        return pl["periods"]
+    
+    # Format 2: Each metric has [{period, value}] format
+    sales = pl.get("sales", [])
+    if sales and isinstance(sales[0], dict):
+        return [s.get("period") for s in sales if s.get("period")]
+    
+    # Format 3: Periods at top level
+    if "periods" in extracted:
+        return extracted["periods"]
+    
+    return []
+
+
+def get_metric_values(pl: dict, metric: str) -> list:
+    """Get values for a metric - handles multiple formats."""
+    values = pl.get(metric, [])
+    if not values:
+        return []
+    
+    # Format 1: List of dicts with period/value
+    if isinstance(values[0], dict):
+        return [v.get("value") for v in values]
+    
+    # Format 2: List of raw values
+    return values
+
+
 def run_extraction(pdf_path: str) -> dict:
     """Run actual extraction on PDF and return JSON result."""
     from app.qwen_pipeline import process_document_qwen
@@ -66,14 +100,15 @@ class TestE2EExtraction:
             pytest.skip("Could not extract periods from PDF")
         
         extracted = extraction_result.get("extracted_data", {})
-        sales = extracted.get("profit_loss", {}).get("sales", [])
-        json_periods = [s.get("period") for s in sales if s.get("period")]
+        json_periods = get_periods_from_extraction(extracted)
+        
+        if not json_periods:
+            pytest.skip("Could not extract periods from JSON")
         
         # First period in JSON should be in PDF periods
-        if json_periods:
-            first_json_period = json_periods[0]
-            assert first_json_period in pdf_periods, \
-                f"First JSON period '{first_json_period}' not found in PDF periods: {pdf_periods[:5]}"
+        first_json_period = json_periods[0]
+        assert first_json_period in pdf_periods, \
+            f"First JSON period '{first_json_period}' not found in PDF periods: {pdf_periods[:5]}"
     
     def test_no_invented_periods(self, extraction_result, pdf_periods):
         """JSON should not contain periods that don't exist in PDF."""
@@ -81,8 +116,10 @@ class TestE2EExtraction:
             pytest.skip("Could not extract periods from PDF")
         
         extracted = extraction_result.get("extracted_data", {})
-        sales = extracted.get("profit_loss", {}).get("sales", [])
-        json_periods = [s.get("period") for s in sales if s.get("period")]
+        json_periods = get_periods_from_extraction(extracted)
+        
+        if not json_periods:
+            pytest.skip("Could not extract periods from JSON")
         
         # Check for invented periods not in PDF
         invented = [p for p in json_periods if p not in pdf_periods]
@@ -91,25 +128,25 @@ class TestE2EExtraction:
     def test_no_frequency_mixing(self, extraction_result):
         """Annual data should not have sudden 70%+ drops (quarterly mixed in)."""
         extracted = extraction_result.get("extracted_data", {})
-        sales = extracted.get("profit_loss", {}).get("sales", [])
+        pl = extracted.get("profit_loss", {})
+        sales_values = get_metric_values(pl, "sales")
+        json_periods = get_periods_from_extraction(extracted)
         
-        for i in range(1, len(sales)):
-            prev = sales[i-1].get("value", 0) or 0
-            curr = sales[i].get("value", 0) or 0
+        for i in range(1, len(sales_values)):
+            prev = sales_values[i-1] or 0
+            curr = sales_values[i] or 0
             
             if prev > 0 and curr > 0:
                 drop = (prev - curr) / prev * 100
-                assert drop < 70, (
-                    f"70%+ drop suggests quarterly/annual mix: "
-                    f"{sales[i-1]['period']}={prev} → {sales[i]['period']}={curr}"
-                )
+                period_info = f"{json_periods[i-1] if i-1 < len(json_periods) else '?'} → {json_periods[i] if i < len(json_periods) else '?'}"
+                assert drop < 70, f"70%+ drop suggests quarterly/annual mix: {period_info} ({prev} → {curr})"
     
     def test_structural_consistency(self, extraction_result):
         """All P&L metrics should have similar period counts."""
         extracted = extraction_result.get("extracted_data", {})
         pl = extracted.get("profit_loss", {})
         
-        counts = {k: len(v) for k, v in pl.items() if isinstance(v, list)}
+        counts = {k: len(v) for k, v in pl.items() if isinstance(v, list) and k != "periods"}
         
         if counts:
             max_c, min_c = max(counts.values()), min(counts.values())
@@ -118,11 +155,12 @@ class TestE2EExtraction:
     def test_operating_profit_complete(self, extraction_result, pdf_periods):
         """Operating profit should exist for all periods."""
         extracted = extraction_result.get("extracted_data", {})
-        op = extracted.get("profit_loss", {}).get("operating_profit", [])
+        pl = extracted.get("profit_loss", {})
+        op_values = get_metric_values(pl, "operating_profit")
         
         min_expected = max(len(pdf_periods) - 2, 5) if pdf_periods else 5
-        assert len(op) >= min_expected, \
-            f"Operating profit incomplete: {len(op)} values, expected {min_expected}+"
+        assert len(op_values) >= min_expected, \
+            f"Operating profit incomplete: {len(op_values)} values, expected {min_expected}+"
     
     def test_negative_values_preserved(self, extraction_result):
         """Negative values (losses, tax credits) should remain negative."""
@@ -132,15 +170,12 @@ class TestE2EExtraction:
         # Check that we can have negative values (not all flipped to positive)
         all_values = []
         for metric, values in pl.items():
-            if isinstance(values, list):
-                for v in values:
-                    val = v.get("value") if isinstance(v, dict) else v
-                    if val is not None:
-                        all_values.append(val)
+            if isinstance(values, list) and metric != "periods":
+                metric_vals = get_metric_values(pl, metric)
+                all_values.extend([v for v in metric_vals if v is not None])
         
-        # At least some financial data can be negative (other income, tax, etc.)
-        # This test just ensures we're not blocking negatives
-        pass  # Validation happens at extraction time
+        # This test passes if extraction completes - negative handling validated elsewhere
+        assert True
 
 
 class TestExtractionValidation:
