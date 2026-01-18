@@ -400,6 +400,62 @@ async def process_page_by_page(
         cleanup_tracker(uid)
 
 
+@app.get("/api/page-extractions")
+async def list_page_extractions(_=Depends(require_login)):
+    """List all page-by-page extraction results from _pages folders."""
+    from pathlib import Path
+    processed = Path("processed")
+    results = []
+    
+    for folder in processed.iterdir():
+        if folder.is_dir() and folder.name.endswith("_pages"):
+            result_file = folder / "extraction_result.json"
+            if result_file.exists():
+                with open(result_file) as f:
+                    data = json.load(f)
+                
+                # Get combined document files
+                combined_files = list(folder.glob("combined_*.json"))
+                
+                results.append({
+                    "folder": folder.name,
+                    "source_pdf": data.get("source_pdf", ""),
+                    "total_pages": data.get("total_pages", 0),
+                    "documents_found": len(data.get("documents", [])),
+                    "document_types": data.get("document_types_found", []),
+                    "combined_files": [f.name for f in combined_files],
+                    "timestamp": data.get("timestamp", "")
+                })
+    
+    return JSONResponse({"extractions": results})
+
+
+@app.get("/api/page-extraction/{folder_name}")
+async def get_page_extraction(folder_name: str, _=Depends(require_login)):
+    """Get details of a specific page extraction."""
+    from pathlib import Path
+    folder = Path("processed") / folder_name
+    
+    if not folder.exists():
+        return JSONResponse({"error": "Not found"}, status_code=404)
+    
+    result_file = folder / "extraction_result.json"
+    if not result_file.exists():
+        return JSONResponse({"error": "No extraction result"}, status_code=404)
+    
+    with open(result_file) as f:
+        data = json.load(f)
+    
+    # Include combined document data
+    combined = {}
+    for combined_file in folder.glob("combined_*.json"):
+        with open(combined_file) as f:
+            combined[combined_file.stem] = json.load(f)
+    
+    data["combined_documents"] = combined
+    return JSONResponse(data)
+
+
 @app.get("/history", response_class=HTMLResponse)
 async def history(request: Request, db: Session = Depends(get_db), _=Depends(require_login)):
     uploads = db.query(Upload).order_by(Upload.created_at.desc()).all()
