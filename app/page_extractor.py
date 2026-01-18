@@ -547,10 +547,23 @@ def combine_same_type_documents(page_results: List[Dict], doc_type: str, period_
             if key == "periods":
                 continue
             if key not in combined_data:
-                combined_data[key] = []
-            if isinstance(value, list):
+                # Initialize based on value type
+                if isinstance(value, list):
+                    combined_data[key] = []
+                else:
+                    combined_data[key] = value
+                    continue
+            # Extend if both are lists
+            if isinstance(value, list) and isinstance(combined_data[key], list):
                 combined_data[key].extend(value)
+            elif isinstance(value, list):
+                # Value is list but existing is not - convert to list
+                combined_data[key] = [combined_data[key]] + value
+            elif isinstance(combined_data[key], list):
+                # Existing is list but value is not - append
+                combined_data[key].append(value)
             else:
+                # Both are scalars - keep existing or overwrite
                 combined_data[key] = value
     
     combined_data["periods"] = all_periods
@@ -749,7 +762,7 @@ def process_pdf_page_by_page_v2(
         "total_pages": total_pages,
         "pages_processed": len(page_results),
         "pages_successful": len([p for p in page_results if p.get("status") != "error"]),
-        "document_types_found": list(doc_types_found),
+        "document_types_found": [dt for dt, pt in doc_type_combos],
         "documents": documents,
         "page_details": page_results,
         "output_directory": str(out_path),
@@ -766,7 +779,7 @@ def process_pdf_page_by_page_v2(
     print("=" * 70)
     print(f"  • Total pages: {total_pages}")
     print(f"  • Successful: {final_result['pages_successful']}")
-    print(f"  • Document types: {list(doc_types_found)}")
+    print(f"  • Document types: {[dt for dt, pt in doc_type_combos]}")
     print(f"  • Documents produced: {len(documents)}")
     print(f"  • Output: {out_path}")
     

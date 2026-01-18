@@ -1,0 +1,63 @@
+{
+  "document_type": "ratios",
+  "period_type": "annual",
+  "pages": [
+    1
+  ],
+  "periods": [
+    "Mar-16",
+    "Mar-17",
+    "Mar-18",
+    "Mar-19",
+    "Mar-20",
+    "Mar-21",
+    "Mar-22",
+    "Mar-23",
+    "Mar-24",
+    "Mar-25"
+  ],
+  "period_count": 10,
+  "data": {
+    "dividend_payout": [
+      12.13,
+      15.1,
+      51.51,
+      20.95,
+      11.44,
+      15.42,
+      17.59,
+      18.76,
+      14.92,
+      16.6
+    ],
+    "opm": [
+      16.19,
+      14.73,
+      8.91,
+      10.72,
+      11.3,
+      14.35,
+      8.96,
+      8.86,
+      13.94,
+      10.88
+    ],
+    "periods": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19",
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ]
+  },
+  "sample_queries": [
+    "What is the ROE?",
+    "Show ROCE trend",
+    "What are the debtor days?"
+  ]
+}

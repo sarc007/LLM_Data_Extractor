@@ -1,0 +1,45 @@
+{
+  "test_date": "2026-01-18T18:55:17.984830",
+  "total_pdfs": 5,
+  "successful": 0,
+  "failed": 5,
+  "average_quality_score": 0.0,
+  "total_documents_extracted": 0,
+  "results": [
+    {
+      "pdf_name": "Apollo Tyres_Peer 2",
+      "status": "error",
+      "error": "name 'doc_types_found' is not defined",
+      "duration_seconds": 911.337375,
+      "quality_score": 0
+    },
+    {
+      "pdf_name": "CEAT_Peer 3 (1)",
+      "status": "error",
+      "error": "'float' object has no attribute 'extend'",
+      "duration_seconds": 699.142434,
+      "quality_score": 0
+    },
+    {
+      "pdf_name": "Goodyear India_Peer 4 (2)",
+      "status": "error",
+      "error": "name 'doc_types_found' is not defined",
+      "duration_seconds": 876.071166,
+      "quality_score": 0
+    },
+    {
+      "pdf_name": "JK tyres sales",
+      "status": "error",
+      "error": "name 'doc_types_found' is not defined",
+      "duration_seconds": 107.984288,
+      "quality_score": 0
+    },
+    {
+      "pdf_name": "MRF_Peer 1 (1)",
+      "status": "error",
+      "error": "name 'doc_types_found' is not defined",
+      "duration_seconds": 806.151478,
+      "quality_score": 0
+    }
+  ]
+}

@@ -1,28 +1,11 @@
 {
   "page": 6,
   "total_pages": 10,
-  "document_type": "metadata",
-  "document_type_confidence": 0.8,
-  "periods": [],
-  "period_type": "annual",
-  "period_count": 0,
-  "extracted_data": {
-    "error": "Failed to extract JSON",
-    "raw_response": "I don't see any actual financial data or metadata content in the page content you provided. The text appears to be instructional information about formatting capabilities, but doesn't contain any specific financial figures or data to extract.\n\nBased on the JSON structure you've specified, I would need to see actual financial data with values for face_value, market_cap, share_price, 52_week_high, and 52_week_low to provide a meaningful extraction.\n\nCould you please provide the actual financial da"
-  },
-  "audit": {
-    "pdfplumber_char_count": 92,
-    "ocr_char_count": 7,
-    "pdfplumber_numbers": 0,
-    "ocr_numbers": 0,
-    "json_values": 0,
-    "text_match_ratio": 0.0,
-    "passed": true,
-    "warnings": []
-  },
+  "documents_on_page": 0,
+  "documents": [],
   "source_chars": {
     "pdfplumber": 92,
-    "ocr": 7
+    "ocr": 0
   },
-  "timestamp": "2026-01-18T16:55:26.457926"
+  "timestamp": "2026-01-18T18:59:02.443750"
 }

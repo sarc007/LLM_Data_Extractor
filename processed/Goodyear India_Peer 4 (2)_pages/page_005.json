@@ -1,31 +1,11 @@
 {
   "page": 5,
   "total_pages": 10,
-  "document_type": "metadata",
-  "document_type_confidence": 0.85,
-  "periods": [],
-  "period_type": "annual",
-  "period_count": 0,
-  "extracted_data": {
-    "face_value": null,
-    "market_cap": null,
-    "share_price": null,
-    "52_week_high": null,
-    "52_week_low": null
-  },
-  "audit": {
-    "pdfplumber_char_count": 555,
-    "ocr_char_count": 557,
-    "pdfplumber_numbers": 0,
-    "ocr_numbers": 0,
-    "json_values": 0,
-    "text_match_ratio": 0.9696969696969697,
-    "passed": true,
-    "warnings": []
-  },
+  "documents_on_page": 0,
+  "documents": [],
   "source_chars": {
     "pdfplumber": 555,
-    "ocr": 557
+    "ocr": 0
   },
-  "timestamp": "2026-01-18T17:00:05.044390"
+  "timestamp": "2026-01-18T18:34:05.942931"
 }
