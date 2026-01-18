@@ -1,0 +1,1725 @@
+{
+  "extracted_data": {
+    "company_name": "GOODYEAR INDIA LTD",
+    "source": "SCREENER.IN",
+    "meta": {
+      "number_of_shares": 2.31,
+      "face_value": 10,
+      "current_price": 979.9,
+      "market_capitalization": 2260.63,
+      "latest_version": "2.10",
+      "current_version": "2.10"
+    },
+    "key_metrics": {
+      "profit_before_tax": "4.99",
+      "dividend_payout": "224.22%",
+      "sales_growth_10_years": "4.66%",
+      "sales_growth_worst": "2.21%",
+      "opm": "8.53%",
+      "opm_previous": "3.91%",
+      "price_to_earning": "22.61"
+    },
+    "profit_loss": {
+      "sales": [
+        {
+          "period": "Mar-16",
+          "value": 1791.71
+        },
+        {
+          "period": "Mar-17",
+          "value": 2435.68
+        },
+        {
+          "period": "Mar-18",
+          "value": 2668.18
+        },
+        {
+          "period": "Mar-19",
+          "value": 2560.78
+        },
+        {
+          "period": "Mar-20",
+          "value": 1745.57
+        },
+        {
+          "period": "Mar-21",
+          "value": 1791.71
+        },
+        {
+          "period": "Mar-22",
+          "value": 2435.68
+        },
+        {
+          "period": "Mar-23",
+          "value": 2927.51
+        },
+        {
+          "period": "Mar-24",
+          "value": 2551.71
+        },
+        {
+          "period": "Mar-25",
+          "value": 2608.05
+        }
+      ],
+      "profit_before_tax": [
+        {
+          "period": "Worst Case",
+          "value": 2664.86
+        },
+        {
+          "period": "Mar-16",
+          "value": 1574.95
+        },
+        {
+          "period": "Mar-17",
+          "value": 2263.65
+        },
+        {
+          "period": "Mar-18",
+          "value": 2505.15
+        },
+        {
+          "period": "Mar-19",
+          "value": 2560.78
+        },
+        {
+          "period": "Mar-20",
+          "value": 976.39
+        },
+        {
+          "period": "Mar-21",
+          "value": 1062.51
+        },
+        {
+          "period": "Mar-22",
+          "value": 1014.7
+        },
+        {
+          "period": "Mar-23",
+          "value": 842.69
+        },
+        {
+          "period": "Mar-24",
+          "value": 771.23
+        },
+        {
+          "period": "Mar-25",
+          "value": 839.97
+        }
+      ],
+      "annual_data": [
+        {
+          "report_date": "Mar-16",
+          "sales": 1730.33,
+          "raw_material_cost": 1119.87,
+          "change_in_inventory": 4.68,
+          "power_and_fuel": 49.48,
+          "other_mfr_exp": 16.59,
+          "employee_cost": 139.45,
+          "selling_and_admin": 183.76,
+          "other_expenses": 29.51,
+          "other_income": 37.66,
+          "depreciation": 46.5,
+          "interest": 3.24,
+          "profit_before_tax": 184.27,
+          "tax": 64.51,
+          "net_profit": 119.76,
+          "dividend_amount": 27.68
+        },
+        {
+          "report_date": "Mar-17",
+          "sales": 1511.84,
+          "raw_material_cost": 972.94,
+          "change_in_inventory": 21.53,
+          "power_and_fuel": 43.71,
+          "other_mfr_exp": 14.9,
+          "employee_cost": 121.26,
+          "selling_and_admin": 159.9,
+          "other_expenses": 20.86,
+          "other_income": 32.91,
+          "depreciation": 33.74,
+          "interest": 3.36,
+          "profit_before_tax": 195.61,
+          "tax": 68.24,
+          "net_profit": 127.37,
+          "dividend_amount": 28.84
+        },
+        {
+          "report_date": "Mar-18",
+          "sales": 1664.69,
+          "raw_material_cost": 1085.28,
+          "change_in_inventory": 6.78,
+          "power_and_fuel": 56.64,
+          "other_mfr_exp": 15.43,
+          "employee_cost": 126.97,
+          "selling_and_admin": 159.47,
+          "other_expenses": 26.01,
+          "other_income": 36.65,
+          "depreciation": 36.15,
+          "interest": 2.89,
+          "profit_before_tax": 199.28,
+          "tax": 69.32,
+          "net_profit": 129.96,
+          "dividend_amount": 29.99
+        },
+        {
+          "report_date": "Mar-19",
+          "sales": 1911.91,
+          "raw_material_cost": 1319.47,
+          "change_in_inventory": -3.03,
+          "power_and_fuel": 65.99,
+          "other_mfr_exp": 17.5,
+          "employee_cost": 126.66,
+          "selling_and_admin": 185.81,
+          "other_expenses": 28.97,
+          "other_income": 37.69,
+          "depreciation": 41.03,
+          "interest": 3,
+          "profit_before_tax": 158.14,
+          "tax": 56.07,
+          "net_profit": 102.07,
+          "dividend_amount": 29.99
+        }
+      ],
+      "quarterly_data": [
+        {
+          "report_date": "Mar-23",
+          "sales": 652.59,
+          "expenses": 595.56,
+          "other_income": 3.56,
+          "depreciation": 13.81,
+          "interest": 1.12,
+          "profit_before_tax": 45.66,
+          "tax": 12.05,
+          "net_profit": 33.61,
+          "operating_profit": 57.03
+        },
+        {
+          "report_date": "Jun-23",
+          "sales": 719.66,
+          "expenses": 655.59,
+          "other_income": 3.7,
+          "depreciation": 14.02,
+          "interest": 1.16,
+          "profit_before_tax": 52.59,
+          "tax": 13.33,
+          "net_profit": 39.26,
+          "operating_profit": 64.07
+        },
+        {
+          "report_date": "Sep-23",
+          "sales": 690.12,
+          "expenses": 628.79,
+          "other_income": 4.41,
+          "depreciation": 13.89,
+          "interest": 1.14,
+          "profit_before_tax": 50.71,
+          "tax": 12.77,
+          "net_profit": 37.94,
+          "operating_profit": 61.33
+        },
+        {
+          "report_date": "Dec-23",
+          "sales": 591.4,
+          "expenses": 551.59,
+          "other_income": 5.18,
+          "depreciation": 13.85,
+          "interest": 1.03,
+          "profit_before_tax": 30.11,
+          "tax": 8.25,
+          "net_profit": 21.86,
+          "operating_profit": 39.81
+        }
+      ],
+      "revenue": [
+        {
+          "period": "Mar-20",
+          "value": 1745.57
+        },
+        {
+          "period": "Mar-21",
+          "value": 1791.71
+        },
+        {
+          "period": "Mar-22",
+          "value": 2435.68
+        },
+        {
+          "period": "Mar-23",
+          "value": 2927.51
+        },
+        {
+          "period": "Mar-24",
+          "value": 2551.71
+        },
+        {
+          "period": "Mar-25",
+          "value": 2608.05
+        }
+      ],
+      "cost_of_revenue": [
+        {
+          "period": "Mar-20",
+          "value": 1173.95
+        },
+        {
+          "period": "Mar-21",
+          "value": 1145.59
+        },
+        {
+          "period": "Mar-22",
+          "value": 1898.99
+        },
+        {
+          "period": "Mar-23",
+          "value": 2170.55
+        },
+        {
+          "period": "Mar-24",
+          "value": 1856.19
+        },
+        {
+          "period": "Mar-25",
+          "value": 1899.49
+        }
+      ],
+      "gross_profit": [
+        {
+          "period": "Mar-20",
+          "value": -18.39
+        },
+        {
+          "period": "Mar-21",
+          "value": -32.02
+        },
+        {
+          "period": "Mar-22",
+          "value": 157.56
+        },
+        {
+          "period": "Mar-23",
+          "value": -17.88
+        },
+        {
+          "period": "Mar-24",
+          "value": 15.98
+        },
+        {
+          "period": "Mar-25",
+          "value": -18.13
+        }
+      ],
+      "operating_expenses": [
+        {
+          "period": "Mar-20",
+          "value": 63.03
+        },
+        {
+          "period": "Mar-21",
+          "value": 57.12
+        },
+        {
+          "period": "Mar-22",
+          "value": 103.07
+        },
+        {
+          "period": "Mar-23",
+          "value": 86.86
+        },
+        {
+          "period": "Mar-24",
+          "value": 78.35
+        },
+        {
+          "period": "Mar-25",
+          "value": 73.48
+        }
+      ],
+      "depreciation_amortization": [
+        {
+          "period": "Mar-20",
+          "value": 24.12
+        },
+        {
+          "period": "Mar-21",
+          "value": 28.08
+        },
+        {
+          "period": "Mar-22",
+          "value": 33.14
+        },
+        {
+          "period": "Mar-23",
+          "value": 33.2
+        },
+        {
+          "period": "Mar-24",
+          "value": 31.4
+        },
+        {
+          "period": "Mar-25",
+          "value": 27.39
+        }
+      ],
+      "ebitda": [
+        {
+          "period": "Mar-20",
+          "value": 139.64
+        },
+        {
+          "period": "Mar-21",
+          "value": 138.84
+        },
+        {
+          "period": "Mar-22",
+          "value": 163.16
+        },
+        {
+          "period": "Mar-23",
+          "value": 171.11
+        },
+        {
+          "period": "Mar-24",
+          "value": 182.8
+        },
+        {
+          "period": "Mar-25",
+          "value": 192.63
+        }
+      ],
+      "operating_income": [
+        {
+          "period": "Mar-20",
+          "value": 161.62
+        },
+        {
+          "period": "Mar-21",
+          "value": 148.42
+        },
+        {
+          "period": "Mar-22",
+          "value": 195.91
+        },
+        {
+          "period": "Mar-23",
+          "value": 211.61
+        },
+        {
+          "period": "Mar-24",
+          "value": 218.87
+        },
+        {
+          "period": "Mar-25",
+          "value": 246.09
+        }
+      ],
+      "interest_expense": [
+        {
+          "period": "Mar-20",
+          "value": 29.08
+        },
+        {
+          "period": "Mar-21",
+          "value": 24.88
+        },
+        {
+          "period": "Mar-22",
+          "value": 26.94
+        },
+        {
+          "period": "Mar-23",
+          "value": 29.35
+        },
+        {
+          "period": "Mar-24",
+          "value": 29.49
+        },
+        {
+          "period": "Mar-25",
+          "value": 34.25
+        }
+      ],
+      "other_income_expense": [
+        {
+          "period": "Mar-20",
+          "value": 35.17
+        },
+        {
+          "period": "Mar-21",
+          "value": 22.58
+        },
+        {
+          "period": "Mar-22",
+          "value": 23.21
+        },
+        {
+          "period": "Mar-23",
+          "value": 16.29
+        },
+        {
+          "period": "Mar-24",
+          "value": 16.97
+        },
+        {
+          "period": "Mar-25",
+          "value": 17.52
+        }
+      ],
+      "net_income": [
+        {
+          "period": "Mar-20",
+          "value": 50.1
+        },
+        {
+          "period": "Mar-21",
+          "value": 52.75
+        },
+        {
+          "period": "Mar-22",
+          "value": 52.67
+        },
+        {
+          "period": "Mar-23",
+          "value": 53.99
+        },
+        {
+          "period": "Mar-24",
+          "value": 55.29
+        },
+        {
+          "period": "Mar-25",
+          "value": 54.75
+        }
+      ]
+    },
+    "balance_sheet": {
+      "equity_share_capital": [
+        {
+          "period": "Mar-16",
+          "value": 23.07
+        },
+        {
+          "period": "Mar-17",
+          "value": 23.07
+        },
+        {
+          "period": "Mar-18",
+          "value": 23.07
+        },
+        {
+          "period": "Mar-19",
+          "value": 23.07
+        }
+      ],
+      "reserves": [
+        {
+          "period": "Mar-16",
+          "value": 591.05
+        },
+        {
+          "period": "Mar-17",
+          "value": 684.01
+        },
+        {
+          "period": "Mar-18",
+          "value": 779.12
+        },
+        {
+          "period": "Mar-19",
+          "value": 844.05
+        }
+      ],
+      "borrowings": [
+        {
+          "period": "Mar-16",
+          "value": 310.36
+        },
+        {
+          "period": "Mar-17",
+          "value": 382.49
+        },
+        {
+          "period": "Mar-18",
+          "value": 495.38
+        },
+        {
+          "period": "Mar-19",
+          "value": 463.41
+        }
+      ],
+      "other_liabilities": [
+        {
+          "period": "Mar-16",
+          "value": 924.48
+        },
+        {
+          "period": "Mar-17",
+          "value": 1089.57
+        },
+        {
+          "period": "Mar-18",
+          "value": 1297.57
+        },
+        {
+          "period": "Mar-19",
+          "value": 1330.53
+        }
+      ],
+      "total": [
+        {
+          "period": "Mar-16",
+          "value": 1859.96
+        },
+        {
+          "period": "Mar-17",
+          "value": 2149.82
+        },
+        {
+          "period": "Mar-18",
+          "value": 2602.37
+        },
+        {
+          "period": "Mar-19",
+          "value": 2691.96
+        },
+        {
+          "period": "Mar-20",
+          "value": 364.46
+        },
+        {
+          "period": "Mar-21",
+          "value": 367.37
+        }
+      ],
+      "net_block": [
+        {
+          "period": "Mar-16",
+          "value": 28.9
+        },
+        {
+          "period": "Mar-17",
+          "value": 31.34
+        },
+        {
+          "period": "Mar-18",
+          "value": 26.19
+        },
+        {
+          "period": "Mar-19",
+          "value": 50.29
+        }
+      ],
+      "capital_work_in_progress": [
+        {
+          "period": "Mar-16",
+          "value": 674.21
+        },
+        {
+          "period": "Mar-17",
+          "value": 831.48
+        },
+        {
+          "period": "Mar-18",
+          "value": 1025.17
+        },
+        {
+          "period": "Mar-19",
+          "value": 1029.29
+        }
+      ],
+      "investments": [
+        {
+          "period": "Mar-16",
+          "value": 924.48
+        },
+        {
+          "period": "Mar-17",
+          "value": 1089.57
+        },
+        {
+          "period": "Mar-18",
+          "value": 1297.57
+        },
+        {
+          "period": "Mar-19",
+          "value": 1330.53
+        }
+      ],
+      "other_assets": [
+        {
+          "period": "Mar-16",
+          "value": 159.39
+        },
+        {
+          "period": "Mar-17",
+          "value": 157.23
+        },
+        {
+          "period": "Mar-18",
+          "value": 208.29
+        },
+        {
+          "period": "Mar-19",
+          "value": 243.49
+        },
+        {
+          "period": "Mar-20",
+          "value": 771.23
+        },
+        {
+          "period": "Mar-21",
+          "value": 839.97
+        }
+      ],
+      "receivables": [
+        {
+          "period": "Mar-16",
+          "value": 127.52
+        },
+        {
+          "period": "Mar-17",
+          "value": 169.03
+        },
+        {
+          "period": "Mar-18",
+          "value": 168.24
+        },
+        {
+          "period": "Mar-19",
+          "value": 167.25
+        }
+      ],
+      "inventory": [
+        {
+          "period": "Mar-16",
+          "value": 333.53
+        },
+        {
+          "period": "Mar-17",
+          "value": 453.43
+        },
+        {
+          "period": "Mar-18",
+          "value": 576.64
+        },
+        {
+          "period": "Mar-19",
+          "value": 558.81
+        },
+        {
+          "period": "Mar-20",
+          "value": 304.49
+        },
+        {
+          "period": "Mar-21",
+          "value": 285.96
+        }
+      ],
+      "cash_bank": [
+        {
+          "period": "Mar-16",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-17",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-18",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-19",
+          "value": 23066507
+        }
+      ],
+      "total_assets": [
+        {
+          "period": "Mar-20",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-21",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-22",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-23",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-24",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-25",
+          "value": 23066507
+        }
+      ],
+      "total_liabilities": [
+        {
+          "period": "Mar-20",
+          "value": 10
+        },
+        {
+          "period": "Mar-21",
+          "value": 10
+        },
+        {
+          "period": "Mar-22",
+          "value": 10
+        },
+        {
+          "period": "Mar-23",
+          "value": 10
+        },
+        {
+          "period": "Mar-24",
+          "value": 10
+        },
+        {
+          "period": "Mar-25",
+          "value": 10
+        }
+      ]
+    },
+    "ratios": {
+      "opm": [
+        {
+          "period": "Mar-16",
+          "value": "9%"
+        },
+        {
+          "period": "Mar-17",
+          "value": "9%"
+        },
+        {
+          "period": "Mar-18",
+          "value": "9%"
+        },
+        {
+          "period": "Mar-19",
+          "value": "7%"
+        },
+        {
+          "period": "Mar-20",
+          "value": "1%"
+        },
+        {
+          "period": "Mar-21",
+          "value": "6%"
+        },
+        {
+          "period": "Mar-22",
+          "value": "5%"
+        },
+        {
+          "period": "Mar-23",
+          "value": "4%"
+        },
+        {
+          "period": "Mar-24",
+          "value": "3%"
+        },
+        {
+          "period": "Mar-25",
+          "value": "4%"
+        }
+      ],
+      "debtor_days": [
+        {
+          "period": "Mar-16",
+          "value": 8.38
+        },
+        {
+          "period": "Mar-17",
+          "value": 9.12
+        }
+      ],
+      "inventory_turnover": [
+        {
+          "period": "Mar-16",
+          "value": 8.38
+        },
+        {
+          "period": "Mar-17",
+          "value": 9.12
+        }
+      ],
+      "debt_to_equity_ratio": [
+        {
+          "period": "Mar-20",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-21",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-22",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-23",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-24",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-25",
+          "value": 2.31
+        }
+      ],
+      "gross_margin_percent": [
+        {
+          "period": "Mar-20",
+          "value": "50.1%"
+        },
+        {
+          "period": "Mar-21",
+          "value": "52.75%"
+        },
+        {
+          "period": "Mar-22",
+          "value": "52.67%"
+        },
+        {
+          "period": "Mar-23",
+          "value": "53.99%"
+        },
+        {
+          "period": "Mar-24",
+          "value": "55.29%"
+        },
+        {
+          "period": "Mar-25",
+          "value": "54.75%"
+        }
+      ],
+      "operating_margin_percent": [
+        {
+          "period": "Mar-20",
+          "value": "3.97%"
+        },
+        {
+          "period": "Mar-21",
+          "value": "3.42%"
+        },
+        {
+          "period": "Mar-22",
+          "value": "4.12%"
+        },
+        {
+          "period": "Mar-23",
+          "value": "3.87%"
+        },
+        {
+          "period": "Mar-24",
+          "value": "4.24%"
+        },
+        {
+          "period": "Mar-25",
+          "value": "4.68%"
+        }
+      ]
+    },
+    "cash_flow": {
+      "operating_activity": [
+        {
+          "period": "Mar-16",
+          "value": 9.33
+        },
+        {
+          "period": "Mar-17",
+          "value": 167.77
+        },
+        {
+          "period": "Mar-18",
+          "value": 182.28
+        },
+        {
+          "period": "Mar-19",
+          "value": 56.57
+        },
+        {
+          "period": "Mar-20",
+          "value": 65.44
+        },
+        {
+          "period": "Mar-21",
+          "value": 293.78
+        },
+        {
+          "period": "Mar-22",
+          "value": 89.32
+        },
+        {
+          "period": "Mar-23",
+          "value": 112.19
+        },
+        {
+          "period": "Mar-24",
+          "value": 134.87
+        },
+        {
+          "period": "Mar-25",
+          "value": 131.2
+        }
+      ],
+      "investing_activity": [
+        {
+          "period": "Mar-16",
+          "value": -132.93
+        },
+        {
+          "period": "Mar-17",
+          "value": -11.5
+        },
+        {
+          "period": "Mar-18",
+          "value": -22.04
+        },
+        {
+          "period": "Mar-19",
+          "value": -35.56
+        },
+        {
+          "period": "Mar-20",
+          "value": -96.14
+        },
+        {
+          "period": "Mar-21",
+          "value": 86.89
+        },
+        {
+          "period": "Mar-22",
+          "value": -49.97
+        },
+        {
+          "period": "Mar-23",
+          "value": 90.59
+        },
+        {
+          "period": "Mar-24",
+          "value": -33.8
+        },
+        {
+          "period": "Mar-25",
+          "value": -17.02
+        }
+      ],
+      "financing_activity": [
+        {
+          "period": "Mar-16",
+          "value": -31.03
+        },
+        {
+          "period": "Mar-17",
+          "value": -36.62
+        },
+        {
+          "period": "Mar-18",
+          "value": -37.28
+        },
+        {
+          "period": "Mar-19",
+          "value": -38.87
+        },
+        {
+          "period": "Mar-20",
+          "value": -44.8
+        },
+        {
+          "period": "Mar-21",
+          "value": -223.11
+        },
+        {
+          "period": "Mar-22",
+          "value": -236.48
+        },
+        {
+          "period": "Mar-23",
+          "value": -240.74
+        },
+        {
+          "period": "Mar-24",
+          "value": -129.84
+        },
+        {
+          "period": "Mar-25",
+          "value": -43.29
+        }
+      ],
+      "net_cash_flow": [
+        {
+          "period": "Mar-16",
+          "value": -154.63
+        },
+        {
+          "period": "Mar-17",
+          "value": 119.65
+        },
+        {
+          "period": "Mar-18",
+          "value": 122.96
+        },
+        {
+          "period": "Mar-19",
+          "value": -17.86
+        },
+        {
+          "period": "Mar-20",
+          "value": -75.5
+        },
+        {
+          "period": "Mar-21",
+          "value": 157.56
+        },
+        {
+          "period": "Mar-22",
+          "value": -197.13
+        },
+        {
+          "period": "Mar-23",
+          "value": -37.96
+        },
+        {
+          "period": "Mar-24",
+          "value": 28.77
+        },
+        {
+          "period": "Mar-25",
+          "value": 70.89
+        }
+      ],
+      "free_cash_flow": [
+        {
+          "period": "Mar-20",
+          "value": 116.84
+        },
+        {
+          "period": "Mar-21",
+          "value": 183.17
+        },
+        {
+          "period": "Mar-22",
+          "value": 138.45
+        },
+        {
+          "period": "Mar-23",
+          "value": 165.38
+        },
+        {
+          "period": "Mar-24",
+          "value": 128.03
+        },
+        {
+          "period": "Mar-25",
+          "value": 74.68
+        }
+      ],
+      "capital_expenditure": [
+        {
+          "period": "Mar-20",
+          "value": 28
+        },
+        {
+          "period": "Mar-21",
+          "value": 46.91
+        },
+        {
+          "period": "Mar-22",
+          "value": 35.56
+        },
+        {
+          "period": "Mar-23",
+          "value": 42.52
+        },
+        {
+          "period": "Mar-24",
+          "value": 33.18
+        },
+        {
+          "period": "Mar-25",
+          "value": 19.56
+        }
+      ],
+      "net_cash_from_operations": [
+        {
+          "period": "Mar-20",
+          "value": 88.84
+        },
+        {
+          "period": "Mar-21",
+          "value": 136.26
+        },
+        {
+          "period": "Mar-22",
+          "value": 102.89
+        },
+        {
+          "period": "Mar-23",
+          "value": 122.86
+        },
+        {
+          "period": "Mar-24",
+          "value": 94.85
+        },
+        {
+          "period": "Mar-25",
+          "value": 55.12
+        }
+      ],
+      "change_in_working_capital": [
+        {
+          "period": "Mar-20",
+          "value": 29.99
+        },
+        {
+          "period": "Mar-21",
+          "value": 410.65
+        },
+        {
+          "period": "Mar-22",
+          "value": 230.7
+        },
+        {
+          "period": "Mar-23",
+          "value": 61.14
+        },
+        {
+          "period": "Mar-24",
+          "value": 94.59
+        },
+        {
+          "period": "Mar-25",
+          "value": 55.14
+        }
+      ],
+      "operating_cash_flow": [
+        {
+          "period": "Mar-20",
+          "value": 65.44
+        },
+        {
+          "period": "Mar-21",
+          "value": 293.78
+        },
+        {
+          "period": "Mar-22",
+          "value": 89.32
+        },
+        {
+          "period": "Mar-23",
+          "value": 112.19
+        },
+        {
+          "period": "Mar-24",
+          "value": 134.87
+        },
+        {
+          "period": "Mar-25",
+          "value": 131.2
+        }
+      ],
+      "investing_cash_flow": [
+        {
+          "period": "Mar-20",
+          "value": -96.14
+        },
+        {
+          "period": "Mar-21",
+          "value": 86.89
+        },
+        {
+          "period": "Mar-22",
+          "value": -49.97
+        },
+        {
+          "period": "Mar-23",
+          "value": 90.59
+        },
+        {
+          "period": "Mar-24",
+          "value": -33.8
+        },
+        {
+          "period": "Mar-25",
+          "value": -17.02
+        }
+      ],
+      "financing_cash_flow": [
+        {
+          "period": "Mar-20",
+          "value": -44.8
+        },
+        {
+          "period": "Mar-21",
+          "value": -223.11
+        },
+        {
+          "period": "Mar-22",
+          "value": -236.48
+        },
+        {
+          "period": "Mar-23",
+          "value": -240.74
+        },
+        {
+          "period": "Mar-24",
+          "value": -129.84
+        },
+        {
+          "period": "Mar-25",
+          "value": -43.29
+        }
+      ],
+      "net_change_in_cash": [
+        {
+          "period": "Mar-20",
+          "value": -75.5
+        },
+        {
+          "period": "Mar-21",
+          "value": 157.56
+        },
+        {
+          "period": "Mar-22",
+          "value": -197.13
+        },
+        {
+          "period": "Mar-23",
+          "value": -37.96
+        },
+        {
+          "period": "Mar-24",
+          "value": -28.77
+        },
+        {
+          "period": "Mar-25",
+          "value": 70.89
+        }
+      ],
+      "closing_cash_balance": [
+        {
+          "period": "Mar-20",
+          "value": 604.55
+        },
+        {
+          "period": "Mar-21",
+          "value": 891.3
+        },
+        {
+          "period": "Mar-22",
+          "value": 885.45
+        },
+        {
+          "period": "Mar-23",
+          "value": 1068.9
+        },
+        {
+          "period": "Mar-24",
+          "value": 1102.1
+        },
+        {
+          "period": "Mar-25",
+          "value": 814.45
+        }
+      ]
+    },
+    "share_info": {
+      "no_of_equity_shares": [
+        {
+          "period": "Mar-16",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-17",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-18",
+          "value": 23066507
+        },
+        {
+          "period": "Mar-19",
+          "value": 23066507
+        }
+      ],
+      "new_bonus_shares": [
+        {
+          "period": "Mar-16",
+          "value": 10
+        },
+        {
+          "period": "Mar-17",
+          "value": 10
+        },
+        {
+          "period": "Mar-18",
+          "value": 10
+        },
+        {
+          "period": "Mar-19",
+          "value": 10
+        }
+      ],
+      "face_value": [
+        {
+          "period": "Mar-16",
+          "value": 10
+        },
+        {
+          "period": "Mar-17",
+          "value": 10
+        },
+        {
+          "period": "Mar-18",
+          "value": 10
+        },
+        {
+          "period": "Mar-19",
+          "value": 10
+        }
+      ],
+      "adjusted_equity_shares_cr": [
+        {
+          "period": "Mar-16",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-17",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-18",
+          "value": 2.31
+        },
+        {
+          "period": "Mar-19",
+          "value": 2.31
+        }
+      ]
+    },
+    "price": {
+      "price": [
+        {
+          "period": "Mar-16",
+          "value": 480.7
+        },
+        {
+          "period": "Mar-17",
+          "value": 845.15
+        },
+        {
+          "period": "Mar-18",
+          "value": 1111.85
+        },
+        {
+          "period": "Mar-19",
+          "value": 944.75
+        }
+      ]
+    },
+    "forecast_data": {
+      "revenue_forecast": [
+        {
+          "period": "Mar-24",
+          "value": 550.53
+        },
+        {
+          "period": "Jun-24",
+          "value": 691.38
+        },
+        {
+          "period": "Sep-24",
+          "value": 682.25
+        },
+        {
+          "period": "Dec-24",
+          "value": 631.72
+        },
+        {
+          "period": "Mar-25",
+          "value": 602.7
+        },
+        {
+          "period": "Jun-25",
+          "value": 656.22
+        }
+      ],
+      "ebitda_forecast": [
+        {
+          "period": "Mar-24",
+          "value": 545.15
+        },
+        {
+          "period": "Jun-24",
+          "value": 647.05
+        },
+        {
+          "period": "Sep-24",
+          "value": 651.16
+        },
+        {
+          "period": "Dec-24",
+          "value": 607.89
+        },
+        {
+          "period": "Mar-25",
+          "value": 585.36
+        },
+        {
+          "period": "Jun-25",
+          "value": 627.99
+        }
+      ],
+      "gross_margin_forecast": [
+        {
+          "period": "Mar-24",
+          "value": 3.68
+        },
+        {
+          "period": "Jun-24",
+          "value": 3.93
+        },
+        {
+          "period": "Sep-24",
+          "value": 4.85
+        },
+        {
+          "period": "Dec-24",
+          "value": 4.71
+        },
+        {
+          "period": "Mar-25",
+          "value": 4.03
+        },
+        {
+          "period": "Jun-25",
+          "value": 4.67
+        }
+      ],
+      "operating_expense_growth_rate": [
+        {
+          "period": "Mar-24",
+          "value": 13.53
+        },
+        {
+          "period": "Jun-24",
+          "value": 13.86
+        },
+        {
+          "period": "Sep-24",
+          "value": 13.88
+        },
+        {
+          "period": "Dec-24",
+          "value": 13.77
+        },
+        {
+          "period": "Mar-25",
+          "value": 13.24
+        },
+        {
+          "period": "Jun-25",
+          "value": 12.68
+        }
+      ],
+      "capex_as_percent_of_revenue": [
+        {
+          "period": "Mar-24",
+          "value": 0.91
+        },
+        {
+          "period": "Jun-24",
+          "value": 0.95
+        },
+        {
+          "period": "Sep-24",
+          "value": 0.91
+        },
+        {
+          "period": "Dec-24",
+          "value": 1.5
+        },
+        {
+          "period": "Mar-25",
+          "value": 1.32
+        },
+        {
+          "period": "Jun-25",
+          "value": 1.26
+        }
+      ],
+      "free_cash_flow_forecast": [
+        {
+          "period": "Mar-24",
+          "value": -5.38
+        },
+        {
+          "period": "Jun-24",
+          "value": 33.45
+        },
+        {
+          "period": "Sep-24",
+          "value": 21.15
+        },
+        {
+          "period": "Dec-24",
+          "value": 13.27
+        },
+        {
+          "period": "Mar-25",
+          "value": 6.81
+        },
+        {
+          "period": "Jun-25",
+          "value": 18.96
+        }
+      ],
+      "net_income_growth": [
+        {
+          "period": "Mar-24",
+          "value": -1.17
+        },
+        {
+          "period": "Jun-24",
+          "value": 8.42
+        },
+        {
+          "period": "Sep-24",
+          "value": 5.41
+        },
+        {
+          "period": "Dec-24",
+          "value": 3.79
+        },
+        {
+          "period": "Mar-25",
+          "value": 1.94
+        },
+        {
+          "period": "Jun-25",
+          "value": 4.85
+        }
+      ],
+      "earnings_per_share_forecast": [
+        {
+          "period": "Mar-24",
+          "value": -4.21
+        },
+        {
+          "period": "Jun-24",
+          "value": 25.03
+        },
+        {
+          "period": "Sep-24",
+          "value": 15.74
+        },
+        {
+          "period": "Dec-24",
+          "value": 9.48
+        },
+        {
+          "period": "Mar-25",
+          "value": 4.87
+        },
+        {
+          "period": "Jun-25",
+          "value": 14.11
+        }
+      ],
+      "dividend_payout_ratio": [
+        {
+          "period": "Mar-24",
+          "value": 5.38
+        },
+        {
+          "period": "Jun-24",
+          "value": 44.33
+        },
+        {
+          "period": "Sep-24",
+          "value": 31.09
+        },
+        {
+          "period": "Dec-24",
+          "value": 23.83
+        },
+        {
+          "period": "Mar-25",
+          "value": 17.34
+        },
+        {
+          "period": "Jun-25",
+          "value": 28.23
+        }
+      ]
+    },
+    "additional_data": {
+      "unknown_metric_1": 53.57,
+      "unknown_metric_2": 104.08
+    },
+    "instructions": {
+      "title": "How to use it?",
+      "instructions": [
+        "You can customize this workbook as you want.",
+        "You can add custom formating, add conditional formating, add your own formulas... do ANYT",
+        "Please don't edit the \"Data Sheet\" only."
+      ],
+      "upload_instructions": {
+        "upload_url": "https://www.screener.in/excel/",
+        "description": "After customization, you can upload this back on Screener.",
+        "functionality": "Download your customized workbooks now onwards. Now whenever you will \"Export to excel\" from Screener, it will export your customized file."
+      },
+      "testing_notice": {
+        "status": "This is a testing feature currently.",
+        "support_contact": "support@screener.in",
+        "support_message": "You can report any formula errors on the worksheet at: support@screener.in"
+      }
+    }
+  },
+  "analysis": {
+    "data_type": {
+      "primary_type": "Profit and Loss Statement",
+      "confidence": 0.95,
+      "reasoning": "The data contains detailed income statement metrics such as sales, profit before tax, operating expenses, net profit, and EBITDA across multiple periods."
+    },
+    "number_of_periods": 10,
+    "period_type": "annual",
+    "periods_found": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19",
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ],
+    "sample_queries": [
+      "Get me past 3 years sales data",
+      "Compare sales growth between Mar-22 and Mar-24",
+      "What was the net profit trend over the last 5 years",
+      "Show me the operating profit margin for all years",
+      "Which year had the highest EPS",
+      "Compare expenses vs revenue for Mar-23",
+      "What is the average sales growth rate",
+      "Show profit before tax for the last 3 years"
+    ]
+  },
+  "metadata": {
+    "source_file": "Goodyear India_Peer 4 (2).pdf",
+    "model": "qwen3-coder:480b-cloud",
+    "iterations": 5
+  }
+}
