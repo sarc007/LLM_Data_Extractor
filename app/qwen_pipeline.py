@@ -119,12 +119,36 @@ def _detect_file_type(path: str) -> str:
     return "unknown"
 
 
+def _fix_pdfplumber_numbers(text: str) -> str:
+    """
+    Fix pdfplumber number extraction issues.
+    pdfplumber often extracts "11,848.56" as "1 1,848.56" (space after first digit).
+    This fixes patterns like "1 1,848" → "11,848" and "2 0,947" → "20,947".
+    """
+    import re
+    
+    # Pattern: single digit + space + digit(s) + comma + digits (e.g., "1 1,848" or "2 0,947")
+    # This catches the common pdfplumber bug where it splits numbers
+    pattern = r'(\d)\s+(\d{1,2},\d{3})'
+    text = re.sub(pattern, r'\1\2', text)
+    
+    # Also fix: "3 ,530" → "3,530" (space before comma)
+    text = re.sub(r'(\d)\s+,(\d{3})', r'\1,\2', text)
+    
+    # Fix: "- 421" → "-421" (space after negative sign before number)
+    text = re.sub(r'-\s+(\d)', r'-\1', text)
+    
+    return text
+
+
 def _load_pdf_text(path: str) -> str:
-    """Extract text from PDF file."""
+    """Extract text from PDF file with number formatting fixes."""
     parts = []
     with pdfplumber.open(path) as pdf:
         for i, page in enumerate(pdf.pages):
             text = page.extract_text() or ""
+            # Fix pdfplumber number extraction bugs
+            text = _fix_pdfplumber_numbers(text)
             parts.append(f"--- PAGE {i+1} ---\n{text}")
     return "\n\n".join(parts)
 
