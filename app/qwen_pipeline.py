@@ -417,133 +417,184 @@ DOCUMENT CONTENT:
 CRITICAL RULES - FOLLOW EXACTLY:
 
 1. DATE RANGE - USE ONLY ACTUAL PERIODS FROM DOCUMENT:
-   - Look at the COLUMN HEADERS to find actual periods (e.g., Mar-16, Mar-17)
-   - The FIRST period in your JSON must match the FIRST column in the document
-   - Do NOT invent periods like Mar-13, Mar-14 if they don't exist in source
-   - If document shows Mar-16 to Mar-25, output Mar-16 to Mar-25 ONLY
+   - Look at COLUMN HEADERS to find actual periods (e.g., Mar-16, Mar-17)
+   - FIRST period in JSON must match FIRST column in document
+   - Do NOT invent periods that don't exist in source
+   - Extract ALL periods shown, not just first few or last few
 
 2. SEPARATE DATA BY FREQUENCY - NEVER MIX:
-   - Annual data (Mar-16, Mar-17, Mar-18): Put in main "profit_loss", "balance_sheet" sections
-   - Quarterly data (Q1, Jun-24, Sep-24): Put in separate "quarterly_data" section
-   - TTM/Trailing values: Put in separate "ttm_data" section
-   - Best Case/Worst Case: Put in "scenario_data" - these are NOT historical periods
+   - Annual data (Mar-16, Mar-17): "profit_loss", "balance_sheet", "cash_flow" sections
+   - Quarterly data (Jun-24, Sep-24, Dec-24, Mar-25): "quarterly_data" section
+   - TTM/Trailing: "ttm_data" section
+   - Best/Worst Case: "scenario_data" section
 
-3. COMPLETE EXTRACTION - ALL VALUES:
-   - If a row has 10 columns, extract ALL 10 values (not just first 3 or last 3)
-   - Operating profit, depreciation, interest, PBT, tax, net profit, EPS - ALL must be complete
-   - Each metric should have the SAME number of periods
+3. STRUCTURAL CONSISTENCY:
+   - P&L structure must be IDENTICAL for ALL years (same fields Mar-16 through Mar-25)
+   - If Operating Profit exists for Mar-16, it MUST exist for Mar-20 to Mar-25 too
+   - If Expenses exist for Mar-16, they MUST exist for ALL years
+   - Do NOT change structure mid-way through the data
 
-4. TABLE BOUNDARIES:
-   - Profit & Loss, Balance Sheet, Cash Flow, Ratios = SEPARATE sections
-   - Do NOT merge data from different tables
+4. COMPLETE EXTRACTION - ALL VALUES FOR ALL PERIODS:
+   - Sales, Expenses, Operating Profit, Other Income, Depreciation, Interest, Tax, Net Profit, EPS
+   - ALL must have values for ALL periods (10+ years typically)
+   - If a row has 10 columns, extract ALL 10 values
 
-5. DATA FORMAT:
-   - "metric": [{{"period": "Mar-16", "value": 1234.56}}, {{"period": "Mar-17", "value": 2345.67}}]
-   - Percentages as strings: "27%"
-   - Empty cells as null
+5. NEGATIVE VALUE HANDLING:
+   - Preserve negative signs EXACTLY as shown (-100, not 100)
+   - Losses should remain negative
+   - Tax credits/reversals should remain negative if shown negative
+   - Do NOT flip signs
+
+6. FIELD MAPPING - CORRECT PLACEMENT:
+   - EPS: Single value per period (do NOT split into Basic/Diluted unless source does)
+   - Tax: Put in "tax" field only, not other fields
+   - Equity Share Capital: Map to "equity_share_capital" 
+   - Borrowings: Only if actually present in source (0 or null if none)
+   - Cash and Bank: Extract if present, put in "cash_and_bank"
+   - Total Assets: Put in "total_assets" only
+   - Total Liabilities: Put in "total_liabilities" only
+
+7. BALANCE SHEET ACCURACY:
+   - Do NOT invent borrowings where none exist
+   - Do NOT use constant/repeated values for liabilities
+   - Extract actual values from source document
+
+8. RATIOS - COMPLETE EXTRACTION:
+   - ROE (Return on Equity): Extract ALL periods
+   - ROCE (Return on Capital Employed): Extract ALL periods
+   - Debtor Days: Extract ALL periods
+   - Inventory Turnover: Extract ALL periods
+   - Current Ratio, Quick Ratio: Extract if present
+
+9. METADATA ACCURACY:
+   - Face Value: Extract actual value (1, 2, 5, 10, etc.) - NOT null
+   - Bonus Shares: Only if actually mentioned in source
+   - Share Price: Extract complete history if available
+
+10. QUARTERLY DATA COMPLETENESS:
+    - Extract ALL quarters shown (Q1, Q2, Q3, Q4 or Jun/Sep/Dec/Mar)
+    - Operating Profit quarterly: Extract for ALL quarters
+    - Do NOT stop at Dec-23 if Mar-24 data exists
 
 Output ONLY valid JSON. Start with {{ and end with }}."""
 
 
 def _build_ocr_to_json_prompt(ocr_text: str) -> str:
-    """Build prompt to convert OCR-extracted text to structured JSON.
-    
-    This is used when OCR has already extracted the data - LLM just structures it.
-    """
+    """Build prompt to convert OCR-extracted text to structured JSON."""
     return f"""You are a financial data structuring expert. Convert this OCR-extracted text to clean JSON.
 
 OCR-EXTRACTED TEXT:
 {ocr_text}
 
-CRITICAL RULES - READ CAREFULLY:
+CRITICAL RULES:
 
-1. DETECT ACTUAL DATE RANGE FROM THE DATA:
-   - Look at the column headers to find the ACTUAL periods (e.g., "Mar-16", "Mar-17", etc.)
-   - ONLY use periods that ACTUALLY APPEAR in the OCR text
-   - Do NOT invent periods like Mar-13, Mar-14 if they don't exist in the source
+1. DATE RANGE - ACTUAL PERIODS ONLY:
+   - Use ONLY periods from column headers (Mar-16, Mar-17, etc.)
+   - Do NOT invent periods that don't exist in source
+   - Extract ALL periods shown, not just first/last few
 
-2. SEPARATE DATA BY FREQUENCY - DO NOT MIX:
-   - "annual_data": For fiscal year data (Mar-16, Mar-17, Mar-18, etc.)
-   - "quarterly_data": For quarterly data (Q1, Q2, Jun-24, Sep-24, etc.) - KEEP SEPARATE
-   - "ttm_data": For Trailing Twelve Months / TTM values - KEEP SEPARATE
-   - "scenario_data": For Best Case, Worst Case projections - KEEP SEPARATE, NOT historical
+2. SEPARATE BY FREQUENCY:
+   - Annual (Mar-16, Mar-17): "profit_loss", "balance_sheet", "cash_flow"
+   - Quarterly (Jun-24, Sep-24, Dec-24, Mar-25): "quarterly_data"
+   - TTM: "ttm_data"
+   - Best/Worst Case: "scenario_data"
 
-3. TABLE BOUNDARY DETECTION:
-   - Each distinct table (Profit & Loss, Balance Sheet, Cash Flow, Ratios) should be a separate section
-   - If you see a new table header, START A NEW SECTION
-   - Do NOT merge data from different tables
+3. STRUCTURAL CONSISTENCY:
+   - P&L must have SAME fields for ALL years
+   - If Operating Profit for Mar-16, it MUST exist for Mar-20 to Mar-25
+   - If Expenses for Mar-16, they MUST exist for ALL years
+   - Do NOT change structure mid-way
 
-4. DATA FORMAT:
-   - "metric_name": [{{"period": "Mar-16", "value": 1234.56}}, {{"period": "Mar-17", "value": 2345.67}}]
-   - Percentages as strings: "27%" or "12.13%"
-   - Empty cells or "-" as null
-   - Numbers without currency symbols
+4. COMPLETE EXTRACTION:
+   - Sales, Expenses, Operating Profit, Depreciation, Interest, Tax, Net Profit, EPS
+   - ALL must have values for ALL periods
+   - If row has 10 columns, extract ALL 10 values
 
-5. EXTRACT COMPLETE SERIES:
-   - Extract ALL values for each metric row, not just first/last few
-   - If a row has 10 year columns, extract all 10 values
-   - Do NOT skip middle values
+5. NEGATIVE VALUES:
+   - Preserve signs EXACTLY (-100 stays -100)
+   - Losses remain negative
+   - Tax credits remain negative if shown negative
 
-JSON STRUCTURE:
-{{
-    "company_name": "...",
-    "source": "...",
-    "profit_loss": {{
-        "sales": [...],
-        "expenses": [...],
-        "operating_profit": [...],
-        "other_income": [...],
-        "depreciation": [...],
-        "interest": [...],
-        "profit_before_tax": [...],
-        "tax": [...],
-        "net_profit": [...],
-        "eps": [...]
-    }},
-    "balance_sheet": {{...}},
-    "cash_flow": {{...}},
-    "ratios": {{...}},
-    "quarterly_data": {{...}},
-    "ttm_data": {{...}},
-    "scenario_data": {{"best_case": ..., "worst_case": ...}}
-}}
+6. FIELD MAPPING:
+   - EPS: Single value per period (no Basic/Diluted split unless source has it)
+   - Tax: "tax" field only
+   - Equity Capital: "equity_share_capital"
+   - Borrowings: 0 or null if none in source
+   - Cash: "cash_and_bank"
+   - Total Assets: "total_assets" only
+   - Total Liabilities: "total_liabilities" only
+
+7. BALANCE SHEET:
+   - Do NOT invent borrowings where none exist
+   - Do NOT use constant/repeated values
+   - Extract actual values only
+
+8. RATIOS - ALL PERIODS:
+   - ROE, ROCE, Debtor Days, Inventory Turnover
+   - Current Ratio, Quick Ratio if present
+
+9. METADATA:
+   - Face Value: Actual number (1, 2, 5, 10) - NOT null
+   - Bonus Shares: Only if in source
+   - Share Price: Complete history
+
+10. QUARTERLY COMPLETENESS:
+    - ALL quarters shown (Jun/Sep/Dec/Mar)
+    - Do NOT stop at Dec-23 if Mar-24 exists
 
 Output ONLY valid JSON. Start with {{ and end with }}."""
 
 
 def _build_selfcheck_prompt(doc_text: str, current_json: str, iteration: int, total_iterations: int) -> str:
-    """Build prompt for self-checking extracted data - using user's iteration approach."""
-    return f"""You are a financial data analyst. Self-check iteration {iteration} of {total_iterations}.
+    """Build prompt for self-checking extracted data."""
+    return f"""Self-check iteration {iteration}/{total_iterations}. Verify and fix any issues.
 
 ORIGINAL DOCUMENT:
 {doc_text}
 
-YOUR CURRENT EXTRACTION:
+CURRENT EXTRACTION:
 {current_json}
 
-VERIFICATION CHECKLIST:
+VERIFICATION CHECKLIST - FIX ANY ISSUES:
 
-1. DATE RANGE ACCURACY:
-   - Are the periods in JSON matching EXACTLY what's in the document?
-   - Did you invent any periods (Mar-13, Mar-14) that don't exist in source? REMOVE THEM
-   - The FIRST period should match the FIRST column header in the document
+1. DATE ACCURACY:
+   - Periods match document column headers EXACTLY?
+   - No invented periods (Mar-13/14/15 if not in source)? REMOVE if found
 
-2. DATA FREQUENCY SEPARATION:
-   - Annual data (Mar-16, Mar-17) should be in main sections
-   - Quarterly data (Q1, Jun-24) should be in "quarterly_data" - NOT mixed with annual
-   - TTM/Trailing values should be in "ttm_data" - NOT mixed with annual
-   - Best/Worst Case should be in "scenario_data" - NOT treated as historical
+2. FREQUENCY SEPARATION:
+   - Annual in "profit_loss"/"balance_sheet", Quarterly in "quarterly_data"?
+   - No mixing?
 
-3. COMPLETE EXTRACTION:
-   - Each metric row should have ALL values (if 10 columns, extract 10 values)
-   - Operating profit, other income, depreciation, interest, PBT, tax, net profit, EPS - all complete?
-   - No artificial drops or jumps in series due to mixed frequencies?
+3. STRUCTURAL CONSISTENCY:
+   - P&L has SAME fields for ALL years?
+   - Operating Profit exists for ALL years (not just Mar-16 to Mar-19)?
+   - Expenses exist for ALL years?
 
-4. TABLE BOUNDARIES:
-   - Profit & Loss, Balance Sheet, Cash Flow, Ratios - each in separate sections?
-   - No data from one table bleeding into another?
+4. COMPLETENESS:
+   - ALL metrics have ALL periods (10+ values each)?
+   - No truncated series (only 3 values when 10 exist)?
 
-Fix any issues found. Output COMPLETE corrected JSON. Start with {{ and end with }}."""
+5. NEGATIVE VALUES:
+   - Signs preserved? Losses negative? Tax credits negative if source shows negative?
+
+6. FIELD MAPPING:
+   - EPS single value (no split)?
+   - Tax in "tax" only?
+   - Borrowings 0/null if none in source?
+   - Cash and Bank extracted?
+
+7. RATIOS:
+   - ROE, ROCE, Debtor Days, Inventory Turnover - all periods?
+
+8. METADATA:
+   - Face Value actual number (not null)?
+   - No invented Bonus Shares?
+
+9. QUARTERLY:
+   - ALL quarters including Mar-24?
+   - Operating Profit quarterly for ALL quarters?
+
+Fix issues. Output corrected JSON. Start with {{ and end with }}."""
 
 
 # =========================
@@ -858,7 +909,7 @@ def structure_ocr_to_json(ocr_text: str, iterations: int = 3) -> Dict[str, Any]:
     for i in range(2, iterations + 1):
         print(f"  -> Pass {i}/{iterations}: Verifying completeness...")
         
-        prompt = f"""Verify OCR-to-JSON conversion quality.
+        prompt = f"""Verify OCR-to-JSON conversion. Fix any issues.
 
 OCR TEXT:
 {ocr_text}
@@ -866,13 +917,18 @@ OCR TEXT:
 CURRENT JSON:
 {json.dumps(current_json, indent=2)}
 
-VERIFICATION CHECKLIST:
-1. DATE ACCURACY: Do JSON periods match EXACTLY what's in OCR? Remove any invented periods (Mar-13/14/15 if not in source).
-2. FREQUENCY: Annual data separate from quarterly/TTM/scenario data? No mixing?
-3. COMPLETENESS: All metrics have ALL values? (If 10 columns, 10 values each)
-4. CONSISTENCY: All metrics have similar period counts? (sales=10, expenses=10, op=10, etc.)
+CHECK AND FIX:
+1. DATES: Periods match OCR headers? No invented Mar-13/14/15?
+2. FREQUENCY: Annual separate from quarterly/TTM? No mixing?
+3. STRUCTURE: P&L same fields ALL years? Op Profit/Expenses for ALL years?
+4. COMPLETENESS: ALL metrics have ALL values (10+ each)?
+5. NEGATIVES: Signs preserved? Losses negative?
+6. MAPPING: EPS single? Tax in "tax" only? Borrowings 0 if none?
+7. RATIOS: ROE, ROCE, Debtor Days complete?
+8. METADATA: Face Value not null? No fake Bonus Shares?
+9. QUARTERLY: ALL quarters including Mar-24? Op Profit quarterly complete?
 
-Fix any issues. Output corrected JSON. Start with {{ and end with }}."""
+Output corrected JSON. Start with {{ and end with }}."""
         
         try:
             response = _call_qwen(prompt)

@@ -1,5 +1,6 @@
 """
-QA Tests for Extraction Quality - validates the 18 issues reported by user.
+QA Tests for Extraction Quality - validates data quality issues.
+Covers: Apollo Tyres (18 issues) + Goodyear India (20 issues)
 """
 import json
 import pytest
@@ -19,21 +20,20 @@ class TestExtractionQuality:
         return None
     
     def test_no_invented_periods(self, sample_output):
-        """Issue 1-2: Should not have Mar-13, Mar-14, Mar-15 if source starts at Mar-16."""
+        """Should not have Mar-13, Mar-14, Mar-15 if source starts at Mar-16."""
         if not sample_output:
             pytest.skip("No sample output available")
         
         extracted = sample_output.get("extracted_data", sample_output)
         sales = extracted.get("profit_loss", {}).get("sales", [])
         
-        # Apollo Tyres PDF starts from Mar-16, not Mar-13
         invalid_periods = ["Mar-13", "Mar-14", "Mar-15"]
         found_invalid = [s["period"] for s in sales if s["period"] in invalid_periods]
         
         assert len(found_invalid) == 0, f"Found invented periods: {found_invalid}"
     
     def test_no_sudden_value_drops(self, sample_output):
-        """Issue 5-6: Sales should not drop 75% in one year (quarterly mixed with annual)."""
+        """Sales should not drop 75% in one year (quarterly mixed with annual)."""
         if not sample_output:
             pytest.skip("No sample output available")
         
@@ -46,31 +46,37 @@ class TestExtractionQuality:
             
             if prev_val > 0 and curr_val > 0:
                 drop_percent = (prev_val - curr_val) / prev_val * 100
-                # A 75% drop likely means quarterly mixed with annual
                 assert drop_percent < 70, (
                     f"Suspicious drop from {sales[i-1]['period']}={prev_val} "
                     f"to {sales[i]['period']}={curr_val} ({drop_percent:.1f}% drop)"
                 )
     
     def test_operating_profit_complete(self, sample_output):
-        """Issue 7: Operating profit should have more than 3 values."""
+        """Operating profit should have values for all years."""
         if not sample_output:
             pytest.skip("No sample output available")
         
         extracted = sample_output.get("extracted_data", sample_output)
         op = extracted.get("profit_loss", {}).get("operating_profit", [])
         
-        # Should have at least 8 years of data for a 10-year PDF
         assert len(op) >= 8, f"Operating profit incomplete: only {len(op)} values"
     
-    def test_scenario_data_separated(self, sample_output):
-        """Issue 3: Best/worst case should be in scenario_data, not mixed with historical."""
+    def test_expenses_complete(self, sample_output):
+        """Goodyear: Expenses should exist for all years (Mar-20 to Mar-25)."""
         if not sample_output:
             pytest.skip("No sample output available")
         
         extracted = sample_output.get("extracted_data", sample_output)
+        expenses = extracted.get("profit_loss", {}).get("expenses", [])
         
-        # Best/worst case should NOT be in profit_loss periods
+        assert len(expenses) >= 8, f"Expenses incomplete: only {len(expenses)} values"
+    
+    def test_scenario_data_separated(self, sample_output):
+        """Best/worst case should be in scenario_data, not mixed with historical."""
+        if not sample_output:
+            pytest.skip("No sample output available")
+        
+        extracted = sample_output.get("extracted_data", sample_output)
         sales = extracted.get("profit_loss", {}).get("sales", [])
         periods = [s["period"] for s in sales]
         
@@ -80,7 +86,7 @@ class TestExtractionQuality:
         assert len(found_scenarios) == 0, f"Scenario data mixed with historical: {found_scenarios}"
     
     def test_consistent_period_count(self, sample_output):
-        """Issue 17-18: All metrics should have similar period counts."""
+        """All metrics should have similar period counts."""
         if not sample_output:
             pytest.skip("No sample output available")
         
@@ -96,11 +102,56 @@ class TestExtractionQuality:
             max_count = max(counts.values())
             min_count = min(counts.values())
             
-            # All metrics should have similar counts (within 3 values)
-            # This catches table boundary detection issues
             assert max_count - min_count <= 5, (
                 f"Inconsistent period counts (boundary issue): {counts}"
             )
+    
+    def test_eps_not_split(self, sample_output):
+        """Goodyear: EPS should be single value, not Basic/Diluted split."""
+        if not sample_output:
+            pytest.skip("No sample output available")
+        
+        extracted = sample_output.get("extracted_data", sample_output)
+        pl = extracted.get("profit_loss", {})
+        
+        # Check EPS is a list of values, not a dict with basic/diluted
+        eps = pl.get("eps", [])
+        if eps and isinstance(eps, list) and len(eps) > 0:
+            first_eps = eps[0]
+            if isinstance(first_eps, dict):
+                assert "basic" not in first_eps, "EPS incorrectly split into Basic/Diluted"
+                assert "diluted" not in first_eps, "EPS incorrectly split into Basic/Diluted"
+    
+    def test_no_invented_borrowings(self, sample_output):
+        """Goodyear: Borrowings should not be invented where none exist."""
+        if not sample_output:
+            pytest.skip("No sample output available")
+        
+        extracted = sample_output.get("extracted_data", sample_output)
+        bs = extracted.get("balance_sheet", {})
+        borrowings = bs.get("borrowings", [])
+        
+        if borrowings:
+            # Check for suspiciously constant values (invented)
+            values = [b.get("value") for b in borrowings if b.get("value")]
+            if len(values) >= 3:
+                unique_values = set(values)
+                # If all values are the same, likely invented
+                assert len(unique_values) > 1 or values[0] == 0, \
+                    f"Borrowings appear invented (constant value): {values[:5]}"
+    
+    def test_face_value_not_null(self, sample_output):
+        """Goodyear: Face Value should not be null."""
+        if not sample_output:
+            pytest.skip("No sample output available")
+        
+        extracted = sample_output.get("extracted_data", sample_output)
+        meta = extracted.get("meta", {})
+        face_value = meta.get("face_value")
+        
+        # Face value should exist and be a number
+        if "face_value" in meta:
+            assert face_value is not None, "Face Value is null but should have actual value"
 
 
 class TestPromptRules:
