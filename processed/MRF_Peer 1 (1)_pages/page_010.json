@@ -1,0 +1,123 @@
+{
+  "page": 10,
+  "total_pages": 10,
+  "document_type": "profit_loss",
+  "document_type_confidence": 0.95,
+  "periods": [
+    "Mar-20",
+    "Mar-21",
+    "Mar-22",
+    "Mar-23",
+    "Mar-24",
+    "Mar-25"
+  ],
+  "period_type": "annual",
+  "period_count": 6,
+  "extracted_data": {
+    "periods": [
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ],
+    "sales": [
+      12210.47,
+      13409.43,
+      14027.51,
+      14703.42,
+      16698.75,
+      18484.22
+    ],
+    "expenses": [
+      5373.49,
+      6779.96,
+      5799.04,
+      6648.14,
+      7324.94,
+      7307.37
+    ],
+    "operating_profit": [
+      19442.34,
+      22581.86,
+      23059.74,
+      24369.41,
+      26849.43,
+      29566.99
+    ],
+    "other_income": [
+      8869.76,
+      9440.75,
+      9521.82,
+      10117.97,
+      12046.22,
+      13220.78
+    ],
+    "depreciation": [
+      1740.94,
+      1002.23,
+      1233.07,
+      3045.86,
+      2384.53,
+      1168.63
+    ],
+    "interest": [
+      1519.33,
+      5874.02,
+      3656.46,
+      3085.11,
+      3382.97,
+      4548.24
+    ],
+    "profit_before_tax": [
+      7312.31,
+      6264.86,
+      8648.39,
+      8120.47,
+      9035.71,
+      10629.34
+    ],
+    "tax": [
+      19442.34,
+      22581.86,
+      23059.74,
+      24369.41,
+      26849.43,
+      29566.99
+    ],
+    "net_profit": [
+      2299.4,
+      2145.96,
+      2332.68,
+      2503.27,
+      2911.96,
+      3370.25
+    ],
+    "eps": [
+      0.42,
+      0.42,
+      0.42,
+      0.42,
+      0.42,
+      0.42
+    ]
+  },
+  "audit": {
+    "pdfplumber_char_count": 1036,
+    "ocr_char_count": 1039,
+    "pdfplumber_numbers": 138,
+    "ocr_numbers": 138,
+    "json_values": 66,
+    "text_match_ratio": 1.0,
+    "passed": false,
+    "warnings": [
+      "JSON values (66) much less than source numbers (138)"
+    ]
+  },
+  "source_chars": {
+    "pdfplumber": 1036,
+    "ocr": 1039
+  },
+  "timestamp": "2026-01-18T17:09:16.577571"
+}

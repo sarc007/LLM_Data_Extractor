@@ -1,0 +1,97 @@
+{
+  "page": 4,
+  "total_pages": 10,
+  "document_type": "cash_flow",
+  "document_type_confidence": 0.95,
+  "periods": [
+    "Mar-16",
+    "Mar-17",
+    "Mar-18",
+    "Mar-19",
+    "Mar-20",
+    "Mar-21",
+    "Mar-22",
+    "Mar-23",
+    "Mar-24",
+    "Mar-25"
+  ],
+  "period_type": "annual",
+  "period_count": 10,
+  "extracted_data": {
+    "periods": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19",
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ],
+    "cash_from_operations": [
+      3043.47,
+      1955.72,
+      2412.98,
+      1252.85,
+      2271.23,
+      4324.58,
+      -578.01,
+      2755.47,
+      3303.36,
+      1867.8
+    ],
+    "cash_from_investing": [
+      -3407.81,
+      -1392.7,
+      -2013.88,
+      -1386.15,
+      -162.31,
+      -5086.57,
+      168.73,
+      -1921.81,
+      -2380.58,
+      -2082.23
+    ],
+    "cash_from_financing": [
+      212.31,
+      -437.62,
+      -452.58,
+      42.19,
+      -1032.35,
+      -249.68,
+      423.74,
+      -839.54,
+      -868.22,
+      282.0
+    ],
+    "net_cash_flow": [
+      152.03,
+      125.4,
+      53.48,
+      91.11,
+      1076.57,
+      -1011.67,
+      14.46,
+      5.88,
+      54.56,
+      67.57
+    ]
+  },
+  "audit": {
+    "pdfplumber_char_count": 533,
+    "ocr_char_count": 535,
+    "pdfplumber_numbers": 70,
+    "ocr_numbers": 70,
+    "json_values": 50,
+    "text_match_ratio": 0.9354838709677419,
+    "passed": true,
+    "warnings": []
+  },
+  "source_chars": {
+    "pdfplumber": 533,
+    "ocr": 535
+  },
+  "timestamp": "2026-01-18T17:06:37.559102"
+}

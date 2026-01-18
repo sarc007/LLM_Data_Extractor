@@ -1,0 +1,93 @@
+{
+  "page": 8,
+  "total_pages": 10,
+  "document_type": "balance_sheet",
+  "document_type_confidence": 0.95,
+  "periods": [
+    "Mar-16",
+    "Mar-17",
+    "Mar-18",
+    "Mar-19"
+  ],
+  "period_type": "annual",
+  "period_count": 4,
+  "extracted_data": {
+    "periods": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19"
+    ],
+    "equity_share_capital": [
+      4.24,
+      4.24,
+      4.24,
+      4.24
+    ],
+    "reserves": [
+      7220.1,
+      8636.52,
+      9733.95,
+      10833.11
+    ],
+    "total_equity": [
+      7224.34,
+      8640.76,
+      9738.19,
+      10837.35
+    ],
+    "borrowings": [
+      2463.9,
+      2332.84,
+      2162.9,
+      2506.31
+    ],
+    "other_liabilities": [
+      3565.57,
+      4074.56,
+      4577.13,
+      5097.54
+    ],
+    "total_liabilities": [
+      6029.47,
+      6407.4,
+      6740.03,
+      7603.85
+    ],
+    "fixed_assets": [
+      5667.57,
+      6350.17,
+      7171.08,
+      8189.47
+    ],
+    "current_assets": [
+      3862.76,
+      4736.88,
+      4627.16,
+      5480.41
+    ],
+    "total_assets": [
+      13253.81,
+      15048.16,
+      16478.22,
+      18441.2
+    ]
+  },
+  "audit": {
+    "pdfplumber_char_count": 1077,
+    "ocr_char_count": 1082,
+    "pdfplumber_numbers": 92,
+    "ocr_numbers": 92,
+    "json_values": 40,
+    "text_match_ratio": 1.0,
+    "passed": false,
+    "warnings": [
+      "JSON values (40) much less than source numbers (92)"
+    ]
+  },
+  "source_chars": {
+    "pdfplumber": 1077,
+    "ocr": 1082
+  },
+  "timestamp": "2026-01-18T17:07:34.093678"
+}

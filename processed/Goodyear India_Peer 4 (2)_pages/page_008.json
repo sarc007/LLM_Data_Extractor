@@ -1,0 +1,115 @@
+{
+  "page": 8,
+  "total_pages": 10,
+  "document_type": "balance_sheet",
+  "document_type_confidence": 0.95,
+  "periods": [
+    "Mar-16",
+    "Mar-17",
+    "Mar-18",
+    "Mar-19"
+  ],
+  "period_type": "annual",
+  "period_count": 4,
+  "extracted_data": {
+    "periods": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19"
+    ],
+    "equity_share_capital": [
+      23.07,
+      23.07,
+      23.07,
+      23.07
+    ],
+    "reserves": [
+      591.05,
+      684.01,
+      779.12,
+      844.05
+    ],
+    "total_equity": [
+      614.12,
+      707.08,
+      802.19,
+      867.12
+    ],
+    "borrowings": [
+      310.36,
+      382.49,
+      495.38,
+      463.41
+    ],
+    "other_liabilities": [
+      221.37,
+      226.75,
+      246.21,
+      250.95
+    ],
+    "total_liabilities": [
+      1146.13,
+      1330.53,
+      1297.57,
+      1330.53
+    ],
+    "fixed_assets": [
+      674.21,
+      831.48,
+      1025.17,
+      1029.29
+    ],
+    "current_assets": [
+      250.27,
+      257.09,
+      272.38,
+      301.24
+    ],
+    "total_assets": [
+      924.48,
+      1089.57,
+      1297.57,
+      1330.53
+    ],
+    "cash_from_operating_activity": [
+      9.33,
+      167.77,
+      182.28,
+      56.57
+    ],
+    "cash_from_investing_activity": [
+      -132.93,
+      -11.5,
+      -22.04,
+      -35.56
+    ],
+    "cash_from_financing_activity": [
+      -31.03,
+      -36.62,
+      -37.28,
+      -38.87
+    ],
+    "net_cash_flow": [
+      -154.63,
+      119.65,
+      122.96,
+      -17.86
+    ]
+  },
+  "audit": {
+    "pdfplumber_char_count": 977,
+    "ocr_char_count": 1031,
+    "pdfplumber_numbers": 84,
+    "ocr_numbers": 84,
+    "json_values": 56,
+    "text_match_ratio": 1.0,
+    "passed": true,
+    "warnings": []
+  },
+  "source_chars": {
+    "pdfplumber": 977,
+    "ocr": 1031
+  },
+  "timestamp": "2026-01-18T17:01:21.536352"
+}

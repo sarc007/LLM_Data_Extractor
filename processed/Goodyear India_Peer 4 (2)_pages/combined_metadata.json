@@ -1,0 +1,21 @@
+{
+  "document_type": "metadata",
+  "pages": [
+    5,
+    6
+  ],
+  "periods": [],
+  "period_count": 0,
+  "period_type": "quarterly",
+  "data": {
+    "face_value": null,
+    "market_cap": null,
+    "share_price": null,
+    "52_week_high": null,
+    "52_week_low": null,
+    "error": "Failed to extract JSON",
+    "raw_response": "I don't see any PAGE CONTENT with actual financial data in the document you provided. The text only contains a description about adding custom formatting and a required JSON structure, but no actual financial numbers or data to extract.\n\nTo properly extract financial data, I would need to see the actual page content with the financial information, including columns with periods like \"Mar-16\", \"Mar-17\", etc. and the corresponding numerical values.\n\nCould you please provide the actual page content",
+    "periods": []
+  },
+  "sample_queries": []
+}
