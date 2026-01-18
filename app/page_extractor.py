@@ -130,48 +130,89 @@ def get_pdf_page_count(pdf_path: str) -> int:
 
 
 def _build_document_type_prompt(page_text: str) -> str:
-    """Build prompt to detect document type from page content."""
-    return f"""Analyze this financial document page and identify the document type based on the DATA CONTENT, not the title.
+    """Build prompt to detect MULTIPLE document types from page content."""
+    return f"""Analyze this financial document page and identify ALL document types based on the DATA CONTENT.
+
+CRITICAL: A single page may contain MULTIPLE distinct documents with DIFFERENT periods!
+For example:
+- METADATA section (company info, shares, face value) 
+- ANNUAL PROFIT & LOSS (Mar-16, Mar-17, Mar-18, Mar-19)
+- QUARTERLY RESULTS (Jun-23, Sep-23, Dec-23, Mar-24)
+
+These are 3 SEPARATE documents with different period types - extract them separately!
 
 PAGE CONTENT:
 {page_text}
 
 DOCUMENT TYPES TO DETECT (identify by data patterns):
-1. profit_loss - Contains: Sales/Revenue, Expenses, Operating Profit, Net Profit, EPS
-2. balance_sheet - Contains: Assets, Liabilities, Equity, Reserves, Borrowings
-3. cash_flow - Contains: Cash from Operations, Cash from Investing, Cash from Financing
-4. ratios - Contains: ROE, ROCE, Current Ratio, Debtor Days, Inventory Turnover
-5. quarterly_results - Contains: Quarterly periods (Jun-24, Sep-24, Dec-24)
+1. profit_loss - Contains: Sales/Revenue, Expenses, Operating Profit, Net Profit, EPS (ANNUAL periods like Mar-XX)
+2. quarterly_results - Contains: Quarterly periods (Jun-XX, Sep-XX, Dec-XX) with Sales, Profit
+3. balance_sheet - Contains: Assets, Liabilities, Equity, Reserves, Borrowings
+4. cash_flow - Contains: Cash from Operations, Cash from Investing, Cash from Financing
+5. ratios - Contains: ROE, ROCE, Current Ratio, Debtor Days, Inventory Turnover
 6. shareholding_pattern - Contains: Promoter holding %, Public %, FII %
-7. metadata - Contains: Face Value, Market Cap, Share Price, Bonus history
+7. metadata - Contains: Face Value, Market Cap, Share Price, Number of Shares
 
-Respond with JSON:
+Respond with JSON containing an ARRAY of ALL document types found:
 {{
-  "document_type": "profit_loss|balance_sheet|cash_flow|ratios|quarterly_results|shareholding_pattern|metadata",
-  "confidence": 0.0-1.0,
-  "detected_fields": ["field1", "field2", ...],
-  "periods": ["Mar-16", "Mar-17", ...],
-  "period_type": "annual|quarterly|ttm|mixed",
-  "period_count": number
+  "documents": [
+    {{
+      "document_type": "metadata",
+      "confidence": 0.95,
+      "detected_fields": ["face_value", "market_cap", "shares"],
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0
+    }},
+    {{
+      "document_type": "profit_loss",
+      "confidence": 0.95,
+      "detected_fields": ["sales", "expenses", "net_profit"],
+      "periods": ["Mar-16", "Mar-17", "Mar-18", "Mar-19"],
+      "period_type": "annual",
+      "period_count": 4
+    }},
+    {{
+      "document_type": "quarterly_results",
+      "confidence": 0.95,
+      "detected_fields": ["sales", "operating_profit", "net_profit"],
+      "periods": ["Jun-23", "Sep-23", "Dec-23", "Mar-24"],
+      "period_type": "quarterly",
+      "period_count": 4
+    }}
+  ]
 }}
+
+RULES:
+1. Separate documents by their PERIOD TYPE (annual vs quarterly vs none)
+2. Never mix annual periods (Mar-16, Mar-17) with quarterly periods (Jun-23, Sep-23)
+3. Metadata has no periods
+4. Each distinct data section = separate document
 
 Output ONLY valid JSON."""
 
 
-def _build_page_extraction_prompt(page_text: str, doc_type: str) -> str:
-    """Build prompt to extract data from a page based on detected document type."""
+def _build_page_extraction_prompt(page_text: str, doc_type: str, target_periods: List[str] = None) -> str:
+    """Build prompt to extract data from a page based on detected document type and specific periods."""
     type_specific_fields = {
-        "profit_loss": '{"periods": [...], "sales": [...], "expenses": [...], "operating_profit": [...], "other_income": [...], "depreciation": [...], "interest": [...], "profit_before_tax": [...], "tax": [...], "net_profit": [...], "eps": [...]}',
+        "profit_loss": '{"periods": [...], "sales": [...], "expenses": [...], "operating_profit": [...], "other_income": [...], "depreciation": [...], "interest": [...], "profit_before_tax": [...], "tax": [...], "net_profit": [...], "eps": [...], "dividend_amount": [...]}',
         "balance_sheet": '{"periods": [...], "equity_share_capital": [...], "reserves": [...], "total_equity": [...], "borrowings": [...], "other_liabilities": [...], "total_liabilities": [...], "fixed_assets": [...], "current_assets": [...], "total_assets": [...]}',
         "cash_flow": '{"periods": [...], "cash_from_operations": [...], "cash_from_investing": [...], "cash_from_financing": [...], "net_cash_flow": [...]}',
         "ratios": '{"periods": [...], "roe": [...], "roce": [...], "current_ratio": [...], "debtor_days": [...], "inventory_turnover": [...], "dividend_payout": [...]}',
-        "quarterly_results": '{"periods": [...], "sales": [...], "operating_profit": [...], "net_profit": [...], "opm": [...]}',
-        "metadata": '{"face_value": number, "market_cap": number, "share_price": number, "52_week_high": number, "52_week_low": number}',
+        "quarterly_results": '{"periods": [...], "sales": [...], "expenses": [...], "operating_profit": [...], "other_income": [...], "depreciation": [...], "interest": [...], "profit_before_tax": [...], "tax": [...], "net_profit": [...], "opm": [...]}',
+        "metadata": '{"company_name": "...", "face_value": number, "market_cap": number, "share_price": number, "num_shares": number}',
     }
     
     structure = type_specific_fields.get(doc_type, '{}')
     
-    return f"""Extract all financial data from this {doc_type.upper()} document page.
+    period_instruction = ""
+    if target_periods:
+        period_instruction = f"""
+TARGET PERIODS TO EXTRACT: {target_periods}
+ONLY extract data for these specific periods. Do NOT include data from other periods."""
+    
+    return f"""Extract financial data for {doc_type.upper()} from this page.
+{period_instruction}
 
 PAGE CONTENT:
 {page_text}
@@ -181,10 +222,13 @@ REQUIRED JSON STRUCTURE for {doc_type}:
 
 CRITICAL RULES:
 1. Use EXACT field names as shown above
-2. Extract ALL periods from column headers (Mar-16, Mar-17, etc.)
-3. Extract ALL values for ALL periods - no partial extraction
-4. Preserve negative values exactly (-100 stays -100)
-5. Numbers should be numeric, not strings
+2. Extract ONLY the specified periods (if provided) - DO NOT MIX different period types
+3. Annual periods look like: Mar-16, Mar-17, Mar-18, Mar-19
+4. Quarterly periods look like: Jun-23, Sep-23, Dec-23, Mar-24
+5. NEVER combine annual and quarterly data in the same JSON
+6. Preserve negative values exactly (-100 stays -100)
+7. Numbers should be numeric, not strings
+8. Extract ALL available fields for the target period type
 
 Output ONLY valid JSON starting with {{ and ending with }}."""
 
@@ -214,30 +258,48 @@ If no issues, output the same JSON unchanged.
 Output ONLY valid JSON."""
 
 
-def detect_document_type(page_text: str) -> Dict[str, Any]:
-    """Detect document type from page content using LLM."""
+def detect_document_types(page_text: str) -> List[Dict[str, Any]]:
+    """Detect ALL document types from page content using LLM. Returns list of documents."""
     prompt = _build_document_type_prompt(page_text)
     response = _call_llm(prompt)
     result = _extract_json_from_text(response)
     
     if not result:
-        return {
+        return [{
             "document_type": "unknown",
             "confidence": 0.0,
             "detected_fields": [],
             "periods": [],
             "period_type": "unknown",
             "period_count": 0
-        }
+        }]
     
-    return result
+    # Handle new multi-document format
+    if "documents" in result and isinstance(result["documents"], list):
+        return result["documents"]
+    
+    # Backward compatibility: single document format
+    return [result]
 
 
-def extract_page_data(page_text: str, doc_type: str, iterations: int = 3) -> Dict[str, Any]:
+def detect_document_type(page_text: str) -> Dict[str, Any]:
+    """Detect document type from page content using LLM. Legacy wrapper."""
+    docs = detect_document_types(page_text)
+    return docs[0] if docs else {
+        "document_type": "unknown",
+        "confidence": 0.0,
+        "detected_fields": [],
+        "periods": [],
+        "period_type": "unknown",
+        "period_count": 0
+    }
+
+
+def extract_page_data(page_text: str, doc_type: str, iterations: int = 3, target_periods: List[str] = None) -> Dict[str, Any]:
     """Extract structured data from a page with iterative verification."""
     
     # Initial extraction
-    prompt = _build_page_extraction_prompt(page_text, doc_type)
+    prompt = _build_page_extraction_prompt(page_text, doc_type, target_periods)
     response = _call_llm(prompt)
     current_json = _extract_json_from_text(response)
     
@@ -319,7 +381,7 @@ def process_single_page(
     """
     Process a single PDF page with dual extraction and auditing.
     
-    Returns page result with document type, extracted data, and audit info.
+    Returns page result with MULTIPLE documents if different types/periods detected.
     """
     
     print(f"\n[PAGE {page_num}/{total_pages}] Processing...")
@@ -336,7 +398,7 @@ def process_single_page(
         )
     
     # Step 1: Extract text with pdfplumber
-    print(f"  [1/5] Extracting with pdfplumber...")
+    print(f"  [1/6] Extracting with pdfplumber...")
     pdfplumber_result = extract_page_with_pdfplumber(pdf_path, page_num)
     pdfplumber_text = pdfplumber_result["text"]
     print(f"        -> {pdfplumber_result['char_count']} chars")
@@ -345,11 +407,11 @@ def process_single_page(
     ocr_text = ""
     if use_ocr and ocr_cache and page_num in ocr_cache:
         ocr_text = ocr_cache[page_num]
-        print(f"  [2/5] OCR from cache -> {len(ocr_text)} chars")
+        print(f"  [2/6] OCR from cache -> {len(ocr_text)} chars")
     elif use_ocr and OCR_AVAILABLE and not ocr_cache:
-        print(f"  [2/5] OCR not cached, skipping...")
+        print(f"  [2/6] OCR not cached, skipping...")
     else:
-        print(f"  [2/5] OCR skipped")
+        print(f"  [2/6] OCR skipped")
     
     # Use the better text source
     source_text = pdfplumber_text if len(pdfplumber_text) >= len(ocr_text) else ocr_text
@@ -360,43 +422,64 @@ def process_single_page(
             "page": page_num,
             "status": "skipped",
             "reason": "no_text",
-            "document_type": "unknown"
+            "documents": []
         }
     
-    # Step 3: Detect document type
-    print(f"  [3/5] Detecting document type...")
-    doc_type_info = detect_document_type(source_text)
-    doc_type = doc_type_info.get("document_type", "unknown")
-    confidence = doc_type_info.get("confidence", 0.0)
-    periods = doc_type_info.get("periods", [])
-    print(f"        -> Type: {doc_type} (confidence: {confidence:.0%})")
-    print(f"        -> Periods: {periods[:5]}{'...' if len(periods) > 5 else ''}")
+    # Step 3: Detect ALL document types on this page
+    print(f"  [3/6] Detecting document types (multi-doc)...")
+    detected_docs = detect_document_types(source_text)
+    print(f"        -> Found {len(detected_docs)} document type(s)")
+    for doc in detected_docs:
+        doc_type = doc.get("document_type", "unknown")
+        periods = doc.get("periods", [])
+        period_type = doc.get("period_type", "unknown")
+        print(f"           • {doc_type} ({period_type}): {periods[:4]}{'...' if len(periods) > 4 else ''}")
     
-    # Step 4: Extract data with 3-iteration verification
-    print(f"  [4/5] Extracting data ({iterations} iterations)...")
-    extracted_data = extract_page_data(source_text, doc_type, iterations=iterations)
-    print(f"        -> Extracted {len(json.dumps(extracted_data))} chars of JSON")
+    # Step 4: Extract data for EACH document type separately
+    print(f"  [4/6] Extracting data for each document ({iterations} iterations each)...")
+    all_documents = []
     
-    # Step 5: Audit extraction
-    print(f"  [5/5] Auditing extraction...")
-    audit_result = audit_page_extraction(pdfplumber_text, ocr_text, extracted_data)
-    audit_status = "✅ PASSED" if audit_result["passed"] else "❌ FAILED"
-    print(f"        -> Audit: {audit_status}")
-    if audit_result["warnings"]:
-        for warning in audit_result["warnings"]:
-            print(f"        -> WARNING: {warning}")
+    for doc_info in detected_docs:
+        doc_type = doc_info.get("document_type", "unknown")
+        periods = doc_info.get("periods", [])
+        period_type = doc_info.get("period_type", "unknown")
+        confidence = doc_info.get("confidence", 0.0)
+        
+        print(f"        -> Extracting {doc_type} ({period_type})...")
+        extracted_data = extract_page_data(
+            source_text, 
+            doc_type, 
+            iterations=iterations,
+            target_periods=periods if periods else None
+        )
+        
+        # Audit this specific extraction
+        audit_result = audit_page_extraction(pdfplumber_text, ocr_text, extracted_data)
+        
+        doc_output = {
+            "document_type": doc_type,
+            "document_type_confidence": confidence,
+            "periods": periods,
+            "period_type": period_type,
+            "period_count": len(periods),
+            "extracted_data": extracted_data,
+            "audit": audit_result
+        }
+        all_documents.append(doc_output)
+        print(f"           -> {len(json.dumps(extracted_data))} chars of JSON")
     
-    # Save individual page JSON
+    # Step 5: Overall audit
+    print(f"  [5/6] Auditing all extractions...")
+    all_passed = all(d["audit"]["passed"] for d in all_documents)
+    audit_status = "✅ PASSED" if all_passed else "❌ PARTIAL"
+    print(f"        -> Audit: {audit_status} ({len(all_documents)} documents)")
+    
+    # Step 6: Save individual page JSON with all documents
     page_output = {
         "page": page_num,
         "total_pages": total_pages,
-        "document_type": doc_type,
-        "document_type_confidence": confidence,
-        "periods": periods,
-        "period_type": doc_type_info.get("period_type", "unknown"),
-        "period_count": doc_type_info.get("period_count", 0),
-        "extracted_data": extracted_data,
-        "audit": audit_result,
+        "documents_on_page": len(all_documents),
+        "documents": all_documents,
         "source_chars": {
             "pdfplumber": len(pdfplumber_text),
             "ocr": len(ocr_text)
@@ -408,28 +491,51 @@ def process_single_page(
     page_file = output_dir / f"page_{page_num:03d}.json"
     with open(page_file, "w") as f:
         json.dump(page_output, f, indent=2)
-    print(f"        -> Saved: {page_file.name}")
+    print(f"  [6/6] Saved: {page_file.name}")
     
     return page_output
 
 
-def combine_same_type_documents(page_results: List[Dict], doc_type: str, iterations: int = 3) -> Dict[str, Any]:
-    """Combine pages of the same document type with iterative verification."""
+def combine_same_type_documents(page_results: List[Dict], doc_type: str, period_type: str = None, iterations: int = 3) -> Dict[str, Any]:
+    """Combine documents of the same type AND period_type with iterative verification.
     
-    # Get all pages of this type
-    same_type_pages = [p for p in page_results if p.get("document_type") == doc_type]
+    Now handles new multi-document structure where each page has a "documents" array.
+    """
     
-    if not same_type_pages:
+    # Collect all matching documents from all pages
+    matching_docs = []
+    pages_included = []
+    
+    for page_result in page_results:
+        page_num = page_result.get("page", 0)
+        
+        # Handle new structure with "documents" array
+        if "documents" in page_result:
+            for doc in page_result["documents"]:
+                if doc.get("document_type") == doc_type:
+                    # Also filter by period_type if specified
+                    if period_type is None or doc.get("period_type") == period_type:
+                        matching_docs.append(doc)
+                        if page_num not in pages_included:
+                            pages_included.append(page_num)
+        # Handle legacy structure with single document
+        elif page_result.get("document_type") == doc_type:
+            if period_type is None or page_result.get("period_type") == period_type:
+                matching_docs.append(page_result)
+                pages_included.append(page_num)
+    
+    if not matching_docs:
         return {}
     
-    print(f"\n[COMBINE] Merging {len(same_type_pages)} pages of type: {doc_type}")
+    type_label = f"{doc_type}" + (f" ({period_type})" if period_type else "")
+    print(f"\n[COMBINE] Merging {len(matching_docs)} documents of type: {type_label}")
     
     # Collect all periods and data
     all_periods = []
     combined_data = {}
     
-    for page in same_type_pages:
-        data = page.get("extracted_data", {})
+    for doc in matching_docs:
+        data = doc.get("extracted_data", {})
         periods = data.get("periods", [])
         
         for period in periods:
@@ -452,17 +558,17 @@ def combine_same_type_documents(page_results: List[Dict], doc_type: str, iterati
     # Build combined document
     combined = {
         "document_type": doc_type,
-        "pages_included": [p["page"] for p in same_type_pages],
+        "period_type": period_type or "mixed",
+        "pages_included": pages_included,
         "total_periods": len(all_periods),
         "periods": all_periods,
         "data": combined_data
     }
     
-    # Verify combined result with LLM
+    # Verify combined result
     print(f"  -> Verifying combined result ({iterations} iterations)...")
     
     for i in range(iterations):
-        # Simple verification - check period consistency
         period_counts = {}
         for key, value in combined_data.items():
             if isinstance(value, list):
@@ -587,20 +693,31 @@ def process_pdf_page_by_page_v2(
                 "document_type": "unknown"
             })
     
-    # Identify unique document types
-    doc_types_found = set()
+    # Identify unique document type + period_type combinations
+    doc_type_combos = set()
     for result in page_results:
-        doc_type = result.get("document_type", "unknown")
-        if doc_type != "unknown" and result.get("status") != "error":
-            doc_types_found.add(doc_type)
+        if result.get("status") == "error":
+            continue
+        # Handle new multi-document structure
+        if "documents" in result:
+            for doc in result["documents"]:
+                doc_type = doc.get("document_type", "unknown")
+                period_type = doc.get("period_type", "unknown")
+                if doc_type != "unknown":
+                    doc_type_combos.add((doc_type, period_type))
+        # Handle legacy structure
+        elif result.get("document_type", "unknown") != "unknown":
+            doc_type = result.get("document_type")
+            period_type = result.get("period_type", "unknown")
+            doc_type_combos.add((doc_type, period_type))
     
-    print(f"\n[SUMMARY] Document types found: {list(doc_types_found)}")
+    print(f"\n[SUMMARY] Document type + period combinations: {list(doc_type_combos)}")
     
-    # Combine pages by document type
+    # Combine by document type AND period_type
     documents = []
     
-    for doc_type in doc_types_found:
-        combined = combine_same_type_documents(page_results, doc_type, combine_iterations)
+    for doc_type, period_type in doc_type_combos:
+        combined = combine_same_type_documents(page_results, doc_type, period_type, combine_iterations)
         
         if combined:
             # Generate sample queries
@@ -610,17 +727,18 @@ def process_pdf_page_by_page_v2(
             
             document = {
                 "document_type": doc_type,
+                "period_type": period_type,
                 "pages": combined.get("pages_included", []),
                 "periods": periods,
                 "period_count": len(periods),
-                "period_type": "annual" if any("Mar-" in p for p in periods) else "quarterly",
                 "data": data,
                 "sample_queries": sample_queries
             }
             documents.append(document)
             
-            # Save combined document JSON
-            doc_file = out_path / f"combined_{doc_type}.json"
+            # Save combined document JSON with period_type in filename
+            safe_period_type = period_type.replace("/", "_") if period_type else "unknown"
+            doc_file = out_path / f"combined_{doc_type}_{safe_period_type}.json"
             with open(doc_file, "w") as f:
                 json.dump(document, f, indent=2)
             print(f"  -> Saved: {doc_file.name}")
