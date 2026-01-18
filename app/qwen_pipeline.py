@@ -438,6 +438,26 @@ def _build_extraction_prompt(doc_text: str) -> str:
 DOCUMENT CONTENT:
 {doc_text}
 
+REQUIRED JSON STRUCTURE (use EXACT key names):
+{{
+  "profit_loss": {{
+    "periods": ["Mar-16", "Mar-17", ...],  // MUST use "periods" not "report_dates"
+    "sales": [value1, value2, ...],        // MUST use "sales" not "revenue"
+    "expenses": [...],
+    "operating_profit": [...],
+    "other_income": [...],
+    "depreciation": [...],
+    "interest": [...],
+    "profit_before_tax": [...],
+    "tax": [...],
+    "net_profit": [...],
+    "eps": [...]
+  }},
+  "balance_sheet": {{ ... }},
+  "ratios": {{ ... }},
+  "meta": {{ "face_value": number, ... }}
+}}
+
 CRITICAL RULES - FOLLOW EXACTLY:
 
 1. DATE RANGE - USE ONLY ACTUAL PERIODS FROM DOCUMENT:
@@ -509,6 +529,23 @@ def _build_ocr_to_json_prompt(ocr_text: str) -> str:
 
 OCR-EXTRACTED TEXT:
 {ocr_text}
+
+REQUIRED JSON STRUCTURE (use EXACT key names):
+{{
+  "profit_loss": {{
+    "periods": ["Mar-16", "Mar-17", ...],  // MUST use "periods" not "report_dates"
+    "sales": [value1, value2, ...],        // MUST use "sales" not "revenue"
+    "expenses": [...],
+    "operating_profit": [...],
+    "other_income": [...],
+    "depreciation": [...],
+    "interest": [...],
+    "profit_before_tax": [...],
+    "tax": [...],
+    "net_profit": [...],
+    "eps": [...]
+  }}
+}}
 
 CRITICAL RULES:
 
