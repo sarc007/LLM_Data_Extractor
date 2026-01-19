@@ -430,6 +430,67 @@ async def list_page_extractions(_=Depends(require_login)):
     return JSONResponse({"extractions": results})
 
 
+@app.get("/api/processed-folders")
+async def list_processed_folders(_=Depends(require_login)):
+    """List all processed PDF folders with their JSON files."""
+    from pathlib import Path
+    processed = Path("processed")
+    folders = []
+    
+    for folder in sorted(processed.iterdir(), key=lambda x: x.stat().st_mtime, reverse=True):
+        if folder.is_dir() and folder.name.endswith("_pages"):
+            # Get all JSON files in folder
+            json_files = sorted([f.name for f in folder.glob("*.json")])
+            
+            # Clean display name (remove _pages suffix)
+            display_name = folder.name.replace("_pages", "")
+            
+            folders.append({
+                "name": folder.name,
+                "display_name": display_name,
+                "files": json_files,
+                "file_count": len(json_files)
+            })
+    
+    return JSONResponse({"folders": folders})
+
+
+@app.get("/view-file/{folder_name}/{file_name}", response_class=HTMLResponse)
+async def view_processed_file(folder_name: str, file_name: str, request: Request, _=Depends(require_login)):
+    """View a specific JSON file from a processed folder."""
+    from pathlib import Path
+    
+    file_path = Path("processed") / folder_name / file_name
+    if not file_path.exists():
+        return HTMLResponse("File not found", status_code=404)
+    
+    with open(file_path, "r", encoding="utf-8") as f:
+        json_data = json.load(f)
+    
+    # Create a mock upload object for the template
+    class MockUpload:
+        def __init__(self, folder, filename):
+            self.id = folder
+            self.filename = filename
+            self.json_path = str(file_path)
+            self.model_used = "page-by-page extraction"
+            self.created_at = ""
+    
+    upload = MockUpload(folder_name, file_name)
+    
+    return templates.TemplateResponse(
+        "view_json.html",
+        {
+            "request": request,
+            "upload": upload,
+            "json_data": json_data,
+            "auth_enabled": AUTH_ENABLED,
+            "folder_name": folder_name,
+            "file_name": file_name,
+        },
+    )
+
+
 @app.get("/api/page-extraction/{folder_name}")
 async def get_page_extraction(folder_name: str, _=Depends(require_login)):
     """Get details of a specific page extraction."""

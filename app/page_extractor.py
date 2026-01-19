@@ -143,16 +143,22 @@ PAGE CONTENT:
    - Annual: Mar-16, Mar-17, Mar-18, Mar-19, Mar-20, Mar-21, Mar-22, Mar-23, Mar-24, Mar-25
    - Quarterly: Jun-XX, Sep-XX, Dec-XX, Mar-XX (where XX is year like 23, 24, 25)
 
-3. EXCLUDE THESE COMPLETELY - they are NOT periods:
-   - "Trailing" or "TTM" (Trailing Twelve Months) - this is NOT a period
-   - "Best Case" or "Best" - this is a scenario, NOT a period  
-   - "Worst Case" or "Worst" - this is a scenario, NOT a period
-   - "10 Years", "7 Years", "5 Years", "3 Years" - these are growth summaries, NOT periods
+3. EXCLUDE FROM HISTORICAL PERIODS (extract as separate 'scenarios' document):
+   - "Trailing" or "TTM" (Trailing Twelve Months) - NOT a historical period
+   - "Best Case" or "Best" - scenario projection (extract in scenarios doc)
+   - "Worst Case" or "Worst" - scenario projection (extract in scenarios doc)
+   - "10 Years", "7 Years", "5 Years", "3 Years" - growth summaries, NOT periods
    - Any text that is not in MMM-YY format
 
-4. PERIOD TYPE CLASSIFICATION:
+4. SCENARIOS DOCUMENT TYPE:
+   - If page has "Best Case" and/or "Worst Case" columns, create a SEPARATE scenarios document
+   - scenarios periods: ["Best Case", "Worst Case"] or just one if only one exists
+   - Extract ALL financial data for these scenario columns
+
+5. PERIOD TYPE CLASSIFICATION:
    - ANNUAL: ONLY Mar-XX periods (fiscal year ending in March)
    - QUARTERLY: Jun-XX, Sep-XX, Dec-XX quarters (NOT Mar quarters unless part of quarterly series)
+   - SCENARIOS: Best Case, Worst Case projections
    - NONE: Metadata without time-series data
 
 === DOCUMENT TYPES ===
@@ -161,7 +167,8 @@ PAGE CONTENT:
 3. balance_sheet - Assets, Liabilities, Equity, Reserves
 4. cash_flow - Cash from Operations/Investing/Financing
 5. ratios - ROE, ROCE, Current Ratio, Debtor Days
-6. metadata - Company name, Face Value, Market Cap, Share Price (NO periods)
+6. scenarios - Best Case/Worst Case projections (extract separately from historical)
+7. metadata - Company name, Face Value, Market Cap, Share Price (NO periods)
 
 === OUTPUT FORMAT ===
 {{
@@ -202,19 +209,33 @@ def _build_page_extraction_prompt(page_text: str, doc_type: str, target_periods:
         "cash_flow": '{"periods": [...], "cash_from_operations": [...], "cash_from_investing": [...], "cash_from_financing": [...], "net_cash_flow": [...]}',
         "ratios": '{"periods": [...], "roe": [...], "roce": [...], "current_ratio": [...], "debtor_days": [...], "inventory_turnover": [...], "dividend_payout": [...]}',
         "quarterly_results": '{"periods": [...], "sales": [...], "expenses": [...], "operating_profit": [...], "other_income": [...], "depreciation": [...], "interest": [...], "profit_before_tax": [...], "tax": [...], "net_profit": [...], "opm": [...]}',
+        "scenarios": '{"periods": ["Best Case", "Worst Case"], "sales": [...], "expenses": [...], "operating_profit": [...], "other_income": [...], "depreciation": [...], "interest": [...], "profit_before_tax": [...], "tax": [...], "net_profit": [...], "eps": [...]}',
         "metadata": '{"company_name": "...", "face_value": number, "market_cap": number, "share_price": number, "num_shares": number}',
     }
     
     structure = type_specific_fields.get(doc_type, '{}')
     
-    period_instruction = ""
-    if target_periods:
+    # Build rules based on document type
+    if doc_type == "scenarios":
+        period_instruction = f"""
+=== TARGET SCENARIOS (EXTRACT ONLY THESE) ===
+{target_periods if target_periods else "['Best Case', 'Worst Case']"}
+
+EXTRACT DATA ONLY FOR "Best Case" AND "Worst Case" COLUMNS.
+IGNORE all historical period columns (Mar-XX, Jun-XX, etc.)."""
+        
+        columns_rule = "Extract ONLY 'Best Case' and 'Worst Case' columns. IGNORE all Mar-XX, Jun-XX historical columns."
+        period_rule = "periods MUST be ['Best Case', 'Worst Case']"
+    else:
         period_instruction = f"""
 === TARGET PERIODS (EXTRACT ONLY THESE) ===
 {target_periods}
 
 EXTRACT DATA ONLY FOR THE ABOVE PERIODS. 
-IGNORE all other columns including Trailing, Best Case, Worst Case."""
+IGNORE all other columns including Trailing, Best Case, Worst Case.""" if target_periods else ""
+        
+        columns_rule = "IGNORE 'Trailing', 'TTM', 'Best Case', 'Worst Case' columns - extract only historical periods."
+        period_rule = "Annual = Mar-XX only (Mar-16 to Mar-25), Quarterly = Jun-XX, Sep-XX, Dec-XX"
     
     return f"""Extract {doc_type.upper()} data from this financial document.
 {period_instruction}
@@ -228,39 +249,29 @@ PAGE CONTENT:
 === CRITICAL EXTRACTION RULES ===
 
 1. ARRAY LENGTH MUST MATCH PERIOD COUNT:
-   - If you have 10 periods, each array MUST have exactly 10 values
-   - periods: ["Mar-16", ..., "Mar-25"] = 10 items
-   - sales: [val1, val2, ..., val10] = 10 items (same count)
    - EVERY array must have the SAME length as periods array
+   - If periods has 2 items, all arrays must have 2 items
 
 2. VALUE-TO-PERIOD MAPPING:
-   - First value in each array = first period (e.g., Mar-16)
-   - Second value = second period (e.g., Mar-17)
+   - First value in each array = first period/scenario
+   - Second value = second period/scenario
    - STRICTLY maintain this positional alignment
 
-3. COLUMNS TO COMPLETELY IGNORE:
-   - "Trailing" or "TTM" column - DO NOT EXTRACT
-   - "Best Case" or "Best" column - DO NOT EXTRACT  
-   - "Worst Case" or "Worst" column - DO NOT EXTRACT
-   - These are NOT historical data periods
+3. COLUMNS TO EXTRACT:
+   {columns_rule}
 
 4. DATA INTEGRITY:
    - Use null for missing values, not 0
    - Preserve negative values exactly as shown
    - Numbers must be numeric (not strings)
-   - Do NOT duplicate values from Trailing/Best/Worst columns
 
 5. PERIOD VALIDATION:
-   - Only include periods that exist as column headers in source
-   - Annual = Mar-XX only (Mar-16 to Mar-25)
-   - Quarterly = Jun-XX, Sep-XX, Dec-XX
-   - Never mix annual and quarterly in same extraction
+   {period_rule}
 
 === SELF-CHECK BEFORE OUTPUT ===
 - Count your periods array length
 - Verify EVERY other array has the SAME length
-- Confirm no Trailing/Best/Worst data is included
-- Verify values align with correct period columns
+- Verify values align with correct columns
 
 Output ONLY valid JSON."""
 
@@ -368,16 +379,16 @@ def extract_page_data(page_text: str, doc_type: str, iterations: int = 3, target
         if verified_json:
             current_json = verified_json
     
-    # Post-process to validate and clean data
-    current_json = _validate_and_clean_extraction(current_json)
+    # Post-process to validate and clean data (pass doc_type for scenarios handling)
+    current_json = _validate_and_clean_extraction(current_json, doc_type)
     
     return current_json
 
 
-def _validate_and_clean_extraction(data: Dict[str, Any]) -> Dict[str, Any]:
+def _validate_and_clean_extraction(data: Dict[str, Any], doc_type: str = None) -> Dict[str, Any]:
     """
     Post-process extracted data to ensure consistency:
-    1. Remove Trailing/Best/Worst from periods
+    1. Remove Trailing/Best/Worst from periods (except for scenarios doc type)
     2. Ensure all arrays match period count
     3. Filter invalid periods
     """
@@ -389,19 +400,32 @@ def _validate_and_clean_extraction(data: Dict[str, Any]) -> Dict[str, Any]:
     if not isinstance(periods, list):
         return data
     
-    # Filter out invalid periods (Trailing, Best, Worst, etc.)
-    invalid_period_keywords = ["trailing", "best", "worst", "ttm", "years", "case"]
+    # For scenarios document type, Best/Worst Case ARE valid periods
+    if doc_type == "scenarios":
+        # Only filter truly invalid periods like TTM, growth years
+        invalid_period_keywords = ["trailing", "ttm", "years"]
+        valid_scenario_keywords = ["best", "worst", "case"]
+    else:
+        # Filter out scenarios from historical data
+        invalid_period_keywords = ["trailing", "best", "worst", "ttm", "years", "case"]
+        valid_scenario_keywords = []
+    
     valid_periods = []
     valid_indices = []
+    
+    # For scenarios, skip filtering entirely - data is already correct
+    if doc_type == "scenarios":
+        return data
     
     for i, period in enumerate(periods):
         if isinstance(period, str):
             period_lower = period.lower()
             is_invalid = any(kw in period_lower for kw in invalid_period_keywords)
-            # Also check if it matches valid format (MMM-YY)
-            is_valid_format = bool(re.match(r'^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{2}$', period, re.IGNORECASE))
             
-            if not is_invalid and is_valid_format:
+            # Check if it matches valid format (MMM-YY)
+            is_valid = bool(re.match(r'^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{2}$', period, re.IGNORECASE)) and not is_invalid
+            
+            if is_valid:
                 valid_periods.append(period)
                 valid_indices.append(i)
     
@@ -631,8 +655,8 @@ def combine_same_type_documents(page_results: List[Dict], doc_type: str, period_
                 if doc.get("document_type") == doc_type:
                     # Also filter by period_type if specified
                     if period_type is None or doc.get("period_type") == period_type:
-                        # Clean the document before adding
-                        cleaned_data = _validate_and_clean_extraction(doc.get("extracted_data", {}))
+                        # Clean the document before adding (pass doc_type for scenarios handling)
+                        cleaned_data = _validate_and_clean_extraction(doc.get("extracted_data", {}), doc_type)
                         doc["extracted_data"] = cleaned_data
                         matching_docs.append(doc)
                         if page_num not in pages_included:
