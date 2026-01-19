@@ -6,6 +6,8 @@ sqlalchemy
 jinja2
 itsdangerous
 pdfplumber
+pymupdf
+pdfminer.six
 pandas
 openpyxl
 requests

@@ -516,10 +516,15 @@ def process_single_page(
     iterations: int = 3,
     use_ocr: bool = True,
     job_id: Optional[str] = None,
-    ocr_cache: Optional[Dict[int, str]] = None
+    ocr_cache: Optional[Dict[int, str]] = None,
+    use_robust: bool = True  # Enable robust multi-extractor pipeline
 ) -> Dict[str, Any]:
     """
     Process a single PDF page with dual extraction and auditing.
+    
+    Args:
+        use_robust: If True, uses robust multi-extractor pipeline with 7 iterations
+                   and smart validation for foolproof extraction.
     
     Returns page result with MULTIPLE documents if different types/periods detected.
     """
@@ -586,15 +591,42 @@ def process_single_page(
         confidence = doc_info.get("confidence", 0.0)
         
         print(f"        -> Extracting {doc_type} ({period_type})...")
-        extracted_data = extract_page_data(
-            source_text, 
-            doc_type, 
-            iterations=iterations,
-            target_periods=periods if periods else None
-        )
         
-        # Audit this specific extraction
-        audit_result = audit_page_extraction(pdfplumber_text, ocr_text, extracted_data)
+        # Use robust multi-extractor pipeline if enabled
+        if use_robust:
+            try:
+                from app.robust_extractor import process_page_robust
+                robust_result = process_page_robust(
+                    pdf_path,
+                    page_num,
+                    doc_type,
+                    target_periods=periods if periods else None,
+                    max_iterations=7  # Foolproof: iterate up to 7 times
+                )
+                extracted_data = robust_result.get("extracted_data", {})
+                audit_result = robust_result.get("validation", {})
+                audit_result["passed"] = audit_result.get("passed", False)
+                audit_result["robust_mode"] = True
+                audit_result["iterations_used"] = robust_result.get("total_iterations", 0)
+                audit_result["sources_used"] = robust_result.get("sources_used", [])
+            except Exception as e:
+                print(f"        ⚠️ Robust extraction failed: {e}, falling back to standard")
+                extracted_data = extract_page_data(
+                    source_text, 
+                    doc_type, 
+                    iterations=iterations,
+                    target_periods=periods if periods else None
+                )
+                audit_result = audit_page_extraction(pdfplumber_text, ocr_text, extracted_data)
+        else:
+            extracted_data = extract_page_data(
+                source_text, 
+                doc_type, 
+                iterations=iterations,
+                target_periods=periods if periods else None
+            )
+            # Audit this specific extraction
+            audit_result = audit_page_extraction(pdfplumber_text, ocr_text, extracted_data)
         
         doc_output = {
             "document_type": doc_type,
