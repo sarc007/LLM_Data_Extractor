@@ -1,0 +1,109 @@
+{
+  "document_type": "ratios",
+  "period_type": "annual",
+  "pages": [],
+  "periods": [
+    "Mar-16",
+    "Mar-17",
+    "Mar-18",
+    "Mar-19",
+    "Mar-20",
+    "Mar-21",
+    "Mar-22",
+    "Mar-23",
+    "Mar-24",
+    "Mar-25"
+  ],
+  "period_count": 10,
+  "data": {
+    "periods": [
+      "Mar-16",
+      "Mar-17",
+      "Mar-18",
+      "Mar-19",
+      "Mar-20",
+      "Mar-21",
+      "Mar-22",
+      "Mar-23",
+      "Mar-24",
+      "Mar-25"
+    ],
+    "roce": [
+      null,
+      16,
+      9,
+      7,
+      5,
+      6,
+      7,
+      10,
+      16,
+      11
+    ],
+    "roe": [
+      17,
+      15,
+      7,
+      7,
+      5,
+      3,
+      5,
+      8,
+      12,
+      8
+    ],
+    "dividend_payout": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "debtor_days": [
+      33.4,
+      31.22,
+      35.29,
+      27.34,
+      28.97,
+      35.74,
+      36.97,
+      38.33,
+      42.78,
+      null
+    ],
+    "current_ratio": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "inventory_turnover": [
+      6.11,
+      4.98,
+      5.04,
+      5.04,
+      5.1,
+      5.24,
+      5.55,
+      5.98,
+      5.09,
+      null
+    ]
+  },
+  "sample_queries": [
+    "What is the ROE?",
+    "Show ROCE trend",
+    "What are the debtor days?"
+  ]
+}

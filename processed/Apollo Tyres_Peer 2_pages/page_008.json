@@ -1,0 +1,431 @@
+{
+  "page": 8,
+  "total_pages": 10,
+  "documents_on_page": 3,
+  "documents": [
+    {
+      "document_type": "balance_sheet",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-16",
+        "Mar-17",
+        "Mar-18",
+        "Mar-19"
+      ],
+      "period_type": "annual",
+      "period_count": 4,
+      "extracted_data": {
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19"
+        ],
+        "equity_share_capital": [
+          50.9,
+          50.9,
+          57.21,
+          57.21
+        ],
+        "reserves": [
+          6553.71,
+          7239.05,
+          9719.47,
+          9982.61
+        ],
+        "total_equity": [
+          11593.61,
+          15233.2,
+          20057.67,
+          20150.89
+        ],
+        "borrowings": [
+          1546.67,
+          3436.55,
+          4661.15,
+          5110.76
+        ],
+        "other_liabilities": [
+          3442.33,
+          4506.7,
+          5619.84,
+          5000.31
+        ],
+        "total_liabilities": [
+          4989.0,
+          7943.25,
+          10281.0,
+          10111.07
+        ],
+        "fixed_assets": [
+          5213.61,
+          6691.5,
+          10403.08,
+          11754.02
+        ],
+        "current_assets": [
+          6379.8,
+          8461.7,
+          9650.59,
+          8361.1
+        ],
+        "total_assets": [
+          11593.61,
+          15233.2,
+          20057.67,
+          20150.89
+        ],
+        "net_block": [
+          5213.61,
+          6691.5,
+          10403.08,
+          11754.02
+        ],
+        "capital_work_in_progress": [
+          993.64,
+          2915.09,
+          2304.07,
+          1539.3
+        ],
+        "investments": [
+          505.95,
+          396.19,
+          1342.5,
+          6.02
+        ],
+        "other_assets": [
+          4880.41,
+          5230.42,
+          6008.02,
+          6851.55
+        ],
+        "receivables": [
+          1084.35,
+          1127.5,
+          1435.03,
+          1314.36
+        ],
+        "inventory": [
+          1939.09,
+          2645.53,
+          2945.35,
+          3484.09
+        ],
+        "cash_and_bank": [
+          594.2,
+          3336.92,
+          599.19,
+          562.65
+        ],
+        "no_of_equity_shares": [
+          509024770,
+          509024770,
+          572049980,
+          572049980
+        ],
+        "cash_from_operating_activity": [
+          2122.5,
+          174.92,
+          1719.67,
+          1071.12
+        ],
+        "cash_from_investing_activity": [
+          -2225.94,
+          208.72,
+          -3890.83,
+          -1027.32
+        ],
+        "cash_from_financing_activity": [
+          -254.66,
+          77.05,
+          2320.88,
+          -62.21
+        ],
+        "net_cash_flow": [
+          -358.1,
+          -570.82,
+          149.72,
+          -18.41
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 12.7,
+        "extracted_significant": 71,
+        "matched_in_source": 9,
+        "potential_errors": 62,
+        "error_values": [
+          -3890.83,
+          -2225.94,
+          -1027.32,
+          -358.1,
+          77.05,
+          149.72,
+          208.72,
+          396.19,
+          562.65,
+          594.2
+        ],
+        "fields_with_data": 21,
+        "null_percent": 0.0,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    },
+    {
+      "document_type": "cash_flow",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-16",
+        "Mar-17",
+        "Mar-18",
+        "Mar-19"
+      ],
+      "period_type": "annual",
+      "period_count": 4,
+      "extracted_data": {
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19"
+        ],
+        "cash_from_operations": [
+          2122.5,
+          902.27,
+          1719.67,
+          1071.12
+        ],
+        "cash_from_investing": [
+          -2225.94,
+          -3367.71,
+          -3890.83,
+          -1027.32
+        ],
+        "cash_from_financing": [
+          -254.66,
+          1894.63,
+          2320.88,
+          -62.21
+        ],
+        "net_cash_flow": [
+          -358.11,
+          -570.82,
+          149.72,
+          -18.41
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 31.2,
+        "extracted_significant": 16,
+        "matched_in_source": 5,
+        "potential_errors": 11,
+        "error_values": [
+          -3890.83,
+          -3367.71,
+          -2225.94,
+          -1027.32,
+          149.72,
+          902.27,
+          1071.12,
+          1719.67,
+          1894.63,
+          2122.5
+        ],
+        "fields_with_data": 4,
+        "null_percent": 0.0,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    },
+    {
+      "document_type": "metadata",
+      "document_type_confidence": 0.95,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
+      "extracted_data": {
+        "company_name": "",
+        "face_value": 1,
+        "market_cap": null,
+        "share_price": [
+          174.9,
+          208.7,
+          277.05,
+          222.75
+        ],
+        "num_shares": [
+          509024770,
+          509024770,
+          572049980,
+          572049980
+        ],
+        "reserves": [
+          6553.71,
+          7239.05,
+          9719.47,
+          9982.61
+        ],
+        "borrowings": [
+          1546.67,
+          3436.55,
+          4661.15,
+          5110.76
+        ],
+        "other_liabilities": [
+          3442.33,
+          4506.7,
+          5619.84,
+          5000.31
+        ],
+        "total_equity": [
+          11593.61,
+          15233.2,
+          20057.67,
+          20150.89
+        ],
+        "net_block": [
+          5213.61,
+          6691.5,
+          10403.08,
+          11754.02
+        ],
+        "capital_work_in_progress": [
+          993.64,
+          2915.09,
+          2304.07,
+          1539.3
+        ],
+        "investments": [
+          505.95,
+          396.19,
+          1342.5,
+          6.02
+        ],
+        "other_assets": [
+          4880.41,
+          5230.42,
+          6008.02,
+          6851.55
+        ],
+        "total_assets": [
+          11593.61,
+          15233.2,
+          20057.67,
+          20150.89
+        ],
+        "receivables": [
+          1084.35,
+          1127.5,
+          1435.03,
+          1314.36
+        ],
+        "inventory": [
+          1939.09,
+          2645.53,
+          2945.35,
+          3484.09
+        ],
+        "cash_bank": [
+          594.2,
+          3336.92,
+          599.19,
+          562.65
+        ],
+        "cash_from_operating": [
+          2122.5,
+          902.27,
+          1719.67,
+          1071.12
+        ],
+        "cash_from_investing": [
+          -2225.94,
+          -3367.71,
+          -3890.83,
+          -1027.32
+        ],
+        "cash_from_financing": [
+          -254.66,
+          1894.63,
+          2320.88,
+          -62.21
+        ],
+        "net_cash_flow": [
+          -358.119,
+          -570.82,
+          149.72,
+          -18.41
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 10.8,
+        "extracted_significant": 65,
+        "matched_in_source": 7,
+        "potential_errors": 58,
+        "error_values": [
+          -3890.83,
+          -3367.71,
+          -2225.94,
+          -1027.32,
+          149.72,
+          174.9,
+          208.7,
+          222.75,
+          277.05,
+          396.19
+        ],
+        "fields_with_data": 18,
+        "null_percent": 0.0,
+        "array_issues": [
+          "share_price: 4 vs 0 periods",
+          "num_shares: 4 vs 0 periods",
+          "reserves: 4 vs 0 periods",
+          "borrowings: 4 vs 0 periods",
+          "other_liabilities: 4 vs 0 periods",
+          "total_equity: 4 vs 0 periods",
+          "net_block: 4 vs 0 periods",
+          "capital_work_in_progress: 4 vs 0 periods",
+          "investments: 4 vs 0 periods",
+          "other_assets: 4 vs 0 periods",
+          "total_assets: 4 vs 0 periods",
+          "receivables: 4 vs 0 periods",
+          "inventory: 4 vs 0 periods",
+          "cash_bank: 4 vs 0 periods",
+          "cash_from_operating: 4 vs 0 periods",
+          "cash_from_investing: 4 vs 0 periods",
+          "cash_from_financing: 4 vs 0 periods",
+          "net_cash_flow: 4 vs 0 periods"
+        ],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    }
+  ],
+  "source_chars": {
+    "pdfplumber": 1087,
+    "ocr": 1122
+  },
+  "timestamp": "2026-01-19T09:55:11.284877"
+}

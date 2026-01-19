@@ -1,0 +1,305 @@
+{
+  "page": 3,
+  "total_pages": 10,
+  "documents_on_page": 2,
+  "documents": [
+    {
+      "document_type": "balance_sheet",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-16",
+        "Mar-17",
+        "Mar-18",
+        "Mar-19",
+        "Mar-20",
+        "Mar-21",
+        "Mar-22",
+        "Mar-23",
+        "Mar-24",
+        "Mar-25"
+      ],
+      "period_type": "annual",
+      "period_count": 10,
+      "extracted_data": {
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19",
+          "Mar-20",
+          "Mar-21",
+          "Mar-22",
+          "Mar-23",
+          "Mar-24",
+          "Mar-25"
+        ],
+        "equity_share_capital": [
+          50.9,
+          50.9,
+          57.2,
+          57.2,
+          57.2,
+          63.5,
+          63.5,
+          63.5,
+          63.5,
+          63.5
+        ],
+        "reserves": [
+          6553.71,
+          7239.05,
+          9982.61,
+          9872.81,
+          11379.62,
+          11688.62,
+          12514.69,
+          13838.68,
+          14702.19,
+          15226.69
+        ],
+        "total_equity": [
+          11593.61,
+          15233.2,
+          20150.89,
+          23205.48,
+          25816.42,
+          27041.28,
+          27281.12,
+          26874.88,
+          27226.69,
+          27226.69
+        ],
+        "borrowings": [
+          442.33,
+          4506.7,
+          5000.31,
+          6511.57,
+          7039.78,
+          8228.24,
+          8067.59,
+          8050.56,
+          8282.39,
+          8050.56
+        ],
+        "other_liabilities": [
+          54880.41,
+          5230.42,
+          6008.02,
+          6851.55,
+          8180.73,
+          8350.47,
+          8939.85,
+          10335.07,
+          10335.07,
+          10335.07
+        ],
+        "total_liabilities": [
+          11593.61,
+          15233.2,
+          20150.89,
+          23205.48,
+          25816.42,
+          27041.28,
+          27281.12,
+          26874.88,
+          27226.69,
+          27226.69
+        ],
+        "fixed_assets": [
+          33.4,
+          31.22,
+          35.29,
+          27.34,
+          28.97,
+          35.74,
+          36.97,
+          38.33,
+          42.78,
+          38.33
+        ],
+        "current_assets": [
+          6.11,
+          4.98,
+          5.04,
+          5.04,
+          5.1,
+          5.24,
+          5.55,
+          5.98,
+          5.09,
+          5.09
+        ],
+        "total_assets": [
+          17,
+          15,
+          7,
+          7,
+          5,
+          3,
+          8,
+          12,
+          8,
+          11
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 30.8,
+        "extracted_significant": 52,
+        "matched_in_source": 16,
+        "potential_errors": 36,
+        "error_values": [
+          57.2,
+          63.5,
+          4506.7,
+          5000.31,
+          5230.42,
+          6008.02,
+          6511.57,
+          6553.71,
+          6851.55,
+          7039.78
+        ],
+        "fields_with_data": 9,
+        "null_percent": 0.0,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    },
+    {
+      "document_type": "ratios",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-16",
+        "Mar-17",
+        "Mar-18",
+        "Mar-19",
+        "Mar-20",
+        "Mar-21",
+        "Mar-22",
+        "Mar-23",
+        "Mar-24",
+        "Mar-25"
+      ],
+      "period_type": "annual",
+      "period_count": 10,
+      "extracted_data": {
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19",
+          "Mar-20",
+          "Mar-21",
+          "Mar-22",
+          "Mar-23",
+          "Mar-24",
+          "Mar-25"
+        ],
+        "roe": [
+          17,
+          15,
+          7,
+          7,
+          5,
+          3,
+          5,
+          8,
+          12,
+          8
+        ],
+        "roce": [
+          null,
+          16,
+          9,
+          7,
+          5,
+          6,
+          7,
+          10,
+          16,
+          11
+        ],
+        "current_ratio": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "debtor_days": [
+          33.4,
+          31.22,
+          35.29,
+          27.34,
+          28.97,
+          35.74,
+          36.97,
+          38.33,
+          42.78,
+          null
+        ],
+        "inventory_turnover": [
+          6.11,
+          4.98,
+          5.04,
+          5.04,
+          5.1,
+          5.24,
+          5.55,
+          5.98,
+          5.09,
+          null
+        ],
+        "dividend_payout": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 100.0,
+        "extracted_significant": 15,
+        "matched_in_source": 15,
+        "potential_errors": 0,
+        "error_values": [],
+        "fields_with_data": 4,
+        "null_percent": 57.5,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 4,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    }
+  ],
+  "source_chars": {
+    "pdfplumber": 1568,
+    "ocr": 1040
+  },
+  "timestamp": "2026-01-19T09:47:36.693059"
+}

@@ -1,0 +1,322 @@
+{
+  "page": 7,
+  "total_pages": 10,
+  "documents_on_page": 3,
+  "documents": [
+    {
+      "document_type": "profit_loss",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-16",
+        "Mar-17",
+        "Mar-18",
+        "Mar-19"
+      ],
+      "period_type": "annual",
+      "period_count": 4,
+      "extracted_data": {
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19",
+          "Mar-23",
+          "Jun-23",
+          "Sep-23",
+          "Dec-23"
+        ],
+        "sales": [
+          11848.56,
+          13180.04,
+          14842.85,
+          17548.84,
+          6247.33,
+          6244.58,
+          6279.57,
+          6595.37
+        ],
+        "expenses": [
+          8846.77,
+          10704.22,
+          12204.06,
+          14150.63,
+          5248.87,
+          5193.13,
+          5119.75,
+          5387.28
+        ],
+        "operating_profit": [
+          1590.65,
+          1435.55,
+          1012.34,
+          888.13,
+          998.46,
+          1051.45,
+          1159.82,
+          1208.09
+        ],
+        "other_income": [
+          119.89,
+          -66.13,
+          -113.47,
+          -76.76,
+          39.56,
+          22.39,
+          13.26,
+          3.35
+        ],
+        "depreciation": [
+          426.79,
+          461.81,
+          592.55,
+          812.67,
+          372.43,
+          361.97,
+          360.27,
+          367.62
+        ],
+        "interest": [
+          101.04,
+          117.62,
+          177.36,
+          198.63,
+          139.03,
+          135.46,
+          132.86,
+          123.04
+        ],
+        "profit_before_tax": [
+          1122.96,
+          1099.0,
+          723.88,
+          679.84,
+          994.0,
+          991.0,
+          971.0,
+          915.0
+        ],
+        "tax": [
+          101.8,
+          152.7,
+          171.63,
+          185.93,
+          526.56,
+          576.41,
+          474.25,
+          720.78
+        ],
+        "net_profit": [
+          1021.16,
+          946.3,
+          552.25,
+          493.91,
+          467.69,
+          396.91,
+          485.57,
+          497.31
+        ],
+        "eps": [
+          2.1,
+          2.02,
+          1.18,
+          1.05,
+          1.0,
+          0.85,
+          1.04,
+          1.06
+        ],
+        "dividend_amount": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 23.9,
+        "extracted_significant": 71,
+        "matched_in_source": 17,
+        "potential_errors": 54,
+        "error_values": [
+          101.8,
+          117.62,
+          123.04,
+          132.86,
+          135.46,
+          152.7,
+          171.63,
+          177.36,
+          185.93,
+          198.63
+        ],
+        "fields_with_data": 10,
+        "null_percent": 10.0,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    },
+    {
+      "document_type": "quarterly_results",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-23",
+        "Jun-23",
+        "Sep-23",
+        "Dec-23"
+      ],
+      "period_type": "quarterly",
+      "period_count": 4,
+      "extracted_data": {
+        "periods": [
+          "Mar-23",
+          "Jun-23",
+          "Sep-23",
+          "Dec-23"
+        ],
+        "sales": [
+          6247.33,
+          6244.58,
+          6279.57,
+          6595.37
+        ],
+        "expenses": [
+          5248.87,
+          5193.13,
+          5119.75,
+          5387.28
+        ],
+        "operating_profit": [
+          39.56,
+          22.39,
+          13.26,
+          3.35
+        ],
+        "other_income": [
+          372.43,
+          361.97,
+          360.27,
+          367.62
+        ],
+        "depreciation": [
+          139.03,
+          135.46,
+          132.86,
+          123.04
+        ],
+        "interest": [
+          526.56,
+          576.41,
+          80.01,
+          720.78
+        ],
+        "profit_before_tax": [
+          116.26,
+          179.49,
+          205.76,
+          224.16
+        ],
+        "tax": [
+          410.39,
+          396.91,
+          474.25,
+          496.63
+        ],
+        "net_profit": [
+          98.46,
+          1051.45,
+          1159.82,
+          1208.09
+        ],
+        "opm": [
+          0.63,
+          0.36,
+          0.21,
+          0.05
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 17.1,
+        "extracted_significant": 35,
+        "matched_in_source": 6,
+        "potential_errors": 29,
+        "error_values": [
+          80.01,
+          98.46,
+          123.04,
+          132.86,
+          135.46,
+          179.49,
+          205.76,
+          224.16,
+          360.27,
+          361.97
+        ],
+        "fields_with_data": 10,
+        "null_percent": 0.0,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    },
+    {
+      "document_type": "metadata",
+      "document_type_confidence": 0.99,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
+      "extracted_data": {
+        "company_name": "APOLLO TYRES LTD",
+        "face_value": 2.1,
+        "market_cap": 31021.51,
+        "share_price": 63.51,
+        "num_shares": 1488.45
+      },
+      "audit": {
+        "accuracy_percent": 33.3,
+        "extracted_significant": 3,
+        "matched_in_source": 1,
+        "potential_errors": 2,
+        "error_values": [
+          1488.45,
+          31021.51
+        ],
+        "fields_with_data": 0,
+        "null_percent": 0.0,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    }
+  ],
+  "source_chars": {
+    "pdfplumber": 1263,
+    "ocr": 1244
+  },
+  "timestamp": "2026-01-19T09:52:07.160561"
+}

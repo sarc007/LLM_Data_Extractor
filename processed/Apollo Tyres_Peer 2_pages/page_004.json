@@ -1,0 +1,122 @@
+{
+  "page": 4,
+  "total_pages": 10,
+  "documents_on_page": 1,
+  "documents": [
+    {
+      "document_type": "cash_flow",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-16",
+        "Mar-17",
+        "Mar-18",
+        "Mar-19",
+        "Mar-20",
+        "Mar-21",
+        "Mar-22",
+        "Mar-23",
+        "Mar-24",
+        "Mar-25"
+      ],
+      "period_type": "annual",
+      "period_count": 10,
+      "extracted_data": {
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19",
+          "Mar-20",
+          "Mar-21",
+          "Mar-22",
+          "Mar-23",
+          "Mar-24",
+          "Mar-25"
+        ],
+        "cash_from_operations": [
+          2122.5,
+          1902.27,
+          1719.67,
+          2320.88,
+          2517.36,
+          2446.87,
+          2153.56,
+          2136.67,
+          3439.52,
+          1823.14
+        ],
+        "cash_from_investing": [
+          -2225.94,
+          -3367.71,
+          -3890.83,
+          149.72,
+          -2817.32,
+          -2341.98,
+          -1172.16,
+          -478.42,
+          -704.03,
+          -201.98
+        ],
+        "cash_from_financing": [
+          -254.66,
+          1894.63,
+          1071.12,
+          -1027.32,
+          -62.21,
+          152.15,
+          -1081.4,
+          -1691.82,
+          -2659.06,
+          -1646.57
+        ],
+        "net_cash_flow": [
+          -358.11,
+          -570.82,
+          -254.66,
+          -18.41,
+          172.51,
+          257.05,
+          -100.0,
+          -33.58,
+          76.43,
+          -25.41
+        ]
+      },
+      "audit": {
+        "accuracy_percent": 59.0,
+        "extracted_significant": 39,
+        "matched_in_source": 23,
+        "potential_errors": 16,
+        "error_values": [
+          149.72,
+          152.15,
+          172.51,
+          257.05,
+          1071.12,
+          1719.67,
+          1823.14,
+          1894.63,
+          1902.27,
+          2122.5
+        ],
+        "fields_with_data": 4,
+        "null_percent": 0.0,
+        "array_issues": [],
+        "passed": false,
+        "robust_mode": true,
+        "iterations_used": 7,
+        "sources_used": [
+          "pdfplumber",
+          "pymupdf",
+          "pdfminer",
+          "llm_vision"
+        ]
+      }
+    }
+  ],
+  "source_chars": {
+    "pdfplumber": 550,
+    "ocr": 484
+  },
+  "timestamp": "2026-01-19T09:48:14.656718"
+}

@@ -1,0 +1,57 @@
+{
+  "document_type": "scenarios",
+  "period_type": "scenarios",
+  "pages": [],
+  "periods": [
+    "Best Case",
+    "Worst Case"
+  ],
+  "period_count": 2,
+  "data": {
+    "periods": [
+      "Best Case",
+      "Worst Case"
+    ],
+    "operating_profit": [
+      2991.75,
+      -4924.53
+    ],
+    "interest": [
+      440.25,
+      440.25
+    ],
+    "eps": [
+      25.56,
+      18.69
+    ],
+    "tax": [
+      28,
+      28
+    ],
+    "other_income": [
+      76.63,
+      -79.9
+    ],
+    "expenses": [
+      23905.92,
+      28118.71
+    ],
+    "sales": [
+      26897.67,
+      23294.18
+    ],
+    "profit_before_tax": [
+      2266.12,
+      1656.82
+    ],
+    "net_profit": [
+      1623.28,
+      1186.82
+    ],
+    "depreciation": [
+      1506.42,
+      1506.42
+    ]
+  },
+  "sample_queries": []
+}

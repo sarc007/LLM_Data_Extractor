@@ -30,6 +30,7 @@ class ProgressTracker:
     document_types_found: list = field(default_factory=list)
     current_doc_type: str = ""
     audit_status: str = ""
+    output_folder: str = ""
     
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -47,6 +48,7 @@ class ProgressTracker:
             "current_doc_type": self.current_doc_type,
             "audit_status": self.audit_status,
             "pages_completed": len(self.page_results),
+            "output_folder": self.output_folder,
         }
     
     def _calc_progress(self) -> int:
@@ -82,7 +84,8 @@ def update_progress(
     total_iterations: int = None,
     page_json: Dict[str, Any] = None,
     completed: bool = None,
-    error: str = None
+    error: str = None,
+    output_folder: str = None
 ):
     """Update progress for a job."""
     with _lock:
@@ -108,6 +111,8 @@ def update_progress(
             tracker.completed = completed
         if error is not None:
             tracker.error = error
+        if output_folder is not None:
+            tracker.output_folder = output_folder
 
 
 def cleanup_tracker(job_id: str):

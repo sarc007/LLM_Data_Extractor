@@ -180,7 +180,12 @@ function connectProgress(jobId, jobData) {
         
         if (data.completed) {
             eventSource.close();
-            window.location.href = '/view/' + jobId;
+            // Redirect to browse page if folder exists, otherwise old view
+            if (data.output_folder) {
+                window.location.href = '/browse/' + data.output_folder;
+            } else {
+                window.location.href = '/view/' + jobId;
+            }
         } else if (data.error) {
             eventSource.close();
             alert('Error: ' + data.error);

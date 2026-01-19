@@ -335,7 +335,8 @@ async def execute_processing(
         except Exception as pg_err:
             print(f"[WARN] PostgreSQL save failed: {pg_err}")
         
-        update_progress(job_id, completed=True, message="Processing complete!")
+        # For Qwen processing, output goes to job_id.json (not a folder)
+        update_progress(job_id, completed=True, message="Processing complete!", output_folder="")
         cleanup_tracker(job_id)
         
         return JSONResponse({"success": True, "upload_id": job_id})
@@ -407,14 +408,17 @@ async def process_page_by_page(
         db.add(upload)
         db.commit()
         
-        update_progress(uid, completed=True, message="Extraction complete!")
+        # Get folder name from result
+        output_folder = Path(result.get("output_directory", "")).name
+        update_progress(uid, completed=True, message="Extraction complete!", output_folder=output_folder)
         
         return JSONResponse({
             "success": True,
             "upload_id": uid,
             "total_pages": result.get("total_pages", 0),
             "documents_found": len(result.get("documents", [])),
-            "document_types": result.get("document_types_found", [])
+            "document_types": result.get("document_types_found", []),
+            "output_folder": output_folder
         })
         
     except Exception as e:

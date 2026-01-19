@@ -1,0 +1,11 @@
+{
+  "page": 5,
+  "total_pages": 10,
+  "documents_on_page": 0,
+  "documents": [],
+  "source_chars": {
+    "pdfplumber": 555,
+    "ocr": 557
+  },
+  "timestamp": "2026-01-19T09:48:15.715708"
+}
