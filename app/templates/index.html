@@ -232,24 +232,26 @@ async function loadExtractedFolders() {
         
         if (data.folders && data.folders.length > 0) {
             container.innerHTML = data.folders.map(folder => `
-                <div class="border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors">
-                    <div class="font-medium text-blue-600 truncate" title="${folder.name}">
+                <div class="border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors mb-2">
+                    <a href="/browse/${folder.name}" class="font-medium text-blue-600 hover:text-blue-800 truncate block" title="${folder.display_name}">
                         📂 ${folder.display_name}
-                    </div>
-                    <div class="text-xs text-gray-500 mt-1">${folder.file_count} files</div>
+                    </a>
+                    <div class="text-xs text-gray-500 mt-1">${folder.file_count} JSON files</div>
                     <div class="flex flex-wrap gap-1 mt-2">
-                        ${folder.files.slice(0, 5).map(f => `
+                        ${folder.files.filter(f => f.startsWith('combined_')).slice(0, 4).map(f => `
                             <a href="/view-file/${folder.name}/${f}" 
-                               class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded hover:bg-blue-200">
-                                ${f.replace('combined_', '').replace('.json', '')}
+                               class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded hover:bg-green-200"
+                               title="View ${f}">
+                                ${f.replace('combined_', '').replace('_annual', '').replace('_quarterly', '').replace('.json', '')}
                             </a>
                         `).join('')}
-                        ${folder.files.length > 5 ? `<span class="text-xs text-gray-400">+${folder.files.length - 5} more</span>` : ''}
+                        ${folder.files.filter(f => f.startsWith('page_')).length > 0 ? 
+                            `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${folder.files.filter(f => f.startsWith('page_')).length} pages</span>` : ''}
                     </div>
                 </div>
             `).join('');
         } else {
-            container.innerHTML = '<p class="text-gray-500 text-sm italic text-center py-2">No extracted PDFs yet.</p>';
+            container.innerHTML = '<p class="text-gray-500 text-sm italic text-center py-2">No extracted PDFs yet. Upload a PDF to get started.</p>';
         }
     } catch(e) {
         console.error('Failed to load folders', e);

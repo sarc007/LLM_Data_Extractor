@@ -102,10 +102,12 @@ async def download_json(upload_id: str, db: Session = Depends(get_db), _=Depends
     upload = db.query(Upload).filter(Upload.id == upload_id).first()
     if not upload:
         return JSONResponse({"error": "Not found"}, status_code=404)
+    # Use original filename for download (human-readable, not UUID)
+    original_name = Path(upload.filename).stem if upload.filename else upload_id
     return FileResponse(
         upload.json_path,
         media_type="application/json",
-        filename=f"{upload.id}.json"
+        filename=f"{original_name}_extracted.json"
     )
 
 
@@ -467,16 +469,19 @@ async def view_processed_file(folder_name: str, file_name: str, request: Request
     with open(file_path, "r", encoding="utf-8") as f:
         json_data = json.load(f)
     
+    # Human-readable display name (no UUIDs)
+    display_name = folder_name.replace("_pages", "")
+    
     # Create a mock upload object for the template
     class MockUpload:
-        def __init__(self, folder, filename):
+        def __init__(self, folder, filename, display):
             self.id = folder
-            self.filename = filename
+            self.filename = f"{display} / {filename}"  # Human-readable
             self.json_path = str(file_path)
             self.model_used = "page-by-page extraction"
             self.created_at = ""
     
-    upload = MockUpload(folder_name, file_name)
+    upload = MockUpload(folder_name, file_name, display_name)
     
     return templates.TemplateResponse(
         "view_json.html",
@@ -487,8 +492,91 @@ async def view_processed_file(folder_name: str, file_name: str, request: Request
             "auth_enabled": AUTH_ENABLED,
             "folder_name": folder_name,
             "file_name": file_name,
+            "display_name": display_name,
         },
     )
+
+
+@app.get("/browse/{folder_name}", response_class=HTMLResponse)
+async def browse_folder(folder_name: str, request: Request, _=Depends(require_login)):
+    """Browse all files in a processed folder - human-readable view."""
+    from pathlib import Path
+    
+    folder_path = Path("processed") / folder_name
+    if not folder_path.exists():
+        return HTMLResponse("Folder not found", status_code=404)
+    
+    # Get all JSON files
+    files = sorted([f.name for f in folder_path.glob("*.json")])
+    
+    # Categorize files
+    combined_files = [f for f in files if f.startswith("combined_")]
+    page_files = [f for f in files if f.startswith("page_")]
+    other_files = [f for f in files if not f.startswith("combined_") and not f.startswith("page_")]
+    
+    # Human-readable display name
+    display_name = folder_name.replace("_pages", "")
+    
+    # Build HTML response
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>{display_name} - Extracted Files</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-100 p-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-xl shadow p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold">📂 {display_name}</h1>
+                    <a href="/" class="text-blue-600 hover:underline">← Back to Home</a>
+                </div>
+                
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-3 text-green-700">📊 Combined Documents ({len(combined_files)})</h2>
+                    <div class="grid grid-cols-2 gap-3">
+                        {''.join(f'''
+                        <a href="/view-file/{folder_name}/{f}" 
+                           class="p-3 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition">
+                            <div class="font-medium text-green-800">{f.replace('combined_', '').replace('.json', '').replace('_', ' ').title()}</div>
+                            <div class="text-xs text-green-600">{f}</div>
+                        </a>
+                        ''' for f in combined_files)}
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h2 class="text-lg font-semibold mb-3 text-blue-700">📄 Page Extractions ({len(page_files)})</h2>
+                    <div class="flex flex-wrap gap-2">
+                        {''.join(f'''
+                        <a href="/view-file/{folder_name}/{f}" 
+                           class="px-3 py-2 bg-blue-50 border border-blue-200 rounded hover:bg-blue-100 text-sm">
+                            {f.replace('.json', '').replace('page_', 'Page ')}
+                        </a>
+                        ''' for f in page_files)}
+                    </div>
+                </div>
+                
+                {f'''
+                <div>
+                    <h2 class="text-lg font-semibold mb-3 text-gray-700">📁 Other Files ({len(other_files)})</h2>
+                    <div class="flex flex-wrap gap-2">
+                        {''.join(f"""
+                        <a href="/view-file/{folder_name}/{f}" 
+                           class="px-3 py-2 bg-gray-50 border border-gray-200 rounded hover:bg-gray-100 text-sm">
+                            {f}
+                        </a>
+                        """ for f in other_files)}
+                    </div>
+                </div>
+                ''' if other_files else ''}
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    return HTMLResponse(html)
 
 
 @app.get("/api/page-extraction/{folder_name}")

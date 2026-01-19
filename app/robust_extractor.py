@@ -46,7 +46,7 @@ class RobustExtractor:
         
     def _check_extractors(self) -> List[str]:
         """Check which extractors are available."""
-        available = ["pdfplumber"]  # Always available
+        available = ["pdfplumber", "llm_vision"]  # Always available
         if PYMUPDF_AVAILABLE:
             available.append("pymupdf")
         if PDFMINER_AVAILABLE:
@@ -151,6 +151,80 @@ class RobustExtractor:
         except Exception as e:
             return {"text": "", "error": str(e), "extractor": "pdfminer"}
     
+    def extract_with_llm(self, pdf_path: str, page_num: int) -> Dict[str, Any]:
+        """Extract text using LLM vision - converts page to image and uses LLM to read it."""
+        try:
+            import fitz  # PyMuPDF for PDF to image
+            import base64
+            import tempfile
+            import os
+            from app.page_extractor import _call_llm
+            
+            # Convert PDF page to image
+            doc = fitz.open(pdf_path)
+            if page_num < 1 or page_num > len(doc):
+                doc.close()
+                return {"text": "", "error": "Invalid page number", "extractor": "llm_vision"}
+            
+            page = doc[page_num - 1]
+            # Render at 2x resolution for better OCR
+            mat = fitz.Matrix(2, 2)
+            pix = page.get_pixmap(matrix=mat)
+            
+            # Save to temp file
+            with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp:
+                pix.save(tmp.name)
+                tmp_path = tmp.name
+            
+            doc.close()
+            
+            # Read image and encode to base64
+            with open(tmp_path, 'rb') as f:
+                img_data = base64.b64encode(f.read()).decode('utf-8')
+            
+            # Clean up temp file
+            os.unlink(tmp_path)
+            
+            # Use LLM to extract text from image
+            llm_prompt = """You are a financial document OCR expert. Extract ALL text from this financial document image.
+
+CRITICAL INSTRUCTIONS:
+1. Extract EVERY number exactly as shown (preserve commas, decimals, negatives)
+2. Maintain table structure - separate columns with | and rows with newlines
+3. Include ALL headers, row labels, and data values
+4. Do NOT skip any data - extract everything visible
+5. For financial tables, extract each column header and all values below it
+
+Output the extracted text in a structured format that preserves the table layout."""
+
+            # Call LLM with image (using ollama vision capability)
+            try:
+                import ollama
+                response = ollama.chat(
+                    model='llama3.2-vision',  # Vision-capable model
+                    messages=[{
+                        'role': 'user',
+                        'content': llm_prompt,
+                        'images': [img_data]
+                    }]
+                )
+                text = response['message']['content']
+            except Exception as e:
+                # Fallback: Use text-based LLM to describe what to extract
+                text = f"[LLM Vision Error: {e}]"
+            
+            # Fix number spacing
+            text = self._fix_number_spacing(text)
+            
+            return {
+                "text": text,
+                "char_count": len(text),
+                "extractor": "llm_vision",
+                "method": "vision_ocr"
+            }
+        except Exception as e:
+            return {"text": "", "error": str(e), "extractor": "llm_vision"}
+    
     def _fix_number_spacing(self, text: str) -> str:
         """Fix common PDF extraction issues with number spacing."""
         # Pattern: single digit + space + digit(s) + comma + digits (e.g., "1 1,848.56" -> "11,848.56")
@@ -189,18 +263,26 @@ class RobustExtractor:
         
         return tables
     
-    def extract_all_sources(self, pdf_path: str, page_num: int) -> Dict[str, Any]:
+    def extract_all_sources(self, pdf_path: str, page_num: int, use_llm_vision: bool = True) -> Dict[str, Any]:
         """Extract from ALL available sources and combine."""
         results = {}
         
         # Extract from each available extractor
+        print(f"      [1] pdfplumber...")
         results["pdfplumber"] = self.extract_with_pdfplumber(pdf_path, page_num)
         
         if PYMUPDF_AVAILABLE:
+            print(f"      [2] pymupdf...")
             results["pymupdf"] = self.extract_with_pymupdf(pdf_path, page_num)
         
         if PDFMINER_AVAILABLE:
+            print(f"      [3] pdfminer...")
             results["pdfminer"] = self.extract_with_pdfminer(pdf_path, page_num)
+        
+        # LLM Vision extraction (4th method)
+        if use_llm_vision:
+            print(f"      [4] llm_vision...")
+            results["llm_vision"] = self.extract_with_llm(pdf_path, page_num)
         
         # Combine and validate
         combined = self._combine_extractions(results)
