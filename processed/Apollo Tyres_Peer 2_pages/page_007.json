@@ -4,148 +4,6 @@
   "documents_on_page": 3,
   "documents": [
     {
-      "document_type": "metadata",
-      "document_type_confidence": 0.95,
-      "periods": [],
-      "period_type": "none",
-      "period_count": 0,
-      "extracted_data": {
-        "company_name": "APOLLO TYRES LTD",
-        "face_value": 1,
-        "market_cap": 31021.51,
-        "share_price": 488.45,
-        "num_shares": 63.51,
-        "profit_and_loss": {
-          "Mar-16": {
-            "sales": 11848.56,
-            "raw_material_cost": 5959.97,
-            "change_in_inventory": 5.18,
-            "power_and_fuel": 329,
-            "other_mfr_exp": 407.99,
-            "employee_cost": 1576.59,
-            "selling_and_admin": 1452.01,
-            "other_expenses": 119.89,
-            "other_income": 110.19,
-            "depreciation": 426.79,
-            "interest": 101.04,
-            "profit_before_tax": 1590.65,
-            "tax": 467.69,
-            "net_profit": 1122.96,
-            "dividend_amount": 101.8
-          },
-          "Mar-17": {
-            "sales": 13180.04,
-            "raw_material_cost": 7125.7,
-            "change_in_inventory": 235.64,
-            "power_and_fuel": 326.72,
-            "other_mfr_exp": 511.8,
-            "employee_cost": 1933.72,
-            "selling_and_admin": 1716.88,
-            "other_expenses": -66.13,
-            "other_income": 147.99,
-            "depreciation": 461.81,
-            "interest": 117.62,
-            "profit_before_tax": 1435.55,
-            "tax": 336.55,
-            "net_profit": 1099,
-            "dividend_amount": 152.7
-          },
-          "Mar-18": {
-            "sales": 14842.85,
-            "raw_material_cost": 8542.95,
-            "change_in_inventory": 147.45,
-            "power_and_fuel": 379.16,
-            "other_mfr_exp": 588.37,
-            "employee_cost": 2163.92,
-            "selling_and_admin": 1761.33,
-            "other_expenses": -113.47,
-            "other_income": 114.21,
-            "depreciation": 592.55,
-            "interest": 177.36,
-            "profit_before_tax": 1012.34,
-            "tax": 288.45,
-            "net_profit": 723.88,
-            "dividend_amount": 171.63
-          },
-          "Mar-19": {
-            "sales": 17548.84,
-            "raw_material_cost": 10608.65,
-            "change_in_inventory": 470.39,
-            "power_and_fuel": 488.86,
-            "other_mfr_exp": 510.35,
-            "employee_cost": 2436.61,
-            "selling_and_admin": 1805.6,
-            "other_expenses": 192.97,
-            "other_income": -76.76,
-            "depreciation": 812.67,
-            "interest": 198.63,
-            "profit_before_tax": 888.13,
-            "tax": 208.29,
-            "net_profit": 679.84,
-            "dividend_amount": 185.93
-          }
-        },
-        "quarters": {
-          "Mar-23": {
-            "sales": 6247.33,
-            "expenses": 5248.87,
-            "other_income": 39.56,
-            "depreciation": 372.43,
-            "interest": 139.03,
-            "profit_before_tax": 526.56,
-            "tax": 116.26,
-            "net_profit": 410.3,
-            "operating_profit": 998.46
-          },
-          "Jun-23": {
-            "sales": 6244.58,
-            "expenses": 5193.13,
-            "other_income": 22.39,
-            "depreciation": 361.97,
-            "interest": 135.46,
-            "profit_before_tax": 576.41,
-            "tax": 179.49,
-            "net_profit": 396.91,
-            "operating_profit": 1051.45
-          },
-          "Sep-23": {
-            "sales": 6279.57,
-            "expenses": 5119.75,
-            "other_income": 13.26,
-            "depreciation": 360.27,
-            "interest": 132.8,
-            "profit_before_tax": 680.01,
-            "tax": 205.76,
-            "net_profit": 474.25,
-            "operating_profit": 1159.82
-          },
-          "Dec-23": {
-            "sales": 6595.37,
-            "expenses": 5387.28,
-            "other_income": 3.35,
-            "depreciation": 367.62,
-            "interest": 123.04,
-            "profit_before_tax": 720.78,
-            "tax": 224.16,
-            "net_profit": 496.63,
-            "operating_profit": 1208.09
-          }
-        }
-      },
-      "audit": {
-        "pdfplumber_char_count": 1263,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 112,
-        "ocr_numbers": 0,
-        "json_values": 0,
-        "text_match_ratio": 0.0,
-        "passed": false,
-        "warnings": [
-          "JSON values (0) much less than source numbers (112)"
-        ]
-      }
-    },
-    {
       "document_type": "profit_loss",
       "document_type_confidence": 0.95,
       "periods": [
@@ -170,16 +28,16 @@
           17548.84
         ],
         "expenses": [
-          8487.63,
-          10534.93,
-          12054.16,
-          13927.04
+          8497.63,
+          10494.57,
+          12114.16,
+          14255.37
         ],
         "operating_profit": [
-          3360.93,
-          2645.11,
-          2788.69,
-          3621.8
+          3350.93,
+          2685.47,
+          2728.69,
+          3293.47
         ],
         "other_income": [
           110.19,
@@ -219,9 +77,9 @@
         ],
         "eps": [
           17.67,
-          17.31,
+          17.3,
           11.4,
-          10.71
+          10.7
         ],
         "dividend_amount": [
           101.8,
@@ -316,10 +174,10 @@
           496.63
         ],
         "opm": [
-          15.98,
-          16.82,
-          18.47,
-          18.29
+          0.1598,
+          0.1681,
+          0.1848,
+          0.1829
         ]
       },
       "audit": {
@@ -334,11 +192,37 @@
           "JSON values (44) much less than source numbers (112)"
         ]
       }
+    },
+    {
+      "document_type": "metadata",
+      "document_type_confidence": 0.99,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
+      "extracted_data": {
+        "company_name": "APOLLO TYRES LTD",
+        "face_value": 1,
+        "market_cap": 31021.51,
+        "share_price": 488.45,
+        "num_shares": 63.51
+      },
+      "audit": {
+        "pdfplumber_char_count": 1263,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 112,
+        "ocr_numbers": 0,
+        "json_values": 0,
+        "text_match_ratio": 0.0,
+        "passed": false,
+        "warnings": [
+          "JSON values (0) much less than source numbers (112)"
+        ]
+      }
     }
   ],
   "source_chars": {
     "pdfplumber": 1263,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:14:24.742477"
+  "timestamp": "2026-01-19T06:28:46.507767"
 }

@@ -131,63 +131,65 @@ def get_pdf_page_count(pdf_path: str) -> int:
 
 def _build_document_type_prompt(page_text: str) -> str:
     """Build prompt to detect MULTIPLE document types from page content."""
-    return f"""Analyze this financial document page and identify ALL document types based on the DATA CONTENT.
-
-CRITICAL: A single page may contain MULTIPLE distinct documents with DIFFERENT periods!
-For example:
-- METADATA section (company info, shares, face value) 
-- ANNUAL PROFIT & LOSS (Mar-16, Mar-17, Mar-18, Mar-19)
-- QUARTERLY RESULTS (Jun-23, Sep-23, Dec-23, Mar-24)
-
-These are 3 SEPARATE documents with different period types - extract them separately!
+    return f"""Analyze this financial document and identify ALL document types with their EXACT periods.
 
 PAGE CONTENT:
 {page_text}
 
-DOCUMENT TYPES TO DETECT (identify by data patterns):
-1. profit_loss - Contains: Sales/Revenue, Expenses, Operating Profit, Net Profit, EPS (ANNUAL periods like Mar-XX)
-2. quarterly_results - Contains: Quarterly periods (Jun-XX, Sep-XX, Dec-XX) with Sales, Profit
-3. balance_sheet - Contains: Assets, Liabilities, Equity, Reserves, Borrowings
-4. cash_flow - Contains: Cash from Operations, Cash from Investing, Cash from Financing
-5. ratios - Contains: ROE, ROCE, Current Ratio, Debtor Days, Inventory Turnover
-6. shareholding_pattern - Contains: Promoter holding %, Public %, FII %
-7. metadata - Contains: Face Value, Market Cap, Share Price, Number of Shares
+=== CRITICAL PERIOD VALIDATION RULES ===
 
-Respond with JSON containing an ARRAY of ALL document types found:
+1. ONLY extract periods that ACTUALLY EXIST in the source text as column headers
+2. Valid period formats ONLY:
+   - Annual: Mar-16, Mar-17, Mar-18, Mar-19, Mar-20, Mar-21, Mar-22, Mar-23, Mar-24, Mar-25
+   - Quarterly: Jun-XX, Sep-XX, Dec-XX, Mar-XX (where XX is year like 23, 24, 25)
+
+3. EXCLUDE THESE COMPLETELY - they are NOT periods:
+   - "Trailing" or "TTM" (Trailing Twelve Months) - this is NOT a period
+   - "Best Case" or "Best" - this is a scenario, NOT a period  
+   - "Worst Case" or "Worst" - this is a scenario, NOT a period
+   - "10 Years", "7 Years", "5 Years", "3 Years" - these are growth summaries, NOT periods
+   - Any text that is not in MMM-YY format
+
+4. PERIOD TYPE CLASSIFICATION:
+   - ANNUAL: ONLY Mar-XX periods (fiscal year ending in March)
+   - QUARTERLY: Jun-XX, Sep-XX, Dec-XX quarters (NOT Mar quarters unless part of quarterly series)
+   - NONE: Metadata without time-series data
+
+=== DOCUMENT TYPES ===
+1. profit_loss - Sales, Expenses, Operating Profit, Net Profit, EPS (ANNUAL data only)
+2. quarterly_results - Quarterly Sales, Profit data (Jun/Sep/Dec quarters)
+3. balance_sheet - Assets, Liabilities, Equity, Reserves
+4. cash_flow - Cash from Operations/Investing/Financing
+5. ratios - ROE, ROCE, Current Ratio, Debtor Days
+6. metadata - Company name, Face Value, Market Cap, Share Price (NO periods)
+
+=== OUTPUT FORMAT ===
 {{
   "documents": [
-    {{
-      "document_type": "metadata",
-      "confidence": 0.95,
-      "detected_fields": ["face_value", "market_cap", "shares"],
-      "periods": [],
-      "period_type": "none",
-      "period_count": 0
-    }},
     {{
       "document_type": "profit_loss",
       "confidence": 0.95,
       "detected_fields": ["sales", "expenses", "net_profit"],
-      "periods": ["Mar-16", "Mar-17", "Mar-18", "Mar-19"],
+      "periods": ["Mar-16", "Mar-17", "Mar-18", "Mar-19", "Mar-20", "Mar-21", "Mar-22", "Mar-23", "Mar-24", "Mar-25"],
       "period_type": "annual",
-      "period_count": 4
+      "period_count": 10
     }},
     {{
       "document_type": "quarterly_results",
       "confidence": 0.95,
-      "detected_fields": ["sales", "operating_profit", "net_profit"],
-      "periods": ["Jun-23", "Sep-23", "Dec-23", "Mar-24"],
+      "detected_fields": ["sales", "operating_profit"],
+      "periods": ["Jun-23", "Sep-23", "Dec-23", "Jun-24", "Sep-24", "Dec-24"],
       "period_type": "quarterly",
-      "period_count": 4
+      "period_count": 6
     }}
   ]
 }}
 
-RULES:
-1. Separate documents by their PERIOD TYPE (annual vs quarterly vs none)
-2. Never mix annual periods (Mar-16, Mar-17) with quarterly periods (Jun-23, Sep-23)
-3. Metadata has no periods
-4. Each distinct data section = separate document
+=== MANDATORY CHECKS ===
+- Count the actual Mar-XX columns in source - that is your annual period count
+- Count the actual Jun/Sep/Dec-XX columns - that is your quarterly period count
+- DO NOT include "Trailing", "Best", "Worst" in periods array
+- Verify each period string exists verbatim in the source text
 
 Output ONLY valid JSON."""
 
@@ -208,36 +210,69 @@ def _build_page_extraction_prompt(page_text: str, doc_type: str, target_periods:
     period_instruction = ""
     if target_periods:
         period_instruction = f"""
-TARGET PERIODS TO EXTRACT: {target_periods}
-ONLY extract data for these specific periods. Do NOT include data from other periods."""
+=== TARGET PERIODS (EXTRACT ONLY THESE) ===
+{target_periods}
+
+EXTRACT DATA ONLY FOR THE ABOVE PERIODS. 
+IGNORE all other columns including Trailing, Best Case, Worst Case."""
     
-    return f"""Extract financial data for {doc_type.upper()} from this page.
+    return f"""Extract {doc_type.upper()} data from this financial document.
 {period_instruction}
 
 PAGE CONTENT:
 {page_text}
 
-REQUIRED JSON STRUCTURE for {doc_type}:
+=== REQUIRED JSON STRUCTURE ===
 {structure}
 
-CRITICAL RULES:
-1. Use EXACT field names as shown above
-2. Extract ONLY the specified periods (if provided) - DO NOT MIX different period types
-3. Annual periods look like: Mar-16, Mar-17, Mar-18, Mar-19
-4. Quarterly periods look like: Jun-23, Sep-23, Dec-23, Mar-24
-5. NEVER combine annual and quarterly data in the same JSON
-6. Preserve negative values exactly (-100 stays -100)
-7. Numbers should be numeric, not strings
-8. Extract ALL available fields for the target period type
+=== CRITICAL EXTRACTION RULES ===
 
-Output ONLY valid JSON starting with {{ and ending with }}."""
+1. ARRAY LENGTH MUST MATCH PERIOD COUNT:
+   - If you have 10 periods, each array MUST have exactly 10 values
+   - periods: ["Mar-16", ..., "Mar-25"] = 10 items
+   - sales: [val1, val2, ..., val10] = 10 items (same count)
+   - EVERY array must have the SAME length as periods array
+
+2. VALUE-TO-PERIOD MAPPING:
+   - First value in each array = first period (e.g., Mar-16)
+   - Second value = second period (e.g., Mar-17)
+   - STRICTLY maintain this positional alignment
+
+3. COLUMNS TO COMPLETELY IGNORE:
+   - "Trailing" or "TTM" column - DO NOT EXTRACT
+   - "Best Case" or "Best" column - DO NOT EXTRACT  
+   - "Worst Case" or "Worst" column - DO NOT EXTRACT
+   - These are NOT historical data periods
+
+4. DATA INTEGRITY:
+   - Use null for missing values, not 0
+   - Preserve negative values exactly as shown
+   - Numbers must be numeric (not strings)
+   - Do NOT duplicate values from Trailing/Best/Worst columns
+
+5. PERIOD VALIDATION:
+   - Only include periods that exist as column headers in source
+   - Annual = Mar-XX only (Mar-16 to Mar-25)
+   - Quarterly = Jun-XX, Sep-XX, Dec-XX
+   - Never mix annual and quarterly in same extraction
+
+=== SELF-CHECK BEFORE OUTPUT ===
+- Count your periods array length
+- Verify EVERY other array has the SAME length
+- Confirm no Trailing/Best/Worst data is included
+- Verify values align with correct period columns
+
+Output ONLY valid JSON."""
 
 
 def _build_verification_prompt(page_text: str, current_json: Dict, iteration: int) -> str:
     """Build prompt for iterative verification."""
+    # Count period length for validation
+    period_count = len(current_json.get("periods", [])) if isinstance(current_json.get("periods"), list) else 0
+    
     return f"""VERIFICATION ITERATION {iteration}/3
 
-Compare the extracted JSON against the source data and fix any issues.
+Compare the extracted JSON against the source data and FIX any issues.
 
 SOURCE DATA:
 {page_text}
@@ -245,16 +280,34 @@ SOURCE DATA:
 CURRENT EXTRACTION:
 {json.dumps(current_json, indent=2)}
 
-VERIFICATION CHECKLIST:
-1. Are ALL periods from source included? Count columns in source.
-2. Are ALL rows/fields extracted? Don't miss any data rows.
-3. Are values EXACTLY as shown in source (including negatives)?
-4. Is the period count consistent across all fields?
-5. Are there any missing or extra values?
+=== CRITICAL VERIFICATION CHECKLIST ===
 
-If issues found, output the CORRECTED complete JSON.
-If no issues, output the same JSON unchanged.
+1. ARRAY LENGTH CONSISTENCY (MOST IMPORTANT):
+   - Expected period count: {period_count}
+   - EVERY array MUST have exactly {period_count} values
+   - If any array has a different length, FIX IT NOW
+   
+2. PERIOD VALIDATION:
+   - Periods should ONLY be Mar-XX (annual) or Jun/Sep/Dec-XX (quarterly)
+   - REMOVE any "Trailing", "Best Case", "Worst Case" from periods
+   - REMOVE corresponding values if you remove periods
 
+3. VALUE ALIGNMENT:
+   - Value at index 0 = data for first period
+   - Value at index 1 = data for second period
+   - Check each row in source matches position in output
+
+4. DATA QUALITY:
+   - No duplicated values from Trailing/Best/Worst columns
+   - Negatives preserved exactly
+   - Missing data = null (not 0)
+
+=== ACTION REQUIRED ===
+- If array lengths don't match period count: TRUNCATE or PAD with null
+- If Trailing/Best/Worst periods found: REMOVE them and their values
+- If values misaligned: REORDER to match period columns
+
+Output the CORRECTED JSON (or same if no issues).
 Output ONLY valid JSON."""
 
 
@@ -315,7 +368,70 @@ def extract_page_data(page_text: str, doc_type: str, iterations: int = 3, target
         if verified_json:
             current_json = verified_json
     
+    # Post-process to validate and clean data
+    current_json = _validate_and_clean_extraction(current_json)
+    
     return current_json
+
+
+def _validate_and_clean_extraction(data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Post-process extracted data to ensure consistency:
+    1. Remove Trailing/Best/Worst from periods
+    2. Ensure all arrays match period count
+    3. Filter invalid periods
+    """
+    if not data or not isinstance(data, dict):
+        return data
+    
+    # Get periods array
+    periods = data.get("periods", [])
+    if not isinstance(periods, list):
+        return data
+    
+    # Filter out invalid periods (Trailing, Best, Worst, etc.)
+    invalid_period_keywords = ["trailing", "best", "worst", "ttm", "years", "case"]
+    valid_periods = []
+    valid_indices = []
+    
+    for i, period in enumerate(periods):
+        if isinstance(period, str):
+            period_lower = period.lower()
+            is_invalid = any(kw in period_lower for kw in invalid_period_keywords)
+            # Also check if it matches valid format (MMM-YY)
+            is_valid_format = bool(re.match(r'^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{2}$', period, re.IGNORECASE))
+            
+            if not is_invalid and is_valid_format:
+                valid_periods.append(period)
+                valid_indices.append(i)
+    
+    # If we filtered some periods, update all arrays
+    if len(valid_periods) < len(periods):
+        data["periods"] = valid_periods
+        
+        # Update all array fields to match
+        for key, value in data.items():
+            if key == "periods":
+                continue
+            if isinstance(value, list) and len(value) == len(periods):
+                # Filter to only valid indices
+                data[key] = [value[i] for i in valid_indices if i < len(value)]
+    
+    # Ensure all arrays have same length as periods
+    period_count = len(data.get("periods", []))
+    if period_count > 0:
+        for key, value in data.items():
+            if key == "periods":
+                continue
+            if isinstance(value, list):
+                if len(value) > period_count:
+                    # Truncate to period count
+                    data[key] = value[:period_count]
+                elif len(value) < period_count:
+                    # Pad with null
+                    data[key] = value + [None] * (period_count - len(value))
+    
+    return data
 
 
 def audit_page_extraction(pdfplumber_text: str, ocr_text: str, extracted_json: Dict) -> Dict[str, Any]:
@@ -497,9 +613,9 @@ def process_single_page(
 
 
 def combine_same_type_documents(page_results: List[Dict], doc_type: str, period_type: str = None, iterations: int = 3) -> Dict[str, Any]:
-    """Combine documents of the same type AND period_type with iterative verification.
+    """Combine documents of the same type AND period_type with STRICT period alignment.
     
-    Now handles new multi-document structure where each page has a "documents" array.
+    CRITICAL: Uses period-indexed merging to prevent data duplication and misalignment.
     """
     
     # Collect all matching documents from all pages
@@ -515,6 +631,9 @@ def combine_same_type_documents(page_results: List[Dict], doc_type: str, period_
                 if doc.get("document_type") == doc_type:
                     # Also filter by period_type if specified
                     if period_type is None or doc.get("period_type") == period_type:
+                        # Clean the document before adding
+                        cleaned_data = _validate_and_clean_extraction(doc.get("extracted_data", {}))
+                        doc["extracted_data"] = cleaned_data
                         matching_docs.append(doc)
                         if page_num not in pages_included:
                             pages_included.append(page_num)
@@ -530,52 +649,71 @@ def combine_same_type_documents(page_results: List[Dict], doc_type: str, period_
     type_label = f"{doc_type}" + (f" ({period_type})" if period_type else "")
     print(f"\n[COMBINE] Merging {len(matching_docs)} documents of type: {type_label}")
     
-    # Collect all periods and data
-    all_periods = []
-    combined_data = {}
+    # CRITICAL: Build period-indexed data structure to prevent duplication
+    # This ensures each period has exactly one value per field
+    period_data_map = {}  # {period: {field: value}}
+    all_fields = set()
     
     for doc in matching_docs:
         data = doc.get("extracted_data", {})
         periods = data.get("periods", [])
         
-        for period in periods:
-            if period not in all_periods:
-                all_periods.append(period)
-        
-        # Merge data fields
-        for key, value in data.items():
-            if key == "periods":
-                continue
-            if key not in combined_data:
-                # Initialize based on value type
-                if isinstance(value, list):
-                    combined_data[key] = []
-                else:
-                    combined_data[key] = value
+        # For each period in this document
+        for i, period in enumerate(periods):
+            if period not in period_data_map:
+                period_data_map[period] = {}
+            
+            # For each field, map the value at index i to this period
+            for key, value in data.items():
+                if key == "periods":
                     continue
-            # Extend if both are lists
-            if isinstance(value, list) and isinstance(combined_data[key], list):
-                combined_data[key].extend(value)
-            elif isinstance(value, list):
-                # Value is list but existing is not - convert to list
-                combined_data[key] = [combined_data[key]] + value
-            elif isinstance(combined_data[key], list):
-                # Existing is list but value is not - append
-                combined_data[key].append(value)
-            else:
-                # Both are scalars - keep existing or overwrite
-                combined_data[key] = value
+                all_fields.add(key)
+                
+                if isinstance(value, list) and i < len(value):
+                    # Only set if we don't have a value yet, or if new value is not null
+                    if key not in period_data_map[period] or period_data_map[period][key] is None:
+                        period_data_map[period][key] = value[i]
+                elif not isinstance(value, list):
+                    # Scalar value - keep as metadata
+                    period_data_map[period][key] = value
     
-    combined_data["periods"] = all_periods
+    # Sort periods chronologically
+    def period_sort_key(period: str) -> tuple:
+        """Convert period string to sortable tuple."""
+        month_order = {"Jan": 1, "Feb": 2, "Mar": 3, "Apr": 4, "May": 5, "Jun": 6,
+                       "Jul": 7, "Aug": 8, "Sep": 9, "Oct": 10, "Nov": 11, "Dec": 12}
+        try:
+            month, year = period.split("-")
+            year_num = int(year)
+            # Handle 2-digit years
+            if year_num < 50:
+                year_num += 2000
+            else:
+                year_num += 1900
+            return (year_num, month_order.get(month[:3], 0))
+        except:
+            return (0, 0)
+    
+    sorted_periods = sorted(period_data_map.keys(), key=period_sort_key)
+    
+    # Build combined data with proper alignment
+    combined_data = {"periods": sorted_periods}
+    
+    for field in all_fields:
+        combined_data[field] = []
+        for period in sorted_periods:
+            value = period_data_map.get(period, {}).get(field, None)
+            combined_data[field].append(value)
     
     # Build combined document
     combined = {
         "document_type": doc_type,
         "period_type": period_type or "mixed",
-        "pages_included": pages_included,
-        "total_periods": len(all_periods),
-        "periods": all_periods,
-        "data": combined_data
+        "pages": pages_included,
+        "periods": sorted_periods,
+        "period_count": len(sorted_periods),
+        "data": combined_data,
+        "sample_queries": generate_sample_queries(doc_type, sorted_periods, combined_data)
     }
     
     # Verify combined result
@@ -588,12 +726,13 @@ def combine_same_type_documents(page_results: List[Dict], doc_type: str, period_
                 period_counts[key] = len(value)
         
         if period_counts:
-            expected = len(all_periods)
+            expected = len(sorted_periods)
             mismatches = [k for k, v in period_counts.items() if v != expected and k != "periods"]
             if mismatches:
                 print(f"     Iteration {i+1}: Period mismatch in {mismatches}")
             else:
                 print(f"     Iteration {i+1}: ✅ All fields have {expected} periods")
+                break  # If all good, no need to continue
     
     return combined
 

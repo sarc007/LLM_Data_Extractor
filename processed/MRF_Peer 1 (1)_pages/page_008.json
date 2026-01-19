@@ -64,7 +64,7 @@
           8189.47
         ],
         "current_assets": [
-          3762.76,
+          3862.76,
           4736.88,
           4627.16,
           5480.41
@@ -152,124 +152,42 @@
       "period_type": "none",
       "period_count": 0,
       "extracted_data": {
-        "company_name": "METADATA",
-        "face_value": 10,
-        "market_cap": 57987.15,
-        "share_price": 38296.75,
-        "num_shares": 4241143,
-        "balance_sheet": {
-          "Mar-16": {
-            "Equity Share Capital": 4.24,
-            "Reserves": 7220.1,
-            "Borrowings": 2463.9,
-            "Other Liabilities": 3565.57,
-            "Total Liabilities": 13253.81,
-            "Net Block": 4608.29,
-            "Capital Work in Progress": 1059.28,
-            "Investments": 3137.9,
-            "Other Assets": 4448.34,
-            "Total Assets": 13253.81,
-            "Receivables": 1838.72,
-            "Inventory": 1899.81,
-            "Cash & Bank": 124.23
-          },
-          "Mar-17": {
-            "Equity Share Capital": 4.24,
-            "Reserves": 8636.52,
-            "Borrowings": 2332.84,
-            "Other Liabilities": 4074.56,
-            "Total Liabilities": 15048.16,
-            "Net Block": 5502.24,
-            "Capital Work in Progress": 847.93,
-            "Investments": 3382.1,
-            "Other Assets": 5315.89,
-            "Total Assets": 15048.16,
-            "Receivables": 1969,
-            "Inventory": 2425.27,
-            "Cash & Bank": 342.61
-          },
-          "Mar-18": {
-            "Equity Share Capital": 4.24,
-            "Reserves": 9733.95,
-            "Borrowings": 2162.9,
-            "Other Liabilities": 4577.13,
-            "Total Liabilities": 16478.22,
-            "Net Block": 6092.17,
-            "Capital Work in Progress": 1078.91,
-            "Investments": 4145,
-            "Other Assets": 5162.14,
-            "Total Assets": 16478.22,
-            "Receivables": 2149.93,
-            "Inventory": 2197.33,
-            "Cash & Bank": 232.9
-          },
-          "Mar-19": {
-            "Equity Share Capital": 4.24,
-            "Reserves": 10833.11,
-            "Borrowings": 2506.31,
-            "Other Liabilities": 5097.54,
-            "Total Liabilities": 18441.2,
-            "Net Block": 6786,
-            "Capital Work in Progress": 1403.47,
-            "Investments": 3854.68,
-            "Other Assets": 6397.05,
-            "Total Assets": 18441.2,
-            "Receivables": 2382.71,
-            "Inventory": 2993.2,
-            "Cash & Bank": 104.5
-          }
-        },
-        "cash_flow": {
-          "Mar-16": {
-            "Cash from Operating Activity": 3043.47,
-            "Cash from Investing Activity": -3407.81,
-            "Cash from Financing Activity": 212.31,
-            "Net Cash Flow": -152.03
-          },
-          "Mar-17": {
-            "Cash from Operating Activity": 1955.72,
-            "Cash from Investing Activity": -1392.7,
-            "Cash from Financing Activity": -437.62,
-            "Net Cash Flow": 125.4
-          },
-          "Mar-18": {
-            "Cash from Operating Activity": 2412.98,
-            "Cash from Investing Activity": -2013.88,
-            "Cash from Financing Activity": -452.58,
-            "Net Cash Flow": -53.48
-          },
-          "Mar-19": {
-            "Cash from Operating Activity": 1252.85,
-            "Cash from Investing Activity": -1386.15,
-            "Cash from Financing Activity": 42.19,
-            "Net Cash Flow": -91.11
-          }
-        },
-        "price": {
-          "Mar-16": 38296.75,
-          "Mar-17": 60954.45,
-          "Mar-18": 72513.25,
-          "Mar-19": 57987.15
-        },
-        "derived": {
-          "Adjusted Equity Shares in Cr": {
-            "Mar-16": 0.42,
-            "Mar-17": 0.42,
-            "Mar-18": 0.42,
-            "Mar-19": 0.42
-          }
-        }
+        "company_name": "",
+        "face_value": [
+          10,
+          10,
+          10,
+          10
+        ],
+        "market_cap": [
+          38296.75,
+          60954.45,
+          72513.25,
+          57987.15
+        ],
+        "share_price": [
+          38296.75,
+          60954.45,
+          72513.25,
+          57987.15
+        ],
+        "num_shares": [
+          4241143,
+          4241143,
+          4241143,
+          4241143
+        ]
       },
       "audit": {
         "pdfplumber_char_count": 1077,
         "ocr_char_count": 0,
         "pdfplumber_numbers": 92,
         "ocr_numbers": 0,
-        "json_values": 0,
+        "json_values": 16,
         "text_match_ratio": 0.0,
         "passed": false,
         "warnings": [
-          "JSON values (0) much less than source numbers (92)"
+          "JSON values (16) much less than source numbers (92)"
         ]
       }
     }
@@ -278,5 +196,5 @@
     "pdfplumber": 1077,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:49:09.169020"
+  "timestamp": "2026-01-19T06:46:49.338101"
 }

@@ -58,15 +58,15 @@
           10111.07
         ],
         "fixed_assets": [
-          6207.25,
-          9606.59,
-          12707.15,
-          13293.32
+          5213.61,
+          6691.5,
+          10403.08,
+          11754.02
         ],
         "current_assets": [
           3617.64,
           4109.95,
-          4979.62,
+          4979.57,
           5361.1
         ],
         "total_assets": [
@@ -152,181 +152,33 @@
       "period_type": "none",
       "period_count": 0,
       "extracted_data": {
-        "company_name": "METADATA",
-        "balance_sheet": {
-          "report_dates": [
-            "Mar-16",
-            "Mar-17",
-            "Mar-18",
-            "Mar-19"
-          ],
-          "equity_share_capital": [
-            50.9,
-            50.9,
-            57.21,
-            57.21
-          ],
-          "reserves": [
-            6553.71,
-            7239.05,
-            9719.47,
-            9982.61
-          ],
-          "borrowings": [
-            1546.67,
-            3436.55,
-            4661.15,
-            5110.76
-          ],
-          "other_liabilities": [
-            3442.33,
-            4506.7,
-            5619.84,
-            5000.31
-          ],
-          "total_liabilities": [
-            11593.61,
-            15233.2,
-            20057.67,
-            20150.89
-          ],
-          "net_block": [
-            5213.61,
-            6691.5,
-            10403.08,
-            11754.02
-          ],
-          "capital_work_in_progress": [
-            993.64,
-            2915.09,
-            2304.07,
-            1539.3
-          ],
-          "investments": [
-            505.95,
-            396.19,
-            1342.5,
-            6.02
-          ],
-          "other_assets": [
-            4880.41,
-            5230.42,
-            6008.02,
-            6851.55
-          ],
-          "total_assets": [
-            11593.61,
-            15233.2,
-            20057.67,
-            20150.89
-          ],
-          "receivables": [
-            1084.35,
-            1127.5,
-            1435.03,
-            1314.36
-          ],
-          "inventory": [
-            1939.09,
-            2645.53,
-            2945.35,
-            3484.09
-          ],
-          "cash_and_bank": [
-            594.2,
-            336.92,
-            599.19,
-            562.65
-          ]
-        },
-        "share_data": {
-          "no_of_equity_shares": [
-            509024770,
-            509024770,
-            572049980,
-            572049980
-          ],
-          "new_bonus_shares": [
-            null,
-            null,
-            null,
-            null
-          ],
-          "face_value": [
-            1,
-            1,
-            1,
-            1
-          ],
-          "adjusted_equity_shares_in_cr": [
-            50.9,
-            50.9,
-            57.2,
-            57.2
-          ]
-        },
-        "cash_flow": {
-          "report_dates": [
-            "Mar-16",
-            "Mar-17",
-            "Mar-18",
-            "Mar-19"
-          ],
-          "cash_from_operating_activity": [
-            2122.5,
-            902.27,
-            1719.67,
-            1071.12
-          ],
-          "cash_from_investing_activity": [
-            -2225.94,
-            -3367.71,
-            -3890.83,
-            -1027.32
-          ],
-          "cash_from_financing_activity": [
-            -254.66,
-            1894.63,
-            2320.88,
-            -62.21
-          ],
-          "net_cash_flow": [
-            -358.11,
-            -570.82,
-            149.72,
-            -18.41
-          ]
-        },
-        "price_data": {
-          "report_dates": [
-            "Mar-16",
-            "Mar-17",
-            "Mar-18",
-            "Mar-19"
-          ],
-          "price": [
-            174.9,
-            208.7,
-            277.05,
-            222.75
-          ]
-        },
-        "current_period_data": {
-          "face_value": 1,
-          "market_cap": 20150.89,
-          "share_price": 222.75,
-          "num_shares": 572049980
-        }
+        "company_name": "Unknown",
+        "face_value": 1,
+        "market_cap": null,
+        "share_price": [
+          174.9,
+          208.7,
+          277.05,
+          222.75
+        ],
+        "num_shares": [
+          509024770,
+          509024770,
+          572049980,
+          572049980
+        ]
       },
       "audit": {
         "pdfplumber_char_count": 1087,
         "ocr_char_count": 0,
         "pdfplumber_numbers": 92,
         "ocr_numbers": 0,
-        "json_values": 100,
+        "json_values": 8,
         "text_match_ratio": 0.0,
-        "passed": true,
-        "warnings": []
+        "passed": false,
+        "warnings": [
+          "JSON values (8) much less than source numbers (92)"
+        ]
       }
     }
   ],
@@ -334,5 +186,5 @@
     "pdfplumber": 1087,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:15:46.088654"
+  "timestamp": "2026-01-19T06:29:11.320986"
 }

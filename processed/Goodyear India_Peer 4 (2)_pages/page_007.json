@@ -4,8 +4,198 @@
   "documents_on_page": 3,
   "documents": [
     {
-      "document_type": "metadata",
+      "document_type": "profit_loss",
       "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-16",
+        "Mar-17",
+        "Mar-18",
+        "Mar-19"
+      ],
+      "period_type": "annual",
+      "period_count": 4,
+      "extracted_data": {
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19"
+        ],
+        "sales": [
+          1730.33,
+          1511.84,
+          1664.69,
+          1911.91
+        ],
+        "expenses": [
+          1379.56,
+          1227.23,
+          1352.27,
+          1701.77
+        ],
+        "operating_profit": [
+          187.5,
+          196.23,
+          199.71,
+          158.25
+        ],
+        "other_income": [
+          37.66,
+          32.91,
+          36.65,
+          37.69
+        ],
+        "depreciation": [
+          46.5,
+          33.74,
+          36.15,
+          41.03
+        ],
+        "interest": [
+          3.24,
+          3.36,
+          2.89,
+          3
+        ],
+        "profit_before_tax": [
+          184.27,
+          195.61,
+          199.28,
+          158.14
+        ],
+        "tax": [
+          64.51,
+          68.24,
+          69.32,
+          56.07
+        ],
+        "net_profit": [
+          119.76,
+          127.37,
+          129.96,
+          102.07
+        ],
+        "eps": [
+          51.84,
+          55.13,
+          56.26,
+          44.18
+        ],
+        "dividend_amount": [
+          27.68,
+          28.84,
+          29.99,
+          29.99
+        ]
+      },
+      "audit": {
+        "pdfplumber_char_count": 1165,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 113,
+        "ocr_numbers": 0,
+        "json_values": 48,
+        "text_match_ratio": 0.0,
+        "passed": false,
+        "warnings": [
+          "JSON values (48) much less than source numbers (113)"
+        ]
+      }
+    },
+    {
+      "document_type": "quarterly_results",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-23",
+        "Jun-23",
+        "Sep-23",
+        "Dec-23"
+      ],
+      "period_type": "quarterly",
+      "period_count": 4,
+      "extracted_data": {
+        "periods": [
+          "Mar-23",
+          "Jun-23",
+          "Sep-23",
+          "Dec-23"
+        ],
+        "sales": [
+          652.59,
+          719.66,
+          690.12,
+          591.4
+        ],
+        "expenses": [
+          595.56,
+          655.59,
+          628.79,
+          551.59
+        ],
+        "operating_profit": [
+          57.03,
+          64.07,
+          61.33,
+          39.81
+        ],
+        "other_income": [
+          3.56,
+          3.7,
+          4.41,
+          5.18
+        ],
+        "depreciation": [
+          13.81,
+          14.02,
+          13.89,
+          13.85
+        ],
+        "interest": [
+          1.12,
+          1.16,
+          1.14,
+          1.03
+        ],
+        "profit_before_tax": [
+          45.66,
+          52.59,
+          50.71,
+          30.11
+        ],
+        "tax": [
+          12.05,
+          13.33,
+          12.77,
+          8.25
+        ],
+        "net_profit": [
+          33.61,
+          39.26,
+          37.94,
+          21.86
+        ],
+        "opm": [
+          8.74,
+          8.89,
+          8.89,
+          6.73
+        ]
+      },
+      "audit": {
+        "pdfplumber_char_count": 1165,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 113,
+        "ocr_numbers": 0,
+        "json_values": 44,
+        "text_match_ratio": 0.0,
+        "passed": false,
+        "warnings": [
+          "JSON values (44) much less than source numbers (113)"
+        ]
+      }
+    },
+    {
+      "document_type": "metadata",
+      "document_type_confidence": 0.99,
       "periods": [],
       "period_type": "none",
       "period_count": 0,
@@ -16,7 +206,7 @@
         "share_price": 979.9,
         "num_shares": 2.31,
         "profit_loss": {
-          "report_dates": [
+          "periods": [
             "Mar-16",
             "Mar-17",
             "Mar-18",
@@ -114,7 +304,7 @@
           ]
         },
         "quarters": {
-          "report_dates": [
+          "periods": [
             "Mar-23",
             "Jun-23",
             "Sep-23",
@@ -186,201 +376,11 @@
         "passed": true,
         "warnings": []
       }
-    },
-    {
-      "document_type": "profit_loss",
-      "document_type_confidence": 0.95,
-      "periods": [
-        "Mar-16",
-        "Mar-17",
-        "Mar-18",
-        "Mar-19"
-      ],
-      "period_type": "annual",
-      "period_count": 4,
-      "extracted_data": {
-        "periods": [
-          "Mar-16",
-          "Mar-17",
-          "Mar-18",
-          "Mar-19"
-        ],
-        "sales": [
-          1730.33,
-          1511.84,
-          1664.69,
-          1911.91
-        ],
-        "expenses": [
-          1379.06,
-          1211.23,
-          1353.73,
-          1541.77
-        ],
-        "operating_profit": [
-          351.27,
-          300.61,
-          310.96,
-          370.14
-        ],
-        "other_income": [
-          37.66,
-          32.91,
-          36.65,
-          37.69
-        ],
-        "depreciation": [
-          46.5,
-          33.74,
-          36.15,
-          41.03
-        ],
-        "interest": [
-          3.24,
-          3.36,
-          2.89,
-          3
-        ],
-        "profit_before_tax": [
-          184.27,
-          195.61,
-          199.28,
-          158.14
-        ],
-        "tax": [
-          64.51,
-          68.24,
-          69.32,
-          56.07
-        ],
-        "net_profit": [
-          119.76,
-          127.37,
-          129.96,
-          102.07
-        ],
-        "eps": [
-          5.19,
-          5.52,
-          5.63,
-          4.42
-        ],
-        "dividend_amount": [
-          27.68,
-          28.84,
-          29.99,
-          29.99
-        ]
-      },
-      "audit": {
-        "pdfplumber_char_count": 1165,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 113,
-        "ocr_numbers": 0,
-        "json_values": 48,
-        "text_match_ratio": 0.0,
-        "passed": false,
-        "warnings": [
-          "JSON values (48) much less than source numbers (113)"
-        ]
-      }
-    },
-    {
-      "document_type": "quarterly_results",
-      "document_type_confidence": 0.95,
-      "periods": [
-        "Mar-23",
-        "Jun-23",
-        "Sep-23",
-        "Dec-23"
-      ],
-      "period_type": "quarterly",
-      "period_count": 4,
-      "extracted_data": {
-        "periods": [
-          "Mar-23",
-          "Jun-23",
-          "Sep-23",
-          "Dec-23"
-        ],
-        "sales": [
-          652.59,
-          719.66,
-          690.12,
-          591.4
-        ],
-        "expenses": [
-          595.56,
-          655.59,
-          628.79,
-          551.59
-        ],
-        "operating_profit": [
-          57.03,
-          64.07,
-          61.33,
-          39.81
-        ],
-        "other_income": [
-          3.56,
-          3.7,
-          4.41,
-          5.18
-        ],
-        "depreciation": [
-          13.81,
-          14.02,
-          13.89,
-          13.85
-        ],
-        "interest": [
-          1.12,
-          1.16,
-          1.14,
-          1.03
-        ],
-        "profit_before_tax": [
-          45.66,
-          52.59,
-          50.71,
-          30.11
-        ],
-        "tax": [
-          12.05,
-          13.33,
-          12.77,
-          8.25
-        ],
-        "net_profit": [
-          33.61,
-          39.26,
-          37.94,
-          21.86
-        ],
-        "opm": [
-          8.74,
-          8.9,
-          8.89,
-          6.73
-        ]
-      },
-      "audit": {
-        "pdfplumber_char_count": 1165,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 113,
-        "ocr_numbers": 0,
-        "json_values": 44,
-        "text_match_ratio": 0.0,
-        "passed": false,
-        "warnings": [
-          "JSON values (44) much less than source numbers (113)"
-        ]
-      }
     }
   ],
   "source_chars": {
     "pdfplumber": 1165,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:33:55.781723"
+  "timestamp": "2026-01-19T06:39:35.284550"
 }

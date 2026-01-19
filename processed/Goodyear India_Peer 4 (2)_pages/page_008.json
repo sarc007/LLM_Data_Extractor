@@ -33,11 +33,17 @@
           779.12,
           844.05
         ],
+        "total_equity": [
+          614.12,
+          707.08,
+          802.19,
+          867.12
+        ],
         "borrowings": [
-          0,
-          0,
-          0,
-          0
+          null,
+          null,
+          null,
+          null
         ],
         "other_liabilities": [
           310.36,
@@ -51,25 +57,13 @@
           1297.57,
           1330.53
         ],
-        "net_block": [
-          221.37,
-          226.75,
-          246.21,
-          250.95
+        "fixed_assets": [
+          250.27,
+          258.09,
+          272.4,
+          301.24
         ],
-        "capital_work_in_progress": [
-          28.9,
-          31.34,
-          26.19,
-          50.29
-        ],
-        "investments": [
-          0,
-          0,
-          0,
-          0
-        ],
-        "other_assets": [
+        "current_assets": [
           674.21,
           831.48,
           1025.17,
@@ -80,66 +74,6 @@
           1089.57,
           1297.57,
           1330.53
-        ],
-        "receivables": [
-          159.39,
-          157.23,
-          208.29,
-          243.49
-        ],
-        "inventory": [
-          127.52,
-          169.03,
-          168.24,
-          167.25
-        ],
-        "cash_and_bank": [
-          333.53,
-          453.43,
-          576.64,
-          558.81
-        ],
-        "cash_from_operating_activity": [
-          9.33,
-          167.77,
-          182.28,
-          56.57
-        ],
-        "cash_from_investing_activity": [
-          -132.93,
-          -11.5,
-          -22.04,
-          -35.56
-        ],
-        "cash_from_financing_activity": [
-          -31.03,
-          -36.62,
-          -37.28,
-          -38.87
-        ],
-        "net_cash_flow": [
-          -154.63,
-          119.65,
-          122.96,
-          -17.86
-        ],
-        "price": [
-          480.7,
-          845.15,
-          1111.85,
-          944.75
-        ],
-        "no_of_equity_shares": [
-          23066507,
-          23066507,
-          23066507,
-          23066507
-        ],
-        "face_value": [
-          10,
-          10,
-          10,
-          10
         ]
       },
       "audit": {
@@ -147,10 +81,12 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 84,
         "ocr_numbers": 0,
-        "json_values": 84,
+        "json_values": 40,
         "text_match_ratio": 0.0,
-        "passed": true,
-        "warnings": []
+        "passed": false,
+        "warnings": [
+          "JSON values (40) much less than source numbers (84)"
+        ]
       }
     },
     {
@@ -216,149 +152,143 @@
       "period_type": "none",
       "period_count": 0,
       "extracted_data": {
-        "company_name": "METADATA",
+        "company_name": "Unknown",
         "face_value": 10,
-        "market_cap": 2183.94,
+        "market_cap": 2199.98,
         "share_price": 944.75,
         "num_shares": 23066507,
-        "balance_sheet": {
-          "report_dates": [
-            "Mar-16",
-            "Mar-17",
-            "Mar-18",
-            "Mar-19"
-          ],
-          "equity_share_capital": [
-            23.07,
-            23.07,
-            23.07,
-            23.07
-          ],
-          "reserves": [
-            591.05,
-            684.01,
-            779.12,
-            844.05
-          ],
-          "borrowings": [
-            null,
-            null,
-            null,
-            null
-          ],
-          "other_liabilities": [
-            310.36,
-            382.49,
-            495.38,
-            463.41
-          ],
-          "total_liabilities": [
-            924.48,
-            1089.57,
-            1297.57,
-            1330.53
-          ],
-          "net_block": [
-            221.37,
-            226.75,
-            246.21,
-            250.95
-          ],
-          "capital_work_in_progress": [
-            28.9,
-            31.34,
-            26.19,
-            50.29
-          ],
-          "investments": [
-            null,
-            null,
-            null,
-            null
-          ],
-          "other_assets": [
-            674.21,
-            831.48,
-            1025.17,
-            1029.29
-          ],
-          "total_assets": [
-            924.48,
-            1089.57,
-            1297.57,
-            1330.53
-          ],
-          "receivables": [
-            159.39,
-            157.23,
-            208.29,
-            243.49
-          ],
-          "inventory": [
-            127.52,
-            169.03,
-            168.24,
-            167.25
-          ],
-          "cash_and_bank": [
-            333.53,
-            453.43,
-            576.64,
-            558.81
-          ],
-          "number_of_equity_shares": [
-            23066507,
-            23066507,
-            23066507,
-            23066507
-          ],
-          "new_bonus_shares": [
-            null,
-            null,
-            null,
-            null
-          ]
-        },
-        "cash_flow": {
-          "report_dates": [
-            "Mar-16",
-            "Mar-17",
-            "Mar-18",
-            "Mar-19"
-          ],
-          "cash_from_operating_activity": [
-            9.33,
-            167.77,
-            182.28,
-            56.57
-          ],
-          "cash_from_investing_activity": [
-            -132.93,
-            -11.5,
-            -22.04,
-            -35.56
-          ],
-          "cash_from_financing_activity": [
-            -31.03,
-            -36.62,
-            -37.28,
-            -38.87
-          ],
-          "net_cash_flow": [
-            -154.63,
-            119.65,
-            122.96,
-            -17.86
-          ]
-        },
-        "derived": {
-          "adjusted_equity_shares_in_cr": [
-            2.31,
-            2.31,
-            2.31,
-            2.31
-          ]
-        }
+        "periods": [
+          "Mar-16",
+          "Mar-17",
+          "Mar-18",
+          "Mar-19"
+        ],
+        "equity_share_capital": [
+          23.07,
+          23.07,
+          23.07,
+          23.07
+        ],
+        "reserves": [
+          591.05,
+          684.01,
+          779.12,
+          844.05
+        ],
+        "borrowings": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "other_liabilities": [
+          310.36,
+          382.49,
+          495.38,
+          463.41
+        ],
+        "total_liabilities": [
+          924.48,
+          1089.57,
+          1297.57,
+          1330.53
+        ],
+        "net_block": [
+          221.37,
+          226.75,
+          246.21,
+          250.95
+        ],
+        "capital_work_in_progress": [
+          28.9,
+          31.34,
+          26.19,
+          50.29
+        ],
+        "investments": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "other_assets": [
+          674.21,
+          831.48,
+          1025.17,
+          1029.29
+        ],
+        "total_assets": [
+          924.48,
+          1089.57,
+          1297.57,
+          1330.53
+        ],
+        "receivables": [
+          159.39,
+          157.23,
+          208.29,
+          243.49
+        ],
+        "inventory": [
+          127.52,
+          169.03,
+          168.24,
+          167.25
+        ],
+        "cash_and_bank": [
+          333.53,
+          453.43,
+          576.64,
+          558.81
+        ],
+        "num_equity_shares": [
+          23066507,
+          23066507,
+          23066507,
+          23066507
+        ],
+        "new_bonus_shares": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "cash_from_operating_activity": [
+          9.33,
+          167.77,
+          182.28,
+          56.57
+        ],
+        "cash_from_investing_activity": [
+          -132.93,
+          -11.5,
+          -22.04,
+          -35.56
+        ],
+        "cash_from_financing_activity": [
+          -31.03,
+          -36.62,
+          -37.28,
+          -38.87
+        ],
+        "net_cash_flow": [
+          -154.63,
+          119.65,
+          122.96,
+          -17.86
+        ],
+        "price": [
+          480.7,
+          845.15,
+          1111.85,
+          944.75
+        ],
+        "adjusted_equity_shares_in_cr": [
+          2.31,
+          2.31,
+          2.31,
+          2.31
+        ]
       },
       "audit": {
         "pdfplumber_char_count": 977,
@@ -376,5 +306,5 @@
     "pdfplumber": 977,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:34:57.018032"
+  "timestamp": "2026-01-19T06:40:11.098100"
 }

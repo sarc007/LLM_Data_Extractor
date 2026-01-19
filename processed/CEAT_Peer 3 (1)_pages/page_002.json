@@ -1,8 +1,80 @@
 {
   "page": 2,
   "total_pages": 10,
-  "documents_on_page": 1,
+  "documents_on_page": 2,
   "documents": [
+    {
+      "document_type": "profit_loss",
+      "document_type_confidence": 0.95,
+      "periods": [
+        "Mar-24",
+        "Mar-25"
+      ],
+      "period_type": "annual",
+      "period_count": 2,
+      "extracted_data": {
+        "periods": [
+          "Mar-24",
+          "Mar-25"
+        ],
+        "sales": [
+          2991.85,
+          3420.62
+        ],
+        "expenses": [
+          2600.34,
+          3032.54
+        ],
+        "operating_profit": [
+          391.51,
+          388.08
+        ],
+        "other_income": [
+          -55.1,
+          -32.52
+        ],
+        "depreciation": [
+          136.06,
+          152.32
+        ],
+        "interest": [
+          61.66,
+          74.4
+        ],
+        "profit_before_tax": [
+          138.69,
+          128.84
+        ],
+        "tax": [
+          45.82,
+          35.6
+        ],
+        "net_profit": [
+          108.56,
+          99.49
+        ],
+        "eps": [
+          null,
+          null
+        ],
+        "dividend_amount": [
+          null,
+          null
+        ]
+      },
+      "audit": {
+        "pdfplumber_char_count": 869,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 121,
+        "ocr_numbers": 0,
+        "json_values": 24,
+        "text_match_ratio": 0.0,
+        "passed": false,
+        "warnings": [
+          "JSON values (24) much less than source numbers (121)"
+        ]
+      }
+    },
     {
       "document_type": "quarterly_results",
       "document_type_confidence": 0.95,
@@ -27,9 +99,7 @@
           "Jun-24",
           "Sep-24",
           "Dec-24",
-          "Mar-25",
-          "Jun-25",
-          "Sep-25"
+          "Mar-25"
         ],
         "sales": [
           2935.17,
@@ -39,9 +109,7 @@
           3192.82,
           3304.53,
           3299.9,
-          3420.62,
-          3529.41,
-          3772.65
+          3420.62
         ],
         "expenses": [
           2548.07,
@@ -51,9 +119,7 @@
           2809.94,
           2942.25,
           2959.0,
-          3032.54,
-          3141.68,
-          3269.27
+          3032.54
         ],
         "operating_profit": [
           387.1,
@@ -63,9 +129,7 @@
           382.88,
           362.28,
           340.9,
-          388.08,
-          387.73,
-          503.38
+          388.08
         ],
         "other_income": [
           3.25,
@@ -75,9 +139,7 @@
           13.61,
           3.42,
           3.43,
-          -32.52,
-          1.44,
-          3.86
+          -32.52
         ],
         "depreciation": [
           120.94,
@@ -87,9 +149,7 @@
           131.77,
           137.11,
           141.49,
-          152.32,
-          151.37,
-          173.85
+          152.32
         ],
         "interest": [
           70.13,
@@ -99,9 +159,7 @@
           61.85,
           66.45,
           75.09,
-          74.4,
-          82.05,
-          86.96
+          74.4
         ],
         "profit_before_tax": [
           199.28,
@@ -111,9 +169,7 @@
           202.87,
           162.14,
           127.75,
-          128.84,
-          155.75,
-          246.43
+          128.84
         ],
         "tax": [
           52.87,
@@ -123,9 +179,7 @@
           53.98,
           46.31,
           36.14,
-          35.6,
-          41.92,
-          67.95
+          35.6
         ],
         "net_profit": [
           144.61,
@@ -135,9 +189,7 @@
           154.16,
           121.88,
           97.11,
-          99.49,
-          112.45,
-          185.95
+          99.49
         ],
         "opm": [
           13,
@@ -147,9 +199,7 @@
           12,
           11,
           10,
-          11,
-          11,
-          13
+          11
         ]
       },
       "audit": {
@@ -157,7 +207,7 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 121,
         "ocr_numbers": 0,
-        "json_values": 110,
+        "json_values": 88,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
@@ -168,5 +218,5 @@
     "pdfplumber": 869,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:21:37.170184"
+  "timestamp": "2026-01-19T06:32:50.868026"
 }

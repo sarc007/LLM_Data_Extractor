@@ -4,192 +4,6 @@
   "documents_on_page": 3,
   "documents": [
     {
-      "document_type": "metadata",
-      "document_type_confidence": 0.95,
-      "periods": [],
-      "period_type": "none",
-      "period_count": 0,
-      "extracted_data": {
-        "company_name": "CEAT LTD",
-        "face_value": 10,
-        "market_cap": 15097.59,
-        "share_price": 3732.4,
-        "num_shares": 4.05,
-        "profit_and_loss": {
-          "annual": {
-            "report_date": [
-              "Mar-16",
-              "Mar-17",
-              "Mar-18",
-              "Mar-19"
-            ],
-            "sales": [
-              5483.55,
-              5766.36,
-              6282.48,
-              6984.51
-            ],
-            "raw_material_cost": [
-              3102.24,
-              3475.26,
-              3723.26,
-              4381.28
-            ],
-            "change_in_inventory": [
-              11.39,
-              75.49,
-              -86.74,
-              199.47
-            ],
-            "power_and_fuel": [
-              156.01,
-              178.01,
-              191,
-              220.79
-            ],
-            "other_mfr_exp": [
-              469.94,
-              481.84,
-              457.5,
-              132.52
-            ],
-            "employee_cost": [
-              406.35,
-              425.12,
-              476.93,
-              546.92
-            ],
-            "selling_and_admin": [
-              481.45,
-              505.12,
-              565.23,
-              1035.94
-            ],
-            "other_expenses": [
-              89.49,
-              106.33,
-              151.48,
-              214.35
-            ],
-            "other_income": [
-              6.54,
-              28.12,
-              9.22,
-              9.6
-            ],
-            "depreciation": [
-              107.72,
-              143.08,
-              168.61,
-              192.71
-            ],
-            "interest": [
-              101.4,
-              89.56,
-              103.63,
-              92.87
-            ],
-            "profit_before_tax": [
-              586.88,
-              465.65,
-              367.32,
-              376.2
-            ],
-            "tax": [
-              187.34,
-              106.42,
-              134.03,
-              125.12
-            ],
-            "net_profit": [
-              437.54,
-              361.15,
-              237.98,
-              252.22
-            ],
-            "dividend_amount": [
-              46.52,
-              46.52,
-              46.52,
-              48.54
-            ]
-          },
-          "quarterly": {
-            "report_date": [
-              "Jun-23",
-              "Sep-23",
-              "Dec-23",
-              "Mar-24"
-            ],
-            "sales": [
-              2935.17,
-              3053.32,
-              2963.14,
-              2991.85
-            ],
-            "expenses": [
-              2548.07,
-              2597.2,
-              2545.64,
-              2600.34
-            ],
-            "other_income": [
-              3.25,
-              10.47,
-              2.94,
-              -55.1
-            ],
-            "depreciation": [
-              120.94,
-              124.49,
-              127.34,
-              136.06
-            ],
-            "interest": [
-              70.13,
-              71.72,
-              65.55,
-              61.66
-            ],
-            "profit_before_tax": [
-              199.28,
-              270.38,
-              227.55,
-              138.69
-            ],
-            "tax": [
-              52.87,
-              68.29,
-              54.44,
-              45.82
-            ],
-            "net_profit": [
-              144.61,
-              208,
-              181.48,
-              108.56
-            ],
-            "operating_profit": [
-              387.1,
-              456.12,
-              417.5,
-              391.51
-            ]
-          }
-        }
-      },
-      "audit": {
-        "pdfplumber_char_count": 1212,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 113,
-        "ocr_numbers": 0,
-        "json_values": 104,
-        "text_match_ratio": 0.0,
-        "passed": true,
-        "warnings": []
-      }
-    },
-    {
       "document_type": "profit_loss",
       "document_type_confidence": 0.95,
       "periods": [
@@ -214,16 +28,16 @@
           6984.51
         ],
         "expenses": [
-          4636.61,
-          4975.81,
-          5224.37,
-          6071.63
+          4276.69,
+          4795.71,
+          5214.26,
+          5954.31
         ],
         "operating_profit": [
-          846.94,
-          790.55,
-          1058.11,
-          912.88
+          940.17,
+          970.65,
+          1068.22,
+          1030.2
         ],
         "other_income": [
           6.54,
@@ -262,7 +76,7 @@
           252.22
         ],
         "eps": [
-          108.04,
+          108.03,
           89.17,
           58.76,
           62.28
@@ -360,10 +174,10 @@
           108.56
         ],
         "opm": [
-          13.19,
-          14.94,
-          14.09,
-          13.09
+          0.132,
+          0.149,
+          0.141,
+          0.131
         ]
       },
       "audit": {
@@ -378,11 +192,195 @@
           "JSON values (44) much less than source numbers (113)"
         ]
       }
+    },
+    {
+      "document_type": "metadata",
+      "document_type_confidence": 0.99,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
+      "extracted_data": {
+        "company_name": "CEAT LTD",
+        "face_value": 10,
+        "market_cap": 15097.59,
+        "share_price": 3732.4,
+        "num_shares": 4.05,
+        "profit_and_loss": {
+          "periods": [
+            "Mar-16",
+            "Mar-17",
+            "Mar-18",
+            "Mar-19"
+          ],
+          "sales": [
+            5483.55,
+            5766.36,
+            6282.48,
+            6984.51
+          ],
+          "raw_material_cost": [
+            3102.24,
+            3475.26,
+            3723.26,
+            4381.28
+          ],
+          "change_in_inventory": [
+            11.39,
+            75.49,
+            -86.74,
+            199.47
+          ],
+          "power_and_fuel": [
+            156.01,
+            178.01,
+            191,
+            220.79
+          ],
+          "other_mfr_exp": [
+            469.94,
+            481.84,
+            457.5,
+            132.52
+          ],
+          "employee_cost": [
+            406.35,
+            425.12,
+            476.93,
+            546.92
+          ],
+          "selling_and_admin": [
+            481.45,
+            505.12,
+            565.23,
+            1035.94
+          ],
+          "other_expenses": [
+            89.49,
+            106.33,
+            151.48,
+            214.35
+          ],
+          "other_income": [
+            6.54,
+            28.12,
+            9.22,
+            9.6
+          ],
+          "depreciation": [
+            107.72,
+            143.08,
+            168.61,
+            192.71
+          ],
+          "interest": [
+            101.4,
+            89.56,
+            103.63,
+            92.87
+          ],
+          "profit_before_tax": [
+            586.88,
+            465.65,
+            367.32,
+            376.2
+          ],
+          "tax": [
+            187.34,
+            106.42,
+            134.03,
+            125.12
+          ],
+          "net_profit": [
+            437.54,
+            361.15,
+            237.98,
+            252.22
+          ],
+          "dividend_amount": [
+            46.52,
+            46.52,
+            46.52,
+            48.54
+          ]
+        },
+        "quarters": {
+          "periods": [
+            "Jun-23",
+            "Sep-23",
+            "Dec-23",
+            "Mar-24"
+          ],
+          "sales": [
+            2935.17,
+            3053.32,
+            2963.14,
+            2991.85
+          ],
+          "expenses": [
+            2548.07,
+            2597.2,
+            2545.64,
+            2600.34
+          ],
+          "other_income": [
+            3.25,
+            10.47,
+            2.94,
+            -55.1
+          ],
+          "depreciation": [
+            120.94,
+            124.49,
+            127.34,
+            136.06
+          ],
+          "interest": [
+            70.13,
+            71.72,
+            65.55,
+            61.66
+          ],
+          "profit_before_tax": [
+            199.28,
+            270.38,
+            227.55,
+            138.69
+          ],
+          "tax": [
+            52.87,
+            68.29,
+            54.44,
+            45.82
+          ],
+          "net_profit": [
+            144.61,
+            208,
+            181.48,
+            108.56
+          ],
+          "operating_profit": [
+            387.1,
+            456.12,
+            417.5,
+            391.51
+          ]
+        }
+      },
+      "audit": {
+        "pdfplumber_char_count": 1212,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 113,
+        "ocr_numbers": 0,
+        "json_values": 104,
+        "text_match_ratio": 0.0,
+        "passed": true,
+        "warnings": []
+      }
     }
   ],
   "source_chars": {
     "pdfplumber": 1212,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:25:01.298550"
+  "timestamp": "2026-01-19T06:34:47.111552"
 }

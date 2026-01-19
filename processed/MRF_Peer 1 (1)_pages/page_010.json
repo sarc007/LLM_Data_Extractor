@@ -1,208 +1,8 @@
 {
   "page": 10,
   "total_pages": 10,
-  "documents_on_page": 3,
+  "documents_on_page": 2,
   "documents": [
-    {
-      "document_type": "metadata",
-      "document_type_confidence": 0.95,
-      "periods": [],
-      "period_type": "none",
-      "period_count": 0,
-      "extracted_data": {
-        "company_name": "METADATA",
-        "face_value": 4.24,
-        "market_cap": 29566.99,
-        "share_price": 112677.75,
-        "num_shares": 4241143,
-        "earnings_per_share": [
-          4.24,
-          4.24,
-          4.24,
-          4.24,
-          4.24,
-          4.24
-        ],
-        "total_revenue": [
-          12210.47,
-          13409.43,
-          14027.51,
-          14703.42,
-          16698.75,
-          18484.22
-        ],
-        "net_profit": [
-          1854.14,
-          2388.23,
-          3228.95,
-          3013.61,
-          2821.5,
-          3771.16
-        ],
-        "operating_expenses": [
-          5373.49,
-          6779.96,
-          5799.04,
-          6648.14,
-          7324.94,
-          7307.37
-        ],
-        "total_assets": [
-          19442.34,
-          22581.86,
-          23059.74,
-          24369.41,
-          26849.43,
-          29566.99
-        ],
-        "total_liabilities": [
-          8869.76,
-          9440.75,
-          9521.82,
-          10117.97,
-          12046.22,
-          13220.78
-        ],
-        "ebitda": [
-          1740.94,
-          1002.23,
-          1233.07,
-          3045.86,
-          2384.53,
-          1168.63
-        ],
-        "dividends_paid": [
-          1519.33,
-          5874.02,
-          3656.46,
-          3085.11,
-          3382.97,
-          4548.24
-        ],
-        "free_cash_flow": [
-          7312.31,
-          6264.86,
-          8648.39,
-          8120.47,
-          9035.71,
-          10629.34
-        ],
-        "book_value": [
-          19442.34,
-          22581.86,
-          23059.74,
-          24369.41,
-          26849.43,
-          29566.99
-        ],
-        "research_development": [
-          2299.4,
-          2145.96,
-          2332.68,
-          2503.27,
-          2911.96,
-          3370.25
-        ],
-        "sga_expenses": [
-          2905.18,
-          2938.81,
-          4129.67,
-          4141.05,
-          4468.58,
-          5624.78
-        ],
-        "interest_expense": [
-          1181.14,
-          169.39,
-          256.13,
-          258.49,
-          345.38,
-          376.49
-        ],
-        "employees": [
-          4241143,
-          4241143,
-          4241143,
-          4241143,
-          4241143,
-          4241143
-        ],
-        "price_to_earnings": [
-          10,
-          10,
-          10,
-          10,
-          10,
-          10
-        ],
-        "dates": [
-          "Mar-20",
-          "Mar-21",
-          "Mar-22",
-          "Mar-23",
-          "Mar-24",
-          "Mar-25"
-        ],
-        "cash_flow_operations": [
-          2271.23,
-          4324.58,
-          -578.01,
-          2755.47,
-          3303.36,
-          1867.8
-        ],
-        "capital_expenditure": [
-          -162.31,
-          -5086.57,
-          168.73,
-          -1921.81,
-          -2380.58,
-          -2082.23
-        ],
-        "change_in_working_capital": [
-          -1032.35,
-          -249.68,
-          423.74,
-          -839.54,
-          -868.22,
-          282
-        ],
-        "other_non_cash_items": [
-          1076.57,
-          -1011.67,
-          14.46,
-          -5.88,
-          54.56,
-          67.57
-        ],
-        "total_debt": [
-          58164.45,
-          82259.45,
-          65022.1,
-          84047.2,
-          133387.3,
-          112677.75
-        ],
-        "tax_rate": [
-          0.42,
-          0.42,
-          0.42,
-          0.42,
-          0.42,
-          0.42
-        ]
-      },
-      "audit": {
-        "pdfplumber_char_count": 1036,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 138,
-        "ocr_numbers": 0,
-        "json_values": 132,
-        "text_match_ratio": 0.0,
-        "passed": true,
-        "warnings": []
-      }
-    },
     {
       "document_type": "profit_loss",
       "document_type_confidence": 0.95,
@@ -234,6 +34,14 @@
           18484.22
         ],
         "expenses": [
+          1854.14,
+          2388.23,
+          3228.95,
+          3013.61,
+          2821.5,
+          3771.16
+        ],
+        "operating_profit": [
           5373.49,
           6779.96,
           5799.04,
@@ -241,7 +49,7 @@
           7324.94,
           7307.37
         ],
-        "operating_profit": [
+        "other_income": [
           19442.34,
           22581.86,
           23059.74,
@@ -249,7 +57,15 @@
           26849.43,
           29566.99
         ],
-        "other_income": [
+        "depreciation": [
+          8869.76,
+          9440.75,
+          9521.82,
+          10117.97,
+          12046.22,
+          13220.78
+        ],
+        "interest": [
           1740.94,
           1002.23,
           1233.07,
@@ -257,7 +73,7 @@
           2384.53,
           1168.63
         ],
-        "depreciation": [
+        "profit_before_tax": [
           1519.33,
           5874.02,
           3656.46,
@@ -265,7 +81,7 @@
           3382.97,
           4548.24
         ],
-        "interest": [
+        "tax": [
           7312.31,
           6264.86,
           8648.39,
@@ -273,7 +89,7 @@
           9035.71,
           10629.34
         ],
-        "profit_before_tax": [
+        "net_profit": [
           19442.34,
           22581.86,
           23059.74,
@@ -281,7 +97,7 @@
           26849.43,
           29566.99
         ],
-        "tax": [
+        "eps": [
           2299.4,
           2145.96,
           2332.68,
@@ -289,7 +105,130 @@
           2911.96,
           3370.25
         ],
-        "net_profit": [
+        "dividend_amount": [
+          2905.18,
+          2938.81,
+          4129.67,
+          4141.05,
+          4468.58,
+          5624.78
+        ]
+      },
+      "audit": {
+        "pdfplumber_char_count": 1036,
+        "ocr_char_count": 0,
+        "pdfplumber_numbers": 138,
+        "ocr_numbers": 0,
+        "json_values": 72,
+        "text_match_ratio": 0.0,
+        "passed": true,
+        "warnings": []
+      }
+    },
+    {
+      "document_type": "metadata",
+      "document_type_confidence": 0.9,
+      "periods": [],
+      "period_type": "none",
+      "period_count": 0,
+      "extracted_data": {
+        "periods": [
+          "Mar-20",
+          "Mar-21",
+          "Mar-22",
+          "Mar-23",
+          "Mar-24",
+          "Mar-25"
+        ],
+        "sales": [
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24,
+          4.24
+        ],
+        "ebitda": [
+          12210.47,
+          13409.43,
+          14027.51,
+          14703.42,
+          16698.75,
+          18484.22
+        ],
+        "operating_income": [
+          1854.14,
+          2388.23,
+          3228.95,
+          3013.61,
+          2821.5,
+          3771.16
+        ],
+        "net_income": [
+          5373.49,
+          6779.96,
+          5799.04,
+          6648.14,
+          7324.94,
+          7307.37
+        ],
+        "total_revenue": [
+          19442.34,
+          22581.86,
+          23059.74,
+          24369.41,
+          26849.43,
+          29566.99
+        ],
+        "ebit": [
+          8869.76,
+          9440.75,
+          9521.82,
+          10117.97,
+          12046.22,
+          13220.78
+        ],
+        "eps": [
+          1740.94,
+          1002.23,
+          1233.07,
+          3045.86,
+          2384.53,
+          1168.63
+        ],
+        "dividends": [
+          1519.33,
+          5874.02,
+          3656.46,
+          3085.11,
+          3382.97,
+          4548.24
+        ],
+        "free_cash_flow": [
+          7312.31,
+          6264.86,
+          8648.39,
+          8120.47,
+          9035.71,
+          10629.34
+        ],
+        "enterprise_value": [
+          19442.34,
+          22581.86,
+          23059.74,
+          24369.41,
+          26849.43,
+          29566.99
+        ],
+        "cost_of_revenue": [
+          2299.4,
+          2145.96,
+          2332.68,
+          2503.27,
+          2911.96,
+          3370.25
+        ],
+        "gross_profit": [
           2905.18,
           2938.81,
           4129.67,
@@ -297,7 +236,7 @@
           4468.58,
           5624.78
         ],
-        "eps": [
+        "other_income": [
           1181.14,
           169.39,
           256.13,
@@ -305,7 +244,7 @@
           345.38,
           376.49
         ],
-        "dividend_amount": [
+        "tax_provision": [
           4241143,
           4241143,
           4241143,
@@ -313,7 +252,7 @@
           4241143,
           4241143
         ],
-        "dividend_percentage": [
+        "interest_expense": [
           10,
           10,
           10,
@@ -321,7 +260,7 @@
           10,
           10
         ],
-        "cash_flow_from_operating_activities": [
+        "cash_from_operations": [
           2271.23,
           4324.58,
           -578.01,
@@ -329,7 +268,7 @@
           3303.36,
           1867.8
         ],
-        "cash_flow_from_investing_activities": [
+        "cash_used_in_financing": [
           -162.31,
           -5086.57,
           168.73,
@@ -337,7 +276,7 @@
           -2380.58,
           -2082.23
         ],
-        "cash_flow_from_financing_activities": [
+        "cash_used_in_investing": [
           -1032.35,
           -249.68,
           423.74,
@@ -345,7 +284,7 @@
           -868.22,
           282
         ],
-        "net_increase_decrease_in_cash": [
+        "change_in_working_capital": [
           1076.57,
           -1011.67,
           14.46,
@@ -361,7 +300,7 @@
           133387.3,
           112677.75
         ],
-        "total_equity": [
+        "depreciation_amortization": [
           0.42,
           0.42,
           0.42,
@@ -375,78 +314,10 @@
         "ocr_char_count": 0,
         "pdfplumber_numbers": 138,
         "ocr_numbers": 0,
-        "json_values": 114,
+        "json_values": 132,
         "text_match_ratio": 0.0,
         "passed": true,
         "warnings": []
-      }
-    },
-    {
-      "document_type": "cash_flow",
-      "document_type_confidence": 0.9,
-      "periods": [
-        "Mar-20",
-        "Mar-21",
-        "Mar-22",
-        "Mar-23",
-        "Mar-24",
-        "Mar-25"
-      ],
-      "period_type": "annual",
-      "period_count": 6,
-      "extracted_data": {
-        "periods": [
-          "Mar-20",
-          "Mar-21",
-          "Mar-22",
-          "Mar-23",
-          "Mar-24",
-          "Mar-25"
-        ],
-        "cash_from_operations": [
-          2271.23,
-          4324.58,
-          -578.01,
-          2755.47,
-          3303.36,
-          1867.8
-        ],
-        "cash_from_investing": [
-          -162.31,
-          -5086.57,
-          168.73,
-          -1921.81,
-          -2380.58,
-          -2082.23
-        ],
-        "cash_from_financing": [
-          -1032.35,
-          -249.68,
-          423.74,
-          -839.54,
-          -868.22,
-          282
-        ],
-        "net_cash_flow": [
-          1076.57,
-          -1011.67,
-          14.46,
-          -5.88,
-          54.56,
-          67.57
-        ]
-      },
-      "audit": {
-        "pdfplumber_char_count": 1036,
-        "ocr_char_count": 0,
-        "pdfplumber_numbers": 138,
-        "ocr_numbers": 0,
-        "json_values": 30,
-        "text_match_ratio": 0.0,
-        "passed": false,
-        "warnings": [
-          "JSON values (30) much less than source numbers (138)"
-        ]
       }
     }
   ],
@@ -454,5 +325,5 @@
     "pdfplumber": 1036,
     "ocr": 0
   },
-  "timestamp": "2026-01-18T19:51:43.954651"
+  "timestamp": "2026-01-19T06:48:14.081980"
 }
