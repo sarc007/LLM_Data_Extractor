@@ -1,0 +1,31 @@
+{
+  "sheet": 3,
+  "sheet_name": "Balance Sheet",
+  "status": "success",
+  "document_type": "balance_sheet",
+  "period_type": "annual",
+  "extraction_method": "llm",
+  "extracted_data": {
+    "periods": [],
+    "Equity Share Capital": [],
+    "Reserves": [],
+    "Borrowings": [],
+    "Other Liabilities": [],
+    "Total": [],
+    "Net Block": [],
+    "Capital Work in Progress": [],
+    "Investments": [],
+    "Other Assets": [],
+    "Working Capital": [],
+    "Debtors": [],
+    "Inventory": [],
+    "Debtor Days": [],
+    "Inventory Turnover": [],
+    "Return on Equity": [],
+    "Return on Capital Emp": []
+  },
+  "row_count": 23,
+  "col_count": 10,
+  "validation_issues": [],
+  "source_file": "input/Apollo Tyres_Peer 2.xlsx"
+}

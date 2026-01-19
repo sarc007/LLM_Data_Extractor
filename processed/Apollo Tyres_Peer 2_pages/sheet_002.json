@@ -1,0 +1,26 @@
+{
+  "sheet": 2,
+  "sheet_name": "Quarters",
+  "status": "success",
+  "document_type": "profit_loss",
+  "period_type": "quarterly",
+  "extraction_method": "llm",
+  "extracted_data": {
+    "periods": [],
+    "Narration": [],
+    "Sales": [],
+    "Expenses": [],
+    "Operating Profit": [],
+    "Other Income": [],
+    "Depreciation": [],
+    "Interest": [],
+    "Profit before tax": [],
+    "Tax": [],
+    "Net profit": [],
+    "OPM": []
+  },
+  "row_count": 13,
+  "col_count": 10,
+  "validation_issues": [],
+  "source_file": "input/Apollo Tyres_Peer 2.xlsx"
+}

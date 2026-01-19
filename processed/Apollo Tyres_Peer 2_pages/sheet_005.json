@@ -1,0 +1,73 @@
+{
+  "sheet": 5,
+  "sheet_name": "Customization",
+  "status": "success",
+  "document_type": "unknown",
+  "period_type": "annual",
+  "extraction_method": "llm",
+  "extracted_data": {
+    "periods": [],
+    "How to use it?": [
+      null,
+      "You can customize this workbook as you want.",
+      null,
+      null,
+      null,
+      "After customization, you can upload this back on Screener.",
+      null,
+      null,
+      "Download your customized workbooks now onwards.",
+      null,
+      null,
+      null,
+      "TESTING:",
+      null,
+      null
+    ],
+    "Unnamed: 1": [
+      null,
+      null,
+      "You can add custom formating, add conditional formating, add your own formulas\u2026 do ANYTHING.",
+      "Please don't edit the \"Data Sheet\" only.",
+      null,
+      null,
+      "Upload on:   https://www.screener.in/excel/",
+      null,
+      null,
+      "Now whenever you will \"Export to excel\" from Screener, it will export your customized file.",
+      null,
+      null,
+      null,
+      "This is a testing feature currently.",
+      "You can report any formula errors on the worksheet at: support@screener.in"
+    ],
+    "Unnamed: 2": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "row_count": 15,
+  "col_count": 3,
+  "validation_issues": [
+    "How to use it?: expected 0 values, got 15",
+    "How to use it?: 11 null values",
+    "Unnamed: 1: expected 0 values, got 15",
+    "Unnamed: 1: 9 null values",
+    "Unnamed: 2: expected 0 values, got 15",
+    "Unnamed: 2: 15 null values"
+  ],
+  "source_file": "input/Apollo Tyres_Peer 2.xlsx"
+}

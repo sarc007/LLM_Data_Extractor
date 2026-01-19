@@ -21,7 +21,8 @@ from .database import Base, engine, get_db
 from .models import Upload
 from .pipeline import process_document
 from .qwen_pipeline import process_document_qwen
-from .page_extractor import process_pdf_page_by_page_v2
+from app.page_extractor import process_pdf_page_by_page_v2
+from app.excel_extractor import process_excel_sheet_by_sheet, process_csv_file
 from .auth import require_login, login_user, AUTH_ENABLED
 from .progress import create_tracker, get_tracker, update_progress, generate_progress_events, cleanup_tracker
 
@@ -64,40 +65,65 @@ async def process_file(
     with open(upload_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # Check if PDF - use page-by-page extraction for PDFs
-    is_pdf = file.filename.lower().endswith('.pdf')
+    # Detect file type and use appropriate extractor
+    file_lower = file.filename.lower()
+    is_pdf = file_lower.endswith('.pdf')
+    is_excel = file_lower.endswith('.xlsx') or file_lower.endswith('.xls')
+    is_csv = file_lower.endswith('.csv')
+    
+    file_stem = Path(file.filename).stem
     
     if is_pdf:
         # Use page-by-page extraction for PDFs (creates human-readable folders)
         try:
-            import asyncio
-            pdf_name = Path(file.filename).stem
             result = await asyncio.to_thread(
                 process_pdf_page_by_page_v2,
                 pdf_path=upload_path,
                 iterations_per_page=3,
                 combine_iterations=3,
                 use_ocr=True,
-                use_robust=True,
             )
-            # Get the output folder path
-            output_folder = f"{pdf_name}_pages"
+            output_folder = f"{file_stem}_pages"
             json_path = os.path.join("processed", output_folder, "extraction_result.json")
             json_result = result
-            model_used = "page-by-page (robust)"
+            model_used = "page-by-page (PDF)"
         except Exception as e:
             return JSONResponse({"success": False, "error": str(e)}, status_code=500)
-    else:
-        # Run old pipeline for non-PDFs
+    
+    elif is_excel:
+        # Use sheet-by-sheet extraction for Excel (same folder structure as PDF)
         try:
-            json_result, model_used = process_document(upload_path, "format_template.json")
+            result = await asyncio.to_thread(
+                process_excel_sheet_by_sheet,
+                excel_path=upload_path,
+                iterations_per_sheet=3,
+                combine_iterations=3,
+            )
+            output_folder = f"{file_stem}_pages"
+            json_path = os.path.join("processed", output_folder, "extraction_result.json")
+            json_result = result
+            model_used = "sheet-by-sheet (Excel)"
         except Exception as e:
             return JSONResponse({"success": False, "error": str(e)}, status_code=500)
-        
-        # Save JSON to processed/ with UUID for non-PDFs
-        json_path = os.path.join("processed", f"{uid}.json")
-        with open(json_path, "w", encoding="utf-8") as f:
-            json.dump(json_result, f, ensure_ascii=False, indent=2)
+    
+    elif is_csv:
+        # Use CSV extraction (same folder structure)
+        try:
+            result = await asyncio.to_thread(
+                process_csv_file,
+                csv_path=upload_path,
+                iterations=3,
+            )
+            output_folder = f"{file_stem}_pages"
+            json_path = os.path.join("processed", output_folder, "extraction_result.json")
+            json_result = result
+            model_used = "direct (CSV)"
+        except Exception as e:
+            return JSONResponse({"success": False, "error": str(e)}, status_code=500)
+    
+    else:
+        # Unsupported file type
+        return JSONResponse({"success": False, "error": f"Unsupported file type: {file.filename}"}, status_code=400)
 
     # Insert into DB
     upload = Upload(

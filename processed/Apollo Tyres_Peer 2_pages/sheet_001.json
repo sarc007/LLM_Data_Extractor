@@ -1,0 +1,29 @@
+{
+  "sheet": 1,
+  "sheet_name": "Profit & Loss",
+  "status": "success",
+  "document_type": "scenarios",
+  "period_type": "scenarios",
+  "extraction_method": "llm",
+  "extracted_data": {
+    "periods": [],
+    "Sales": [],
+    "Expenses": [],
+    "Operating Profit": [],
+    "Other Income": [],
+    "Depreciation": [],
+    "Interest": [],
+    "Profit before tax": [],
+    "Tax": [],
+    "Net profit": [],
+    "EPS": [],
+    "Price to earning": [],
+    "Price": [],
+    "Dividend Payout": [],
+    "OPM": []
+  },
+  "row_count": 24,
+  "col_count": 14,
+  "validation_issues": [],
+  "source_file": "input/Apollo Tyres_Peer 2.xlsx"
+}

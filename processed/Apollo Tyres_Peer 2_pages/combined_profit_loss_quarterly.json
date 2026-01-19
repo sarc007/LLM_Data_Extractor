@@ -1,8 +1,8 @@
 {
-  "document_type": "cash_flow",
-  "period_type": "annual",
+  "document_type": "profit_loss",
+  "period_type": "quarterly",
   "sheets": [
-    "Cash Flow"
+    "Quarters"
   ],
   "periods": [],
   "period_count": 0,

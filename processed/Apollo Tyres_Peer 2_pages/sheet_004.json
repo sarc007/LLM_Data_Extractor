@@ -1,0 +1,19 @@
+{
+  "sheet": 4,
+  "sheet_name": "Cash Flow",
+  "status": "success",
+  "document_type": "cash_flow",
+  "period_type": "annual",
+  "extraction_method": "llm",
+  "extracted_data": {
+    "periods": [],
+    "Cash from Operating Activity": [],
+    "Cash from Investing Activity": [],
+    "Cash from Financing Activity": [],
+    "Net Cash Flow": []
+  },
+  "row_count": 6,
+  "col_count": 10,
+  "validation_issues": [],
+  "source_file": "input/Apollo Tyres_Peer 2.xlsx"
+}
