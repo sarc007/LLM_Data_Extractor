@@ -64,16 +64,40 @@ async def process_file(
     with open(upload_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # Run pipeline
-    try:
-        json_result, model_used = process_document(upload_path, "format_template.json")
-    except Exception as e:
-        return JSONResponse({"success": False, "error": str(e)}, status_code=500)
-
-    # Save JSON to processed/
-    json_path = os.path.join("processed", f"{uid}.json")
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(json_result, f, ensure_ascii=False, indent=2)
+    # Check if PDF - use page-by-page extraction for PDFs
+    is_pdf = file.filename.lower().endswith('.pdf')
+    
+    if is_pdf:
+        # Use page-by-page extraction for PDFs (creates human-readable folders)
+        try:
+            import asyncio
+            pdf_name = Path(file.filename).stem
+            result = await asyncio.to_thread(
+                process_pdf_page_by_page_v2,
+                pdf_path=upload_path,
+                iterations_per_page=3,
+                combine_iterations=3,
+                use_ocr=True,
+                use_robust=True,
+            )
+            # Get the output folder path
+            output_folder = f"{pdf_name}_pages"
+            json_path = os.path.join("processed", output_folder, "extraction_result.json")
+            json_result = result
+            model_used = "page-by-page (robust)"
+        except Exception as e:
+            return JSONResponse({"success": False, "error": str(e)}, status_code=500)
+    else:
+        # Run old pipeline for non-PDFs
+        try:
+            json_result, model_used = process_document(upload_path, "format_template.json")
+        except Exception as e:
+            return JSONResponse({"success": False, "error": str(e)}, status_code=500)
+        
+        # Save JSON to processed/ with UUID for non-PDFs
+        json_path = os.path.join("processed", f"{uid}.json")
+        with open(json_path, "w", encoding="utf-8") as f:
+            json.dump(json_result, f, ensure_ascii=False, indent=2)
 
     # Insert into DB
     upload = Upload(
